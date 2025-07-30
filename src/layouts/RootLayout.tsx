@@ -3,9 +3,9 @@ import Logo from "../components/logo/Logo";
 
 function RootLayout() {
   return (
-    <div>
+    <div className="app">
       <Logo />
-      <main>
+      <main className="main">
         <Outlet />
       </main>
     </div>

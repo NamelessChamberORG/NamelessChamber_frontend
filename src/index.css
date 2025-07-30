@@ -33,7 +33,12 @@ html {
   font-weight: 400;
 
   --background-color: #262524;
-  font-synthesis: none;
+  --text-color: rgba(217, 217, 217, 0.8);
+  --text-secondary-color: rgba(217, 217, 217, 0.4);
+  --font-p1-weight: 200; /* ExtraLight = 200 */
+  --font-p1-size: 18px;
+  --font-p1-line-height: 150%;
+  --font-p1-letter-spacing: 0;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -49,6 +54,15 @@ body {
 }
 
 .app {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.main {
   width: 100%;
   height: 100%;
   display: flex;
