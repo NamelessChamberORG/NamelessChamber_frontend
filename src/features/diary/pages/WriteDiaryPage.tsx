@@ -4,6 +4,8 @@ import TextArea from "../components/TextArea";
 import TextCount from "../components/TextCount";
 import classes from "./WriteDiaryPage.module.css";
 import Button from "../../../components/button/Button";
+// import FullScreenOn from "../../../assets/icons/FullScreenOn";
+import FullScreenOff from "../../../assets/icons/FullScreenOff";
 
 function WriteDiaryPage() {
   const formRef = useRef<FormHandle>(null);
@@ -19,8 +21,17 @@ function WriteDiaryPage() {
     setCount(text.length);
   }
 
+  function handleFullScreen() {
+    console.log("Full screen toggled");
+  }
+
   return (
     <div className={classes.diaryForm}>
+      <div>
+        <Button onClick={handleFullScreen}>
+          <FullScreenOff />
+        </Button>
+      </div>
       <Form onSave={handleSave} ref={formRef}>
         <TextArea onChange={handleTextChange} />
         <div>
