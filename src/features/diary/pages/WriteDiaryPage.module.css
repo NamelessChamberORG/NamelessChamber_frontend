@@ -5,15 +5,21 @@
   justify-content: center;
   width: 100%;
   height: 100%;
-  gap: 1rem;
+  gap: 3rem;
 }
 
 .diaryForm form {
   width: 100%;
   max-width: 80%;
-  height: 60%;
+  height: 50%;
 }
 
 .diaryForm form:focus-within {
   outline: none;
+}
+
+.diaryForm form > div {
+  padding-left: 1rem;
+  display: flex;
+  justify-content: start;
 }
