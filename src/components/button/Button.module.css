@@ -1,0 +1,18 @@
+.button {
+  border-radius: 0.4rem;
+  filter: blur(0.01rem);
+  /* -webkit-backdrop-filter: blur(0.8rem); */
+  background-color: var(--background-color);
+  color: var(--text-color);
+  border: none;
+  cursor: pointer;
+  font-weight: var(--font-p1-weight);
+  font-size: var(--font-p1-size);
+  line-height: var(--font-p1-line-height);
+  letter-spacing: var(--font-p1-letter-spacing);
+  padding: 0.12rem 0.8rem;
+}
+
+.button:hover {
+  filter: none;
+}
