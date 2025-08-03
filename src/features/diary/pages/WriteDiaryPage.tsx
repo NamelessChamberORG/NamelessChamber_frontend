@@ -1,15 +1,17 @@
-import { useRef, useState, type ChangeEvent } from "react";
+import { useRef, useState, useEffect, type ChangeEvent } from "react";
 import Form, { type FormHandle } from "../../../components/form/Form";
 import TextArea from "../components/TextArea";
 import TextCount from "../components/TextCount";
 import classes from "./WriteDiaryPage.module.css";
 import Button from "../../../components/button/Button";
-// import FullScreenOn from "../../../assets/icons/FullScreenOn";
+import FullScreenOn from "../../../assets/icons/FullScreenOn";
 import FullScreenOff from "../../../assets/icons/FullScreenOff";
 
 function WriteDiaryPage() {
   const formRef = useRef<FormHandle>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
   const [count, setCount] = useState<number>(0);
+  const [isFullscreen, setIsFullscreen] = useState<boolean>(false);
 
   function handleSave(value: unknown) {
     console.log("Saved value:", value);
@@ -22,14 +24,36 @@ function WriteDiaryPage() {
   }
 
   function handleFullScreen() {
-    console.log("Full screen toggled");
+    const elem = containerRef.current;
+
+    if (!document.fullscreenElement) {
+      elem?.requestFullscreen().catch((err) => {
+        console.error("전체 화면 진입 실패:", err);
+      });
+    } else {
+      document.exitFullscreen().catch((err) => {
+        console.error("전체 화면 종료 실패:", err);
+      });
+    }
   }
 
+  // 전체 화면 상태 변화 감지
+  useEffect(() => {
+    const handleChange = () => {
+      setIsFullscreen(Boolean(document.fullscreenElement));
+    };
+
+    document.addEventListener("fullscreenchange", handleChange);
+    return () => {
+      document.removeEventListener("fullscreenchange", handleChange);
+    };
+  }, []);
+
   return (
-    <div className={classes.diaryForm}>
+    <div className={classes.diaryForm} ref={containerRef}>
       <div>
         <Button onClick={handleFullScreen}>
-          <FullScreenOff />
+          {isFullscreen ? <FullScreenOn /> : <FullScreenOff />}
         </Button>
       </div>
       <Form onSave={handleSave} ref={formRef}>
