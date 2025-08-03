@@ -1,0 +1,31 @@
+.diaryForm {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  width: 100%;
+  height: 100%;
+  background-color: var(--background-color);
+}
+
+.diaryForm div:nth-child(1) {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.diaryForm form {
+  width: 100%;
+  max-width: 80%;
+  height: 50%;
+}
+
+.diaryForm form:focus-within {
+  outline: none;
+}
+
+.diaryForm form > div {
+  padding-left: 1rem;
+  display: flex;
+  justify-content: start;
+}
