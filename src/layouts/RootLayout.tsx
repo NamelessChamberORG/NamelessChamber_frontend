@@ -1,10 +1,10 @@
 import { Outlet } from "react-router";
-import Logo from "../components/logo/Logo";
+import Header from "../components/header/Header";
 
 function RootLayout() {
   return (
     <div className="app">
-      <Logo />
+      <Header />
       <main className="main">
         <Outlet />
       </main>

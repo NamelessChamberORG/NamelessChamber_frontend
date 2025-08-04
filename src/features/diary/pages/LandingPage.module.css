@@ -1,0 +1,12 @@
+.landing {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 3rem;
+}
+
+.landing .link {
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+}
