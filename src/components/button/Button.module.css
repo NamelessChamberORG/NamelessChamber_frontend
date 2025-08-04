@@ -10,9 +10,22 @@
   font-size: var(--font-p1-size);
   line-height: var(--font-p1-line-height);
   letter-spacing: var(--font-p1-letter-spacing);
-  padding: 0.12rem 0.8rem;
+  padding: 0.06rem 0.4rem;
+  transition: background-color 0.2s ease;
 }
 
-.button:hover {
+.button:hover,
+.hover-style {
   filter: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--background-secondary-color);
+  border: 0.1rem solid var(--border-color);
+  border-radius: 0.4rem;
+  font-weight: var(--font-p1-weight);
+  font-size: var(--font-p1-size);
+  line-height: var(--font-p1-line-height);
+  letter-spacing: var(--font-p1-letter-spacing);
+  cursor: pointer;
 }

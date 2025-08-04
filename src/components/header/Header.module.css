@@ -1,0 +1,15 @@
+.header {
+  width: 100%;
+  height: 4rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logoLink {
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}

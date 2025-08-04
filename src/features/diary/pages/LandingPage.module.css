@@ -1,0 +1,46 @@
+.landing {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.landing .link {
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+}
+
+.textGroup {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  width: 100%;
+  max-width: 800px;
+  gap: 2rem;
+  text-align: center;
+}
+
+.textGroup > div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 3rem;
+}
+
+.left {
+  justify-content: flex-start;
+}
+.center {
+  justify-content: center;
+}
+.right {
+  justify-content: flex-end;
+}
+
+.fade-in {
+  opacity: 1;
+  transition: opacity 0.8s ease-in;
+}
+
+.hidden {
+  opacity: 0;
+}

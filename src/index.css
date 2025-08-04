@@ -27,12 +27,14 @@ html {
     "Segoe UI Emoji",
     "Segoe UI Symbol",
     sans-serif;
-  color: rgba(217, 217, 217, 0.8);
+  color: var(--text-color);
   font-size: 1.8rem;
   line-height: 1.5;
   font-weight: 400;
 
   --background-color: #262524;
+  --background-secondary-color: rgba(217, 217, 217, 0.04);
+  --border-color: rgba(217, 217, 217, 0.08);
   --text-color: rgba(217, 217, 217, 0.8);
   --text-secondary-color: rgba(217, 217, 217, 0.4);
   --font-p1-weight: 200; /* ExtraLight = 200 */
