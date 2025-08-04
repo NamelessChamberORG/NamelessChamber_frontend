@@ -17,6 +17,8 @@ function LandingPage() {
       timer = setTimeout(() => setStep(2), 2000);
     } else if (step === 2) {
       timer = setTimeout(() => setStep(3), 2000);
+    } else if (step === 3) {
+      timer = setTimeout(() => setStep(4), 2000);
     }
 
     return () => clearTimeout(timer);
@@ -24,31 +26,46 @@ function LandingPage() {
 
   return (
     <div className={classes.landing}>
-      {step === 0 && (
-        <Text onClick={handleClick} className={classes["fade-in"]}>
-          작성 시작
-        </Text>
-      )}
-      {step >= 1 && (
-        <Link
-          to="/diary/new"
-          className={`${classes.link} ${classes["fade-in"]}`}
-        >
-          <Text>오늘 있었던 일 작성</Text>
-        </Link>
-      )}
-      {step >= 2 && (
-        <Text alwaysHoverStyle className={classes["fade-in"]}>
-          아니면
-        </Text>
-      )}
-      {step >= 3 && (
-        <Link
-          to="/diary/new"
-          className={`${classes.link} ${classes["fade-in"]}`}
-        >
-          <Text>마음 속 큰 고민 작성</Text>
-        </Link>
+      {step === 0 && <Text onClick={handleClick}>작성 시작</Text>}
+      {step > 0 && (
+        <div className={classes.textGroup}>
+          <div className={classes.left}>
+            {step >= 2 && (
+              <Link
+                to="/diary/new"
+                className={`${classes.link} ${
+                  step >= 2 ? classes["fade-in"] : classes.hidden
+                }`}
+              >
+                <Text>오늘 있었던 일 작성</Text>
+              </Link>
+            )}
+          </div>
+
+          <div className={classes.center}>
+            {step >= 3 && (
+              <Text
+                alwaysHoverStyle
+                className={step >= 3 ? classes["fade-in"] : classes.hidden}
+              >
+                아니면
+              </Text>
+            )}
+          </div>
+
+          <div className={classes.right}>
+            {step >= 4 && (
+              <Link
+                to="/diary/new"
+                className={`${classes.link} ${
+                  step >= 4 ? classes["fade-in"] : classes.hidden
+                }`}
+              >
+                <Text>마음 속 큰 고민 작성</Text>
+              </Link>
+            )}
+          </div>
+        </div>
       )}
     </div>
   );
