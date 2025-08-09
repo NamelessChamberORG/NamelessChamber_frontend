@@ -6,16 +6,19 @@ import classes from "./WriteDiaryPage.module.css";
 import Button from "../../../components/button/Button";
 import FullScreenOn from "../../../assets/icons/FullScreenOn";
 import FullScreenOff from "../../../assets/icons/FullScreenOff";
+import { useNavigate } from "react-router";
 
 function WriteDiaryPage() {
   const formRef = useRef<FormHandle>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const [count, setCount] = useState<number>(0);
   const [isFullscreen, setIsFullscreen] = useState<boolean>(false);
+  const navigate = useNavigate();
 
   function handleSave(value: unknown) {
     console.log("Saved value:", value);
     formRef.current?.clear();
+    navigate("/diary/submit");
   }
 
   function handleTextChange(event: ChangeEvent<HTMLTextAreaElement>) {
@@ -53,7 +56,7 @@ function WriteDiaryPage() {
     <div className={classes.diaryForm} ref={containerRef}>
       <div>
         <Button onClick={handleFullScreen}>
-          {isFullscreen ? <FullScreenOn /> : <FullScreenOff />}
+          {isFullscreen ? <FullScreenOff /> : <FullScreenOn />}
         </Button>
       </div>
       <Form onSave={handleSave} ref={formRef}>
