@@ -1,0 +1,7 @@
+.textCount {
+  color: var(--text-secondary-color);
+  font-weight: var(--font-p1-weight);
+  font-size: var(--font-p1-size);
+  line-height: var(--font-p1-line-height);
+  letter-spacing: var(--font-p1-letter-spacing);
+}
