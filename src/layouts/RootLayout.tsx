@@ -6,7 +6,9 @@ function RootLayout() {
     <div className="app">
       <Header />
       <main className="main">
-        <Outlet />
+        <div className="container">
+          <Outlet />
+        </div>
       </main>
     </div>
   );

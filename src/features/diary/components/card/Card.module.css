@@ -1,0 +1,30 @@
+.card {
+  font-family: var(--font-p1-family);
+  font-weight: var(--font-p1-weight);
+  color: var(--color-text);
+  font-size: var(--font-p1-size);
+  line-height: var(--font-p1-line-height);
+  letter-spacing: var(--font-p1-letter-spacing);
+
+  list-style-type: none;
+  padding: 1rem;
+  margin: 0;
+  width: 100%;
+  border-radius: 0.8rem;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 0.1rem;
+}
+
+.card p {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.card:hover {
+  background-color: #292827;
+  border-radius: 0.08rem;
+}

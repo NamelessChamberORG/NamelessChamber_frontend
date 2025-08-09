@@ -2,6 +2,7 @@ import { createBrowserRouter } from "react-router";
 import RootLayout from "../layouts/RootLayout";
 import WriteDiaryPage from "../features/diary/pages/WriteDiaryPage";
 import LandingPage from "../features/diary/pages/LandingPage";
+import SubmitDiaryPage from "../features/diary/pages/SubmitDiaryPage";
 
 const router = createBrowserRouter([
   {
@@ -11,6 +12,10 @@ const router = createBrowserRouter([
       {
         path: "/",
         element: <LandingPage />,
+      },
+      {
+        path: "/diary/submit",
+        element: <SubmitDiaryPage />,
       },
     ],
   },
