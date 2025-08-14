@@ -1,0 +1,15 @@
+.content {
+  opacity: 0;
+  /* transform: translateY(8px); */
+  filter: blur(0.4rem);
+  transition: opacity 800ms linear, transform 1000ms linear,
+    filter 1500ms linear 300ms;
+  will-change: opacity, transform, filter;
+  line-height: 1.6;
+}
+
+.visible {
+  opacity: 1;
+  /* transform: translateY(0); */
+  filter: blur(0);
+}

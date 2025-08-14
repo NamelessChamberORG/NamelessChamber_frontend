@@ -3,6 +3,7 @@ import RootLayout from "../layouts/RootLayout";
 import WriteDiaryPage from "../features/diary/pages/WriteDiaryPage";
 import LandingPage from "../features/diary/pages/LandingPage";
 import SubmitDiaryPage from "../features/diary/pages/SubmitDiaryPage";
+import DiaryDetailPage from "../features/diary/pages/DiaryDetailPage";
 
 const router = createBrowserRouter([
   {
@@ -16,6 +17,10 @@ const router = createBrowserRouter([
       {
         path: "/diary/submit",
         element: <SubmitDiaryPage />,
+      },
+      {
+        path: "/diary/:id",
+        element: <DiaryDetailPage />,
       },
     ],
   },
