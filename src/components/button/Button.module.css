@@ -10,12 +10,10 @@
   font-size: var(--font-p1-size);
   line-height: var(--font-p1-line-height);
   letter-spacing: var(--font-p1-letter-spacing);
-  padding: 0.25rem;
-  transition:
-    background-color 0.2s ease,
-    filter 0.2s ease,
-    border 0.2s ease;
-  display: inline-flex;
+  padding: 1.2rem 0.8rem;
+  border-radius: 0.4rem;
+  transition: background-color 0.2s ease, filter 0.2s ease, border 0.2s ease;
+  display: flex;
   align-items: center;
   justify-content: center;
 }

@@ -11,24 +11,11 @@ html {
 }
 
 :root {
-  font-family:
-    "Pretendard Variable",
-    Pretendard,
-    -apple-system,
-    BlinkMacSystemFont,
-    system-ui,
-    Roboto,
-    "Helvetica Neue",
-    "Segoe UI",
-    "Apple SD Gothic Neo",
-    "Noto Sans KR",
-    "Malgun Gothic",
-    "Apple Color Emoji",
-    "Segoe UI Emoji",
-    "Segoe UI Symbol",
-    sans-serif;
+  font-family: "Pretendard Variable", Pretendard, -apple-system,
+    BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI",
+    "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji",
+    "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
   color: var(--text-color);
-  font-size: 1.8rem;
   line-height: 1.5;
   font-weight: 400;
 
@@ -37,17 +24,32 @@ html {
   --border-color: rgba(217, 217, 217, 0.08);
   --text-color: rgba(217, 217, 217, 0.8);
   --text-secondary-color: rgba(217, 217, 217, 0.4);
+  --color-green: #556028;
+  /* === P1 Style Tokens === */
   --font-p1-weight: 200; /* ExtraLight = 200 */
   --font-p1-size: 18px;
   --font-p1-line-height: 150%;
   --font-p1-letter-spacing: 0;
-  --header-height: 4rem;
+  --header-height: 10rem;
+  /* === T1 Style Tokens === */
+  --t1-font-family: Pretendard, sans-serif;
+  --t1-font-weight: 400;
+  --t1-font-size: 24px;
+  --t1-line-height: 1.5;
+  --t1-letter-spacing: 0.04em;
+  /* === C1 Style Tokens === */
+  --c1-font-family: "Inter", sans-serif;
+  --c1-font-weight: 400;
+  --c1-font-size: 16px;
+  --c1-line-height: normal;
+  --c1-letter-spacing: 0.04em;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 body {
+  font-size: 1.8rem;
   margin: 0;
   min-width: 320px;
   min-height: 100vh;

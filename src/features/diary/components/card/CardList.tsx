@@ -6,7 +6,12 @@ const CardList = () => {
   return (
     <ul className={classes.cardList}>
       {mockDiarys.map((diary) => (
-        <Card>{diary.text}</Card>
+        <Card
+          key={diary.title}
+          title={diary.title}
+          tags={diary.tags}
+          authorType={diary.authorType}
+        />
       ))}
     </ul>
   );
