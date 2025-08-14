@@ -1,7 +1,7 @@
 import { useRef, useState, useEffect, type ChangeEvent } from "react";
 import Form, { type FormHandle } from "../../../components/form/Form";
-import TextArea from "../components/TextArea";
-import TextCount from "../components/TextCount";
+import TextArea from "../components/text/TextArea";
+import TextCount from "../components/text/TextCount";
 import classes from "./WriteDiaryPage.module.css";
 import Button from "../../../components/button/Button";
 import FullScreenOn from "../../../assets/icons/FullScreenOn";
