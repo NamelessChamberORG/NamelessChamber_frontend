@@ -1,0 +1,15 @@
+.title {
+  font-family: var(--t1-font-family);
+  font-weight: var(--t1-font-weight);
+  font-size: var(--t1-font-size);
+  line-height: var(--t1-line-height);
+  letter-spacing: var(--t1-letter-spacing);
+}
+
+.title.other {
+  color: rgba(217, 217, 217, 0.5);
+}
+
+.title.self {
+  color: rgba(217, 217, 217, 1);
+}
