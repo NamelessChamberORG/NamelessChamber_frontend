@@ -4,7 +4,7 @@ function Logo() {
       src="/logo.png"
       alt="Logo"
       className="logo"
-      style={{ height: "1rem", objectFit: "contain" }}
+      style={{ width: "12rem", objectFit: "contain" }}
     />
   );
 }

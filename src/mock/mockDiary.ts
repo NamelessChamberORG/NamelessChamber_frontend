@@ -1,39 +1,94 @@
-const mockDiarys = [
+export type Diary = {
+  title: string;
+  tags: string[];
+  authorType: "self" | "other";
+  textCount: number;
+};
+
+const mockDiarys: Diary[] = [
   {
-    text: "나의 고민은 이제 시작이다.\n ",
+    title: "나의 고민은 이제 시작이다",
+    tags: ["건강", "시간"],
+    authorType: "self",
+    textCount: 263,
   },
   {
-    text: "나의 고민은 이제 시작이다.\n어떻게 해야 모르겠다.\n지금도 고민 속에 있지만 누군가는\n나의 고민은 이제 시작이다.\n 어떻게 해야 모르겠다.\n지금도 고민 속에 있지만 누군가는",
+    title: "나의 고민은 이제 시작이다",
+    tags: ["건강", "시간"],
+    authorType: "other",
+    textCount: 263,
   },
   {
-    text: "나의 고민은 이제 시작이다.\n어떻게 해야 모르겠다.\n지금도 고민 속에 있지만 누군가는 이런 고민을 하고 있겠지.",
+    title: "나의 고민은 이제 시작이다",
+    tags: ["건강", "시간"],
+    authorType: "other",
+    textCount: 263,
   },
   {
-    text: "나의 고민은 이제 시작이다.\n어떻게 해야 모르겠다.\n지금도 고민 속에 있지만 누군가는 이런 고민을 하고 있겠지.",
+    title: "나의 고민은 이제 시작이다",
+    tags: ["건강", "시간"],
+    authorType: "other",
+    textCount: 263,
   },
   {
-    text: "나의 고민은 이제 시작이다.\n어떻게 해야 모르겠다.\n지금도 고민 속에 있지만 누군가는 이런 고민을 하고 있겠지.",
+    title: "나의 고민은 이제 시작이다",
+    tags: ["건강", "시간"],
+    authorType: "other",
+    textCount: 263,
   },
   {
-    text: "나의 고민은 이제 시작이다.\n어떻게 해야 모르겠다.\n지금도 고민 속에 있지만 누군가는 이런 고민을 하고 있겠지.",
+    title: "나의 고민은 이제 시작이다",
+    tags: ["건강", "시간"],
+    authorType: "other",
+    textCount: 263,
   },
   {
-    text: "나의 고민은 이제 시작이다.\n어떻게 해야 모르겠다.\n지금도 고민 속에 있지만 누군가는 이런 고민을 하고 있겠지.",
+    title: "나의 고민은 이제 시작이다",
+    tags: ["건강", "시간"],
+    authorType: "other",
+    textCount: 263,
   },
   {
-    text: "나의 고민은 이제 시작이다.\n 어떻게 해야 모르겠다.\n지금도 고민 속에 있지만 누군가는 이런 고민을 하고 있겠지.",
+    title: "나의 고민은 이제 시작이다",
+    tags: ["건강", "시간"],
+    authorType: "other",
+    textCount: 263,
   },
   {
-    text: "나의 고민은 이제 시작이다.\n 어떻게 해야 모르겠다.\n지금도 고민 속에 있지만 누군가는 이런 고민을 하고 있겠지.",
+    title: "나의 고민은 이제 시작이다",
+    tags: ["건강", "시간"],
+    authorType: "other",
+    textCount: 263,
   },
   {
-    text: "나의 고민은 이제 시작이다.\n 어떻게 해야 모르겠다.\n지금도 고민 속에 있지만 누군가는 이런 고민을 하고 있겠지.",
+    title: "나의 고민은 이제 시작이다",
+    tags: ["건강", "시간"],
+    authorType: "other",
+    textCount: 263,
   },
   {
-    text: "나의 고민은 이제 시작이다.\n 어떻게 해야 모르겠다.\n지금도 고민 속에 있지만 누군가는 이런 고민을 하고 있겠지.",
+    title: "나의 고민은 이제 시작이다",
+    tags: ["건강", "시간"],
+    authorType: "other",
+    textCount: 263,
   },
   {
-    text: "나의 고민은 이제 시작이다.\n 어떻게 해야 모르겠다.\n지금도 고민 속에 있지만 누군가는 이런 고민을 하고 있겠지.",
+    title: "나의 고민은 이제 시작이다",
+    tags: ["건강", "시간"],
+    authorType: "other",
+    textCount: 263,
+  },
+  {
+    title: "나의 고민은 이제 시작이다",
+    tags: ["건강", "시간"],
+    authorType: "other",
+    textCount: 263,
+  },
+  {
+    title: "나의 고민은 이제 시작이다",
+    tags: ["건강", "시간"],
+    authorType: "other",
+    textCount: 263,
   },
 ];
 
