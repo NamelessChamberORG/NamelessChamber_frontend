@@ -1,5 +1,5 @@
 .text {
-  filter: blur(0.02rem);
+  filter: blur(var(--blur-radius));
   font-weight: var(--font-p1-weight);
   font-size: var(--font-p1-size);
   line-height: var(--font-p1-line-height);

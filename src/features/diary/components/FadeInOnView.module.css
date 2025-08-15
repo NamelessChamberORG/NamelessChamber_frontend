@@ -1,7 +1,7 @@
 .content {
   opacity: 0;
   /* transform: translateY(8px); */
-  filter: blur(0.4rem);
+  filter: blur(var(--blur-radius));
   transition: opacity 800ms linear, transform 1000ms linear,
     filter 1500ms linear 300ms;
   will-change: opacity, transform, filter;

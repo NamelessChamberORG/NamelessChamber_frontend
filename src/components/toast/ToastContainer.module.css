@@ -1,0 +1,28 @@
+.container {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  z-index: 9999;
+
+  width: max-content;
+}
+
+.toast-enter {
+  animation: slideUpBlur 0.5s ease-out;
+}
+
+@keyframes slideUpBlur {
+  from {
+    transform: translateY(20px);
+    filter: blur(var(--blur-radius));
+  }
+  to {
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
