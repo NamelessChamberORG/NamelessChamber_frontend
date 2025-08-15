@@ -1,12 +1,5 @@
 import { createContext, useContext } from "react";
-
-export type ToastType = "check" | "info" | "cancel";
-
-export type ToastItem = {
-  id: number;
-  message: string;
-  type: ToastType;
-};
+import type { ToastItem, ToastType } from "../types/toast.type";
 
 export type ToastContextValue = {
   toasts: ToastItem[];

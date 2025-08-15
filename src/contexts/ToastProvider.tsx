@@ -1,10 +1,6 @@
 import { useState, type PropsWithChildren } from "react";
-import {
-  ToastContext,
-  type ToastItem,
-  type ToastType,
-  type ToastContextValue,
-} from "./ToastContext";
+import { ToastContext, type ToastContextValue } from "./ToastContext";
+import type { ToastItem, ToastType } from "../types/toast.type";
 
 export default function ToastProvider({ children }: PropsWithChildren) {
   const [toasts, setToasts] = useState<ToastItem[]>([]);
