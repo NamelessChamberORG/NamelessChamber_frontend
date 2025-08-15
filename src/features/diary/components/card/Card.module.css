@@ -12,6 +12,16 @@
   gap: 3rem;
   background-color: rgba(41, 40, 39, 0.6);
   transition: background-color 0.3s, color 0.3s;
+
+  /* 글로우를 카드 안에 가두기 */
+  position: relative;
+  overflow: hidden;
+
+  --glow-x: 5%;
+  --glow-y: 90%;
+  --glow-size: 240px;
+  --glow-blur: 24px;
+  --glow-opacity: 0.08;
 }
 
 .card > div {
@@ -25,14 +35,53 @@
   background-color: #292827;
 }
 
+/* --------- 라이트(원형 글로우) 레이어 --------- */
+.card::before {
+  content: "";
+  position: absolute;
+  width: var(--glow-size);
+  height: var(--glow-size);
+
+  /* 마우스 위치(또는 기본 위치)로 이동 */
+  left: var(--glow-x);
+  top: var(--glow-y);
+  transform: translate(-50%, -50%);
+
+  background: radial-gradient(
+    50% 50% at 50% 50%,
+    rgba(253, 235, 153, 1) 0%,
+    rgba(253, 235, 153, 0.35) 35%,
+    rgba(253, 235, 153, 0) 70%
+  );
+  filter: blur(var(--glow-blur));
+  opacity: var(--glow-opacity);
+  pointer-events: none;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.card:hover::before {
+  opacity: calc(var(--glow-opacity) + 0.04);
+  transform: translate(-50%, -50%) scale(1.03);
+}
+
+/* authorType별 opacity 설정 */
 .card.self {
-  border: var(--color-green) solid 0.1rem;
+  --glow-opacity: 0.08;
+}
+.card.self:hover::before {
+  opacity: calc(0.08 + 0.04);
+}
+
+.card.other {
+  --glow-opacity: 0.04;
+}
+.card.other:hover::before {
+  opacity: 0.12;
 }
 
 .card.other {
   border: none;
 }
-
 .card.other:hover {
   background-color: rgba(135, 135, 135, 0.1);
 }

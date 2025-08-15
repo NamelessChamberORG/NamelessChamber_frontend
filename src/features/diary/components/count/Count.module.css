@@ -1,4 +1,5 @@
 .count {
+  color: var(--color-gray-3);
   font-family: var(--c1-font-family);
   font-weight: var(--c1-font-weight);
   font-size: var(--c1-font-size);
