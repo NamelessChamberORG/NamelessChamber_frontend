@@ -19,7 +19,7 @@
 @keyframes slideUpBlur {
   from {
     transform: translateY(20px);
-    filter: blur(4px);
+    filter: blur(var(--blur-radius));
   }
   to {
     transform: translateY(0);

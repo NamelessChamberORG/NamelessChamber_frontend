@@ -1,6 +1,6 @@
 .button {
   border-radius: 0.4rem;
-  filter: blur(0.02rem);
+  filter: blur(var(--blur-radius));
   /* -webkit-backdrop-filter: blur(0.8rem); */
   background-color: var(--background-color);
   color: var(--text-color);

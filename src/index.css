@@ -43,6 +43,8 @@ html {
   --c1-font-size: 16px;
   --c1-line-height: normal;
   --c1-letter-spacing: 0.04em;
+  /* === Blur === */
+  --blur-radius: 2px;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
