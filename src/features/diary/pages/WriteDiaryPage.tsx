@@ -1,18 +1,24 @@
 import { useRef, useState, useEffect, type ChangeEvent } from "react";
 import Form, { type FormHandle } from "../../../components/form/Form";
-import TextArea from "../components/TextArea";
-import TextCount from "../components/TextCount";
+import TextArea from "../components/text/TextArea";
+import TextCount from "../components/text/TextCount";
 import classes from "./WriteDiaryPage.module.css";
 import Button from "../../../components/button/Button";
 import FullScreenOn from "../../../assets/icons/FullScreenOn";
 import FullScreenOff from "../../../assets/icons/FullScreenOff";
 import { useNavigate } from "react-router";
+import Modal from "../../../components/modal/Modal";
 
 function WriteDiaryPage() {
   const formRef = useRef<FormHandle>(null);
   const containerRef = useRef<HTMLDivElement>(null);
+
   const [count, setCount] = useState<number>(0);
   const [isFullscreen, setIsFullscreen] = useState<boolean>(false);
+
+  const [showConfirm, setShowConfirm] = useState(false);
+  const hiddenSubmitRef = useRef<HTMLButtonElement>(null);
+
   const navigate = useNavigate();
 
   function handleSave(value: unknown) {
@@ -28,29 +34,29 @@ function WriteDiaryPage() {
 
   function handleFullScreen() {
     const elem = containerRef.current;
-
     if (!document.fullscreenElement) {
-      elem?.requestFullscreen().catch((err) => {
-        console.error("전체 화면 진입 실패:", err);
-      });
+      elem
+        ?.requestFullscreen()
+        .catch((err) => console.error("전체 화면 진입 실패:", err));
     } else {
-      document.exitFullscreen().catch((err) => {
-        console.error("전체 화면 종료 실패:", err);
-      });
+      document
+        .exitFullscreen()
+        .catch((err) => console.error("전체 화면 종료 실패:", err));
     }
   }
 
   // 전체 화면 상태 변화 감지
   useEffect(() => {
-    const handleChange = () => {
+    const handleChange = () =>
       setIsFullscreen(Boolean(document.fullscreenElement));
-    };
-
     document.addEventListener("fullscreenchange", handleChange);
-    return () => {
-      document.removeEventListener("fullscreenchange", handleChange);
-    };
+    return () => document.removeEventListener("fullscreenchange", handleChange);
   }, []);
+
+  function confirmSubmit() {
+    setShowConfirm(false);
+    hiddenSubmitRef.current?.click();
+  }
 
   return (
     <div className={classes.diaryForm} ref={containerRef}>
@@ -59,13 +65,43 @@ function WriteDiaryPage() {
           {isFullscreen ? <FullScreenOff /> : <FullScreenOn />}
         </Button>
       </div>
+
       <Form onSave={handleSave} ref={formRef}>
         <TextArea onChange={handleTextChange} />
+
+        {/* 실제 제출은 hidden 버튼이 담당 */}
+        <button
+          ref={hiddenSubmitRef}
+          type="submit"
+          style={{ display: "none" }}
+          aria-hidden="true"
+          tabIndex={-1}
+        />
+
         <div>
-          {count > 0 && <Button type="submit">무명소에 흘러보내기</Button>}
+          {count > 0 && (
+            <Button type="button" onClick={() => setShowConfirm(true)}>
+              무명소에 흘러보내기
+            </Button>
+          )}
         </div>
       </Form>
+
       <TextCount count={count} />
+
+      {/* 확인 모달 */}
+      <Modal isOpen={showConfirm} onClose={() => setShowConfirm(false)}>
+        <Modal.Title id="submit-title">
+          작성하신 일기를 정리해주세요
+        </Modal.Title>
+
+        <Modal.Textarea placeholder="제목을 작성하기..." />
+
+        <Modal.Actions>
+          <button onClick={() => setShowConfirm(false)}>닫기</button>
+          <button onClick={confirmSubmit}>완료하기</button>
+        </Modal.Actions>
+      </Modal>
     </div>
   );
 }

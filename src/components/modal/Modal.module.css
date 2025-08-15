@@ -1,0 +1,107 @@
+/* === Overlay === */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(2px);
+  z-index: 99999;
+}
+
+/* === Content === */
+.modal-content {
+  position: relative;
+  width: min(800px, 92vw);
+  max-height: 90dvh;
+  overflow: hidden;
+  padding: 40px;
+  border-radius: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+
+  --bg-rgb: 38, 37, 36;
+  --stroke-rgba: 217, 217, 217, 0.08;
+
+  background: linear-gradient(
+    to bottom right,
+    rgba(var(--bg-rgb), 0.3) 0%,
+    rgba(var(--bg-rgb), 0.3) 14%,
+    rgba(var(--bg-rgb), 0.34) 22%,
+    rgba(var(--bg-rgb), 0.34) 36%,
+    rgba(var(--bg-rgb), 0.3) 63%,
+    rgba(var(--bg-rgb), 0.3) 74%,
+    rgba(var(--bg-rgb), 0.3) 87%,
+    rgba(var(--bg-rgb), 0.34) 100%
+  );
+
+  border: 1px solid rgba(var(--stroke-rgba));
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.35), 0 2px 12px rgba(0, 0, 0, 0.25);
+  color: rgba(217, 217, 217, 0.92);
+}
+
+.modal-title {
+  margin: 0;
+  color: var(--color-gray-2, rgba(255, 255, 255, 0.95));
+  font-family: var(--t1-font-family, inherit);
+  font-weight: var(--t1-font-weight, 600);
+  font-size: var(--t1-font-size, 1.6rem);
+  line-height: var(--t1-line-height, 1.35);
+  letter-spacing: var(--t1-letter-spacing, 0);
+}
+
+.modal-textarea {
+  width: 100%;
+  background: transparent;
+  border: transparent;
+  color: var(--color-gray-3);
+  font-size: 1.4rem;
+  border-radius: 10px;
+  padding: 12px 14px;
+  outline: none;
+  caret-color: rgba(255, 255, 255, 0.95);
+  resize: vertical;
+  min-height: 88px;
+}
+.modal-textarea::placeholder {
+  color: rgba(217, 217, 217, 0.45);
+}
+.modal-textarea:focus {
+  /* 은은한 포커스 */
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.06);
+}
+
+.modal-actions {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  gap: 12px;
+}
+.modal-actions > * {
+  min-width: 112px;
+}
+
+.modal-actions button {
+  background-color: transparent;
+  cursor: pointer;
+  font-weight: var(--font-p1-weight);
+  font-size: var(--font-p1-size);
+  line-height: var(--font-p1-line-height);
+  letter-spacing: var(--font-p1-letter-spacing);
+  border: none;
+  color: var(--color-gray-3);
+  filter: blur(var(--blur-radius));
+}
+
+.modal-actions button:hover {
+  filter: none;
+}
+/* 반응형 */
+@media (max-width: 520px) {
+  .modal-content {
+    padding: 28px;
+    gap: 18px;
+  }
+}
