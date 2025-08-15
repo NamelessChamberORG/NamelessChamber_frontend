@@ -1,0 +1,85 @@
+.toast {
+  position: relative;
+  width: 35rem;
+  background: linear-gradient(
+    90deg,
+    #262524e6 0%,
+    #262524e6 14%,
+    #262524ff 22%,
+    #262524e6 36%,
+    #262524ff 63%,
+    #262524e6 74%,
+    #262524ff 87%,
+    #262524ff 100%
+  );
+  color: #fff;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.6rem 1.2rem;
+  animation: fadeIn 0.3s ease;
+  border-radius: 0.8rem;
+  overflow: hidden; /* hide the glow effect */
+
+  /* p1 style */
+  font-weight: var(--font-p1-weight);
+  font-size: var(--font-p1-size);
+  line-height: var(--font-p1-height);
+  letter-spacing: var(--font-p1-letter-spacing);
+}
+
+/* glow effect */
+.toast::before {
+  content: "";
+  position: absolute;
+  left: var(--glow-left, 0.8rem); /* ← 여기로 좌우 위치 조정 */
+  top: var(--glow-top, 50%);
+  transform: translateY(-50%);
+  width: var(--glow-size, 212px);
+  height: var(--glow-size, 212px);
+  pointer-events: none;
+  z-index: 0;
+  border-radius: 50%;
+}
+
+.toast.check::before {
+  background: radial-gradient(
+    circle,
+    rgba(0, 237, 81, 0.08) 0%,
+    rgba(0, 237, 123, 0) 60%
+  );
+}
+
+.toast.info::before {
+  background: radial-gradient(
+    circle,
+    rgba(255, 214, 38, 0.08) 0%,
+    rgba(255, 214, 38, 0) 60%
+  );
+}
+
+.toast.cancel::before {
+  background: radial-gradient(
+    circle,
+    rgba(240, 66, 72, 0.08) 0%,
+    rgba(240, 66, 72, 0) 60%
+  );
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* put icon on top of glow */
+.toast img {
+  position: relative;
+  z-index: 1;
+}
