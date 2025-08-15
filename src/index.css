@@ -25,6 +25,8 @@ html {
   --text-color: rgba(217, 217, 217, 0.8);
   --text-secondary-color: rgba(217, 217, 217, 0.4);
   --color-green: #556028;
+  --color-gray-2: #d9d9d9;
+  --color-gray-3: #878787;
   /* === P1 Style Tokens === */
   --font-p1-weight: 200; /* ExtraLight = 200 */
   --font-p1-size: 18px;
