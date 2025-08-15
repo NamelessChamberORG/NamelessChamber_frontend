@@ -1,19 +1,17 @@
-import type { ToastType } from "../../types/toast.type";
+import { useToast } from "../../contexts/ToastContext";
 import Toast from "./Toast";
-// import styles from "./ToastContainer.module.css";
+import classes from "./ToastContainer.module.css";
 
-type ToastItem = { id: number; message: string; type: ToastType };
+export default function ToastContainer() {
+  const { toasts } = useToast();
 
-type ToastContainerProps = {
-  toasts: ToastItem[];
-};
-
-export const ToastContainer = ({ toasts }: ToastContainerProps) => {
   return (
-    <div>
-      {toasts.map((toast) => (
-        <Toast key={toast.id} message={toast.message} type={toast.type} />
+    <div className={classes.container}>
+      {toasts.map((t) => (
+        <div key={t.id} className={classes["toast-enter"]}>
+          <Toast message={t.message} type={t.type} />
+        </div>
       ))}
     </div>
   );
-};
+}
