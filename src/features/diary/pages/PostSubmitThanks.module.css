@@ -1,9 +1,11 @@
 .wrap {
   min-height: 100dvh;
-  display: grid;
-  place-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   background: var(--background-color, #262524);
   color: rgba(217, 217, 217, 0.72);
+  gap: 2rem;
 }
 
 .message {

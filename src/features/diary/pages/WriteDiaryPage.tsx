@@ -1,22 +1,19 @@
-import { useRef, useState, useEffect, type ChangeEvent } from "react";
+import { useRef, useState, type ChangeEvent } from "react";
 import Form, { type FormHandle } from "../../../components/form/Form";
 import TextArea from "../components/text/TextArea";
 import TextCount from "../components/text/TextCount";
 import classes from "./WriteDiaryPage.module.css";
 import Button from "../../../components/button/Button";
-import FullScreenOn from "../../../assets/icons/FullScreenOn";
-import FullScreenOff from "../../../assets/icons/FullScreenOff";
 import { useNavigate } from "react-router";
 import Modal from "../../../components/modal/Modal";
 import { useToast } from "../../../contexts/ToastContext";
+import FullscreenToggleButton from "../../../components/fullsrceen/FullscreenToggleButton";
 
 function WriteDiaryPage() {
   const formRef = useRef<FormHandle>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
   const [count, setCount] = useState<number>(0);
-  const [isFullscreen, setIsFullscreen] = useState<boolean>(false);
-
   const [showConfirm, setShowConfirm] = useState(false);
   const hiddenSubmitRef = useRef<HTMLButtonElement>(null);
   const [submitting, setSubmitting] = useState(false);
@@ -53,27 +50,6 @@ function WriteDiaryPage() {
     setCount(text.length);
   }
 
-  function handleFullScreen() {
-    const elem = containerRef.current;
-    if (!document.fullscreenElement) {
-      elem
-        ?.requestFullscreen()
-        .catch((err) => console.error("전체 화면 진입 실패:", err));
-    } else {
-      document
-        .exitFullscreen()
-        .catch((err) => console.error("전체 화면 종료 실패:", err));
-    }
-  }
-
-  // 전체 화면 상태 변화 감지
-  useEffect(() => {
-    const handleChange = () =>
-      setIsFullscreen(Boolean(document.fullscreenElement));
-    document.addEventListener("fullscreenchange", handleChange);
-    return () => document.removeEventListener("fullscreenchange", handleChange);
-  }, []);
-
   function confirmSubmit() {
     setShowConfirm(false);
     hiddenSubmitRef.current?.click();
@@ -82,9 +58,10 @@ function WriteDiaryPage() {
   return (
     <div className={classes.diaryForm} ref={containerRef}>
       <div>
-        <Button onClick={handleFullScreen} disabled={submitting}>
-          {isFullscreen ? <FullScreenOff /> : <FullScreenOn />}
-        </Button>
+        <FullscreenToggleButton
+          targetRef={containerRef}
+          disabled={submitting}
+        />
       </div>
 
       <Form onSave={handleSave} ref={formRef}>
