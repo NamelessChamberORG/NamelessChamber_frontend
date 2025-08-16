@@ -4,6 +4,7 @@ import WriteDiaryPage from "../features/diary/pages/WriteDiaryPage";
 import LandingPage from "../features/diary/pages/LandingPage";
 import SubmitDiaryPage from "../features/diary/pages/SubmitDiaryPage";
 import DiaryDetailPage from "../features/diary/pages/DiaryDetailPage";
+import PostSubmitThanks from "../features/diary/pages/PostSubmitThanks";
 
 const router = createBrowserRouter([
   {
@@ -15,7 +16,7 @@ const router = createBrowserRouter([
         element: <LandingPage />,
       },
       {
-        path: "/diary/submit",
+        path: "/diary",
         element: <SubmitDiaryPage />,
       },
       {
@@ -23,6 +24,10 @@ const router = createBrowserRouter([
         element: <DiaryDetailPage />,
       },
     ],
+  },
+  {
+    path: "/diary/submit",
+    element: <PostSubmitThanks />,
   },
   {
     path: "/diary/new",

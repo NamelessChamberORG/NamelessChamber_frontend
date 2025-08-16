@@ -15,6 +15,7 @@ const CardList = () => {
           title={diary.title}
           tags={diary.tags}
           authorType={diary.authorType}
+          textCount={diary.textCount}
         />
       ))}
     </ul>
