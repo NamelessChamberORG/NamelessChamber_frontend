@@ -8,6 +8,7 @@ import FullScreenOn from "../../../assets/icons/FullScreenOn";
 import FullScreenOff from "../../../assets/icons/FullScreenOff";
 import { useNavigate } from "react-router";
 import Modal from "../../../components/modal/Modal";
+import { useToast } from "../../../contexts/ToastContext";
 
 function WriteDiaryPage() {
   const formRef = useRef<FormHandle>(null);
@@ -18,13 +19,33 @@ function WriteDiaryPage() {
 
   const [showConfirm, setShowConfirm] = useState(false);
   const hiddenSubmitRef = useRef<HTMLButtonElement>(null);
+  const [submitting, setSubmitting] = useState(false);
+  const { showToast } = useToast();
 
   const navigate = useNavigate();
 
-  function handleSave(value: unknown) {
-    console.log("Saved value:", value);
-    formRef.current?.clear();
-    navigate("/diary/submit");
+  async function handleSave(value: unknown) {
+    if (submitting) return;
+    try {
+      setSubmitting(true);
+
+      console.log(value);
+
+      formRef.current?.clear();
+
+      navigate("/diary/submit", {
+        replace: true,
+        state: {
+          next: `/diary`,
+          stayMs: 1600,
+          message: "작성해주신 소중한 마음은 소중히 보관할게요",
+        },
+      });
+    } catch (err) {
+      console.error("저장 실패:", err);
+      showToast("무명 일기 저장에 실패했습니다. 다시 시도해주세요", "cancel");
+      setSubmitting(false);
+    }
   }
 
   function handleTextChange(event: ChangeEvent<HTMLTextAreaElement>) {
@@ -61,13 +82,13 @@ function WriteDiaryPage() {
   return (
     <div className={classes.diaryForm} ref={containerRef}>
       <div>
-        <Button onClick={handleFullScreen}>
+        <Button onClick={handleFullScreen} disabled={submitting}>
           {isFullscreen ? <FullScreenOff /> : <FullScreenOn />}
         </Button>
       </div>
 
       <Form onSave={handleSave} ref={formRef}>
-        <TextArea onChange={handleTextChange} />
+        <TextArea onChange={handleTextChange} disabled={submitting} />
 
         {/* 실제 제출은 hidden 버튼이 담당 */}
         <button
@@ -80,8 +101,12 @@ function WriteDiaryPage() {
 
         <div>
           {count > 0 && (
-            <Button type="button" onClick={() => setShowConfirm(true)}>
-              무명소에 흘러보내기
+            <Button
+              type="button"
+              onClick={() => setShowConfirm(true)}
+              disabled={submitting}
+            >
+              {submitting ? "보관 중..." : "무명소에 흘러보내기"}
             </Button>
           )}
         </div>

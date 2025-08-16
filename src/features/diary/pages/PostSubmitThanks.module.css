@@ -1,0 +1,15 @@
+.wrap {
+  min-height: 100dvh;
+  display: grid;
+  place-items: center;
+  background: var(--background-color, #262524);
+  color: rgba(217, 217, 217, 0.72);
+}
+
+.message {
+  color: var(--color-gray-2);
+  font-weight: var(--font-p1-weight);
+  font-size: var(--font-p1-size);
+  line-height: var(--font-p1-line-height);
+  letter-spacing: var(--font-p1-letter-spacing);
+}
