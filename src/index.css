@@ -8,6 +8,8 @@
 
 html {
   font-size: 62.5%;
+  position: relative;
+  isolation: isolate;
 }
 
 :root {
@@ -57,7 +59,54 @@ body {
   margin: 0;
   min-width: 320px;
   min-height: 100vh;
-  background: var(--background-color);
+
+  background: linear-gradient(
+      108deg,
+      #2a2928 0%,
+      #262524 45%,
+      #242322 55%,
+      #262524 100%
+    ),
+    repeating-linear-gradient(
+      108deg,
+      rgba(0, 0, 0, 0.015) 0px,
+      rgba(0, 0, 0, 0.015) 1px,
+      rgba(255, 255, 255, 0.015) 1px,
+      rgba(255, 255, 255, 0.015) 2px
+    );
+
+  background-repeat: no-repeat, repeat;
+  background-size: cover, auto;
+}
+
+html::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+
+  background-image: url("/noise-light.png");
+  background-repeat: repeat;
+  background-size: 30px 30px;
+  mix-blend-mode: overlay;
+  opacity: 1;
+  filter: contrast(280%) brightness(96%);
+}
+
+html::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+
+  background-image: url("/noise-light.png");
+  background-repeat: repeat;
+  background-size: 240px 240px;
+  mix-blend-mode: overlay;
+  opacity: 0.8;
+  filter: contrast(260%) brightness(94%);
 }
 
 .app {

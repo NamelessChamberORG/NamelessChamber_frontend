@@ -1,5 +1,5 @@
 .textarea {
-  background-color: var(--background-color);
+  background-color: transparent;
   color: var(--text--color);
   border: none;
   width: 100%;

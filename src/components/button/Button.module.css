@@ -2,7 +2,7 @@
   border-radius: 0.4rem;
   filter: blur(var(--blur-radius));
   /* -webkit-backdrop-filter: blur(0.8rem); */
-  background-color: var(--background-color);
+  background-color: transparent;
   color: var(--text-color);
   border: none;
   cursor: pointer;
