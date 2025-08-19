@@ -2,6 +2,7 @@ import { Link } from "react-router";
 import Text from "../../../components/text/Text";
 import classes from "./LandingPage.module.css";
 import { useEffect, useState } from "react";
+import Button from "../../../components/button/Button";
 
 function LandingPage() {
   const [step, setStep] = useState(0);
@@ -26,7 +27,7 @@ function LandingPage() {
 
   return (
     <div className={classes.landing}>
-      {step === 0 && <Text onClick={handleClick}>작성 시작</Text>}
+      {step === 0 && <Button onClick={handleClick}>작성 시작</Button>}
       {step > 0 && (
         <div className={classes.textGroup}>
           <div className={classes.left}>
@@ -37,7 +38,7 @@ function LandingPage() {
                   step >= 2 ? classes["fade-in"] : classes.hidden
                 }`}
               >
-                <Text>오늘 있었던 일 작성</Text>
+                <Button>오늘 있었던 일 작성</Button>
               </Link>
             )}
           </div>
@@ -61,7 +62,7 @@ function LandingPage() {
                   step >= 4 ? classes["fade-in"] : classes.hidden
                 }`}
               >
-                <Text>마음 속 큰 고민 작성</Text>
+                <Button>마음 속 큰 고민 작성</Button>
               </Link>
             )}
           </div>
