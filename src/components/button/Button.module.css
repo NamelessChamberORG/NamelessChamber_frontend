@@ -1,7 +1,7 @@
 .button {
+  /* 기존 스타일 */
   border-radius: 0.4rem;
   filter: blur(var(--blur-radius));
-  /* -webkit-backdrop-filter: blur(0.8rem); */
   background-color: transparent;
   color: var(--text-color);
   border: none;
@@ -11,11 +11,21 @@
   line-height: var(--font-p1-line-height);
   letter-spacing: var(--font-p1-letter-spacing);
   padding: 1.2rem 0.8rem;
-  border-radius: 0.4rem;
-  transition: background-color 0.2s ease, filter 0.2s ease, border 0.2s ease;
   display: flex;
   align-items: center;
   justify-content: center;
+
+  /* 등장 애니메이션 기본값 (커스텀 가능) */
+  --reveal-delay: 0ms;
+  --reveal-duration: 800ms;
+  --reveal-easing: ease-in;
+
+  /* 배경/보더 전환 + 등장 전환을 함께 */
+  transition: background-color 0.2s ease, border 0.2s ease,
+    filter var(--reveal-duration) var(--reveal-easing) var(--reveal-delay),
+    opacity var(--reveal-duration) var(--reveal-easing) var(--reveal-delay),
+    transform var(--reveal-duration) var(--reveal-easing) var(--reveal-delay);
+  will-change: opacity, transform, filter;
 }
 
 .button:hover,
@@ -23,4 +33,33 @@
   filter: none;
   background-color: var(--background-secondary-color);
   border: 0.1rem solid var(--border-color);
+}
+
+/* 등장 애니메이션 상태 */
+.hidden {
+  opacity: 0;
+  transform: translateY(8px) scale(0.98);
+  /* 살짝 흐리게 시작하면 Smart animate 느낌 */
+  filter: blur(0.4rem);
+}
+
+.revealed {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  filter: none;
+}
+
+/* 접근성: 모션 최소화 존중 */
+@media (prefers-reduced-motion: reduce) {
+  .button {
+    transition: background-color 0.2s ease, border 0.2s ease;
+  }
+  .hidden {
+    opacity: 0;
+    transform: none;
+    filter: none;
+  }
+  .revealed {
+    opacity: 1;
+  }
 }
