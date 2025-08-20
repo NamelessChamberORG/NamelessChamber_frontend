@@ -1,7 +1,14 @@
 import CardList from "../components/card/CardList";
+import { useDiaries } from "../hooks/useDiaries";
 import classes from "./SubmitDiaryPage.module.css";
 
 function SubmitDiaryPage() {
+  const { data: diaries, isLoading } = useDiaries();
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <div className={classes.submit}>
       <img
@@ -9,7 +16,7 @@ function SubmitDiaryPage() {
         alt="nameless_chamber_logo"
         style={{ width: "5rem" }}
       ></img>
-      <CardList />
+      <CardList diaries={diaries ?? []} />
     </div>
   );
 }

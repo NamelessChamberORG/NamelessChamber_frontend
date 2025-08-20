@@ -1,22 +1,24 @@
 import type { ComponentPropsWithoutRef } from "react";
 import classes from "./Card.module.css";
-import TagList from "../tag/TagList";
+// import TagList from "../tag/TagList";
 import Title from "../title/Title";
 import Count from "../count/Count";
 
 type CardProps = ComponentPropsWithoutRef<"li"> & {
   title: string;
-  tags: string[];
-  authorType: "self" | "other";
+  tags?: string[];
+  isAuthor?: boolean;
   textCount: number;
 };
 
-const Card = ({ title, tags, authorType, textCount, ...props }: CardProps) => {
+const Card = ({ title, textCount, isAuthor, ...props }: CardProps) => {
+  const authorType = isAuthor ? "self" : "other";
+
   return (
     <li className={`${classes.card} ${classes[authorType]}`} {...props}>
       <Title authorType={authorType}>{title}</Title>
       <div>
-        <TagList tags={tags} />
+        {/* <TagList tags={tags} /> */}
         {authorType == "self" && <Count>{textCount}</Count>}
       </div>
     </li>
