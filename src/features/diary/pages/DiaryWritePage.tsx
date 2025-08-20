@@ -2,14 +2,14 @@ import { useRef, useState, type ChangeEvent } from "react";
 import Form, { type FormHandle } from "../../../components/form/Form";
 import TextArea from "../components/text/TextArea";
 import TextCount from "../components/text/TextCount";
-import classes from "./WriteDiaryPage.module.css";
+import classes from "./DiaryWritePage.module.css";
 import Button from "../../../components/button/Button";
 import { useNavigate } from "react-router";
 import Modal from "../../../components/modal/Modal";
 import { useToast } from "../../../contexts/ToastContext";
 import FullscreenToggleButton from "../../../components/fullsrceen/FullscreenToggleButton";
 
-function WriteDiaryPage() {
+function DiaryWritePage() {
   const formRef = useRef<FormHandle>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -108,4 +108,4 @@ function WriteDiaryPage() {
   );
 }
 
-export default WriteDiaryPage;
+export default DiaryWritePage;

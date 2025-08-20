@@ -1,8 +1,8 @@
 import CardList from "../components/card/CardList";
 import { useDiaries } from "../hooks/useDiaries";
-import classes from "./SubmitDiaryPage.module.css";
+import classes from "./DiaryListPage.module.css";
 
-function SubmitDiaryPage() {
+function DiaryListPage() {
   const { data: diaries, isLoading } = useDiaries();
 
   if (isLoading) {
@@ -21,4 +21,4 @@ function SubmitDiaryPage() {
   );
 }
 
-export default SubmitDiaryPage;
+export default DiaryListPage;
