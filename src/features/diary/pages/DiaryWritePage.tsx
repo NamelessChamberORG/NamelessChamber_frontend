@@ -8,27 +8,50 @@ import { useNavigate } from "react-router";
 import Modal from "../../../components/modal/Modal";
 import { useToast } from "../../../contexts/ToastContext";
 import FullscreenToggleButton from "../../../components/fullsrceen/FullscreenToggleButton";
+import { useCreateDiary } from "../hooks/useCreateDiary";
+
+const FORM_ID = "diary-form";
 
 function DiaryWritePage() {
   const formRef = useRef<FormHandle>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
-  const [count, setCount] = useState<number>(0);
+  const [count, setCount] = useState(0);
   const [showConfirm, setShowConfirm] = useState(false);
-  const hiddenSubmitRef = useRef<HTMLButtonElement>(null);
   const [submitting, setSubmitting] = useState(false);
-  const { showToast } = useToast();
+  const [title, setTitle] = useState("");
 
+  const { showToast } = useToast();
   const navigate = useNavigate();
+  const { mutateAsync } = useCreateDiary();
 
   async function handleSave(value: unknown) {
     if (submitting) return;
+
+    const v = (value ?? {}) as Record<string, FormDataEntryValue>;
+    const title = typeof v.title === "string" ? v.title : "";
+    const content = typeof v.content === "string" ? v.content : "";
+
+    if (!content.trim()) {
+      showToast("내용을 입력해주세요.", "info");
+      return;
+    }
+    if (!title.trim()) {
+      showToast("제목을 입력해주세요.", "info");
+      return;
+    }
+
     try {
       setSubmitting(true);
 
-      console.log(value);
+      await mutateAsync({
+        title,
+        content,
+      });
 
       formRef.current?.clear();
+      setTitle("");
+      setCount(0);
 
       navigate("/diary/submit", {
         replace: true,
@@ -45,14 +68,8 @@ function DiaryWritePage() {
     }
   }
 
-  function handleTextChange(event: ChangeEvent<HTMLTextAreaElement>) {
-    const text = event.target.value;
-    setCount(text.length);
-  }
-
-  function confirmSubmit() {
-    setShowConfirm(false);
-    hiddenSubmitRef.current?.click();
+  function handleTextChange(e: ChangeEvent<HTMLTextAreaElement>) {
+    setCount(e.target.value.length);
   }
 
   return (
@@ -64,16 +81,13 @@ function DiaryWritePage() {
         />
       </div>
 
-      <Form onSave={handleSave} ref={formRef}>
-        <TextArea onChange={handleTextChange} disabled={submitting} />
-
-        {/* 실제 제출은 hidden 버튼이 담당 */}
-        <button
-          ref={hiddenSubmitRef}
-          type="submit"
-          style={{ display: "none" }}
-          aria-hidden="true"
-          tabIndex={-1}
+      <Form id={FORM_ID} onSave={handleSave} ref={formRef}>
+        <TextArea
+          name="content"
+          onChange={handleTextChange}
+          disabled={submitting}
+          required
+          aria-describedby="submit-title"
         />
 
         <div>
@@ -91,17 +105,35 @@ function DiaryWritePage() {
 
       <TextCount count={count} />
 
-      {/* 확인 모달 */}
       <Modal isOpen={showConfirm} onClose={() => setShowConfirm(false)}>
         <Modal.Title id="submit-title">
           작성하신 일기를 정리해주세요
         </Modal.Title>
 
-        <Modal.Textarea placeholder="제목을 작성하기..." />
+        <Modal.Textarea
+          name="title"
+          form={FORM_ID}
+          placeholder="제목을 작성하기..."
+          value={title}
+          onChange={(e: ChangeEvent<HTMLTextAreaElement>) =>
+            setTitle(e.target.value)
+          }
+          required
+          disabled={submitting}
+        />
 
         <Modal.Actions>
-          <button onClick={() => setShowConfirm(false)}>닫기</button>
-          <button onClick={confirmSubmit}>완료하기</button>
+          <button type="button" onClick={() => setShowConfirm(false)}>
+            닫기
+          </button>
+          {/* 실제 폼 제출 트리거 */}
+          <button
+            type="submit"
+            form={FORM_ID}
+            disabled={submitting || !title.trim()}
+          >
+            완료하기
+          </button>
         </Modal.Actions>
       </Modal>
     </div>
