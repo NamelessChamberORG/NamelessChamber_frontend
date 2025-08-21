@@ -52,7 +52,7 @@ const Button = ({
 
   return (
     <button {...props} className={combinedClassName} style={style}>
-      {children}
+      <span className={classes.content}>{children}</span>
     </button>
   );
 };
