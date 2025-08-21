@@ -25,7 +25,7 @@
   /* p1 style */
   font-weight: var(--p1-font-weight);
   font-size: var(--p1-font-size);
-  line-height: var(--font-p1-height);
+  line-height: var(--font-p1-line-height);
   letter-spacing: var(--p1-font-letter-spacing);
 }
 

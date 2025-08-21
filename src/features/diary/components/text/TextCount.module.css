@@ -1,5 +1,5 @@
 .textCount {
-  color: #fff;
+  color: var(--text-secondary-color);
   font-weight: var(--p1-font-weight);
   font-size: var(--p1-font-size);
   line-height: var(--p1-font-line-height);
