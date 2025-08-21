@@ -34,10 +34,10 @@ html {
   --color-gray-3: #878787;
 
   /* Typography tokens */
-  --font-p1-weight: 200; /* ExtraLight */
-  --font-p1-size: 18px;
-  --font-p1-line-height: 150%;
-  --font-p1-letter-spacing: 0;
+  --p1-font-weight: 200; /* ExtraLight */
+  --p1-font-size: 18px;
+  --p1-font-line-height: 150%;
+  --p1-font-letter-spacing: 0;
 
   --t1-font-family: Pretendard, sans-serif;
   --t1-font-weight: 400;
