@@ -18,8 +18,7 @@ const Card = ({ title, textCount, isAuthor, ...props }: CardProps) => {
     <li className={`${classes.card} ${classes[authorType]}`} {...props}>
       <Title authorType={authorType}>{title}</Title>
       <div>
-        {/* <TagList tags={tags} /> */}
-        {authorType == "self" && <Count>{textCount}</Count>}
+        <Count className={classes.count}>{textCount}</Count>
       </div>
     </li>
   );

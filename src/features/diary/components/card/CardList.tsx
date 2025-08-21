@@ -12,13 +12,12 @@ const CardList = ({ diaries }: CardListProps) => {
 
   return (
     <ul className={classes.cardList}>
-      {diaries.map((diary) => (
+      {diaries.map((diary, idx) => (
         <Card
           onClick={() => navigate(`/diary/${diary.id}`)}
-          key={diary.title}
+          key={diary.id}
           title={diary.title}
-          // tags={diary.tags}
-          isAuthor={Number(diary.id) === diaries.length - 1}
+          isAuthor={idx === diaries.length - 1}
           textCount={diary.contentLength}
         />
       ))}
