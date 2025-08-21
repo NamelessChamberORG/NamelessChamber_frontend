@@ -1,26 +1,82 @@
 .button {
   border-radius: 0.4rem;
-  filter: blur(var(--blur-radius));
-  /* -webkit-backdrop-filter: blur(0.8rem); */
-  background-color: var(--background-color);
+  background-color: transparent;
   color: var(--text-color);
   border: none;
   cursor: pointer;
-  font-weight: var(--font-p1-weight);
-  font-size: var(--font-p1-size);
-  line-height: var(--font-p1-line-height);
-  letter-spacing: var(--font-p1-letter-spacing);
+  font-weight: var(--p1-font-weight);
+  font-size: var(--p1-font-size);
+  line-height: var(--p1-font-line-height);
+  letter-spacing: var(--p1-font-letter-spacing);
   padding: 1.2rem 0.8rem;
-  border-radius: 0.4rem;
-  transition: background-color 0.2s ease, filter 0.2s ease, border 0.2s ease;
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
+
+  --reveal-delay: 0ms;
+  --reveal-duration: 800ms;
+  --reveal-easing: ease-in;
+
+  transition: background-color 0.2s ease, border 0.2s ease,
+    opacity var(--reveal-duration) var(--reveal-easing) var(--reveal-delay),
+    transform var(--reveal-duration) var(--reveal-easing) var(--reveal-delay);
+  will-change: opacity, transform;
+}
+
+.content {
+  filter: blur(var(--blur-radius));
+  transition: filter 200ms ease;
+  will-change: filter;
+}
+
+.hidden {
+  opacity: 0;
+  transform: translateY(8px) scale(0.98);
+}
+
+.revealed {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.button:hover .content,
+.hover-style .content {
+  filter: none;
 }
 
 .button:hover,
 .hover-style {
-  filter: none;
   background-color: var(--background-secondary-color);
   border: 0.1rem solid var(--border-color);
+}
+
+/* === 포커스 가시성 (접근성) === */
+.button:focus-visible {
+  outline: 0.2rem solid color-mix(in oklab, var(--text-color) 60%, transparent);
+  outline-offset: 0.2rem;
+  border-radius: 0.6rem;
+}
+
+.button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.button svg,
+.button img,
+.button .icon {
+  display: block;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .button {
+    transition: background-color 0.2s ease, border 0.2s ease;
+  }
+  .hidden {
+    opacity: 0;
+    transform: none;
+  }
+  .revealed {
+    opacity: 1;
+  }
 }

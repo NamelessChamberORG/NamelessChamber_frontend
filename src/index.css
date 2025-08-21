@@ -1,13 +1,16 @@
 @import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css");
 
+/* Reset */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
+/* Root & HTML */
 html {
   font-size: 62.5%;
+  background: #262524;
 }
 
 :root {
@@ -15,54 +18,113 @@ html {
     BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI",
     "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji",
     "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
-  color: var(--text-color);
-  line-height: 1.5;
-  font-weight: 400;
 
+  /* Text */
+  --text-color: rgba(217, 217, 217, 0.8);
+  --text-secondary-color: rgba(217, 217, 217, 0.4);
+
+  /* Surfaces */
   --background-color: #262524;
   --background-secondary-color: rgba(217, 217, 217, 0.04);
   --border-color: rgba(217, 217, 217, 0.08);
-  --text-color: rgba(217, 217, 217, 0.8);
-  --text-secondary-color: rgba(217, 217, 217, 0.4);
+
+  /* Palette */
   --color-green: #556028;
   --color-gray-2: #d9d9d9;
   --color-gray-3: #878787;
-  /* === P1 Style Tokens === */
-  --font-p1-weight: 200; /* ExtraLight = 200 */
-  --font-p1-size: 18px;
-  --font-p1-line-height: 150%;
-  --font-p1-letter-spacing: 0;
-  --header-height: 12rem;
-  /* === T1 Style Tokens === */
+
+  /* Typography tokens */
+  --p1-font-weight: 200; /* ExtraLight */
+  --p1-font-size: 18px;
+  --p1-font-line-height: 150%;
+  --p1-font-letter-spacing: 0;
+
   --t1-font-family: Pretendard, sans-serif;
   --t1-font-weight: 400;
   --t1-font-size: 24px;
   --t1-line-height: 1.5;
   --t1-letter-spacing: 0.04em;
-  /* === C1 Style Tokens === */
+
   --c1-font-family: "Inter", sans-serif;
   --c1-font-weight: 400;
   --c1-font-size: 16px;
   --c1-line-height: normal;
   --c1-letter-spacing: 0.04em;
-  /* === Blur === */
+
+  /* Layout */
+  --header-height: 12rem;
+
+  /* Effects */
   --blur-radius: 2px;
+
+  /* Layers */
+  --z-bg: 0;
+  --z-content: 1;
+  --z-header: 2;
+  --z-fab: 3;
+  --z-modal: 1000;
+
+  /* Global text rendering */
+  color: var(--text-color);
+  line-height: 1.5;
+  font-weight: 400;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* Body */
 body {
   font-size: 1.8rem;
-  margin: 0;
   min-width: 320px;
   min-height: 100vh;
-  background: var(--background-color);
+  position: relative;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-bg);
+  pointer-events: none;
+
+  background:
+    /* 작은 노이즈 */ url("/noise-light.png") repeat 0 0 / 30px
+      30px,
+    /* 큰 노이즈 */ url("/noise-light.png") repeat 0 0 / 240px 240px,
+    /* 그라디언트 */
+      linear-gradient(
+        108deg,
+        #2a2928 0%,
+        #262524 45%,
+        #242322 55%,
+        #262524 100%
+      ),
+    repeating-linear-gradient(
+      108deg,
+      rgba(0, 0, 0, 0.015) 0px,
+      rgba(0, 0, 0, 0.015) 1px,
+      rgba(255, 255, 255, 0.015) 1px,
+      rgba(255, 255, 255, 0.015) 2px
+    );
+  background-repeat: repeat, repeat, no-repeat, repeat;
+  background-size: 30px 30px, 240px 240px, cover, auto;
+  opacity: 1;
+
+  will-change: transform;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  contain: paint;
+}
+
+#root,
+.app {
+  position: relative;
+  z-index: var(--z-content);
 }
 
 .app {
-  width: 100%;
-  height: 100%;
+  min-height: 100%;
   display: flex;
   flex-direction: column;
   padding-top: var(--header-height);
@@ -76,10 +138,9 @@ body {
   align-items: center;
 }
 
-/* 본문 컨테이너: 여기만 1280 고정 */
 .container {
   width: 100%;
   max-width: 1280px;
   margin: 0 auto;
-  padding-inline: 16px; /* 좌우 여백 */
+  padding-inline: 16px;
 }

@@ -1,0 +1,17 @@
+.wrap {
+  min-height: 100dvh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: transparent;
+  color: rgba(217, 217, 217, 0.72);
+  gap: 2rem;
+}
+
+.message {
+  color: var(--color-gray-2);
+  font-weight: var(--p1-font-weight);
+  font-size: var(--p1-font-size);
+  line-height: var(--p1-font-line-height);
+  letter-spacing: var(--p1-font-letter-spacing);
+}

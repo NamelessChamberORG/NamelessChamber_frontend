@@ -1,10 +1,10 @@
 import { createBrowserRouter } from "react-router";
 import RootLayout from "../layouts/RootLayout";
-import WriteDiaryPage from "../features/diary/pages/WriteDiaryPage";
+import DiaryWritePage from "../features/diary/pages/DiaryWritePage";
 import LandingPage from "../features/diary/pages/LandingPage";
-import SubmitDiaryPage from "../features/diary/pages/SubmitDiaryPage";
+import DiaryListPage from "../features/diary/pages/DiaryListPage";
 import DiaryDetailPage from "../features/diary/pages/DiaryDetailPage";
-import PostSubmitThanks from "../features/diary/pages/PostSubmitThanks";
+import DiaryPostSubmitPage from "../features/diary/pages/DiaryPostSubmitPage";
 
 const router = createBrowserRouter([
   {
@@ -17,7 +17,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/diary",
-        element: <SubmitDiaryPage />,
+        element: <DiaryListPage />,
       },
       {
         path: "/diary/:id",
@@ -27,11 +27,11 @@ const router = createBrowserRouter([
   },
   {
     path: "/diary/submit",
-    element: <PostSubmitThanks />,
+    element: <DiaryPostSubmitPage />,
   },
   {
     path: "/diary/new",
-    element: <WriteDiaryPage />,
+    element: <DiaryWritePage />,
   },
 ]);
 

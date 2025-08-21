@@ -1,5 +1,5 @@
 .textarea {
-  background-color: var(--background-color);
+  background-color: transparent;
   color: var(--text--color);
   border: none;
   width: 100%;
@@ -7,9 +7,9 @@
   font-size: 0.8rem;
   padding: 1rem;
   outline: none;
-  font-weight: var(--font-p1-weight);
-  font-size: var(--font-p1-size);
-  line-height: var(--font-p1-line-height);
-  letter-spacing: var(--font-p1-letter-spacing);
+  font-weight: var(--p1-font-weight);
+  font-size: var(--p1-font-size);
+  line-height: var(--p1-font-line-height);
+  letter-spacing: var(--p1-font-letter-spacing);
   caret-color: #f2d899;
 }

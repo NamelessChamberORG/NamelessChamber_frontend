@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import classes from "./PostSubmitThanks.module.css";
+import classes from "./DiaryPostSubmitPage.module.css";
 import FullscreenToggleButton from "../../../components/fullsrceen/FullscreenToggleButton";
 
 type State = {
@@ -9,7 +9,7 @@ type State = {
   message?: string;
 };
 
-function PostSubmitThanks() {
+function DiaryPostSubmitPage() {
   const nav = useNavigate();
   const location = useLocation();
   const state = (location.state || {}) as State;
@@ -41,4 +41,4 @@ function PostSubmitThanks() {
   );
 }
 
-export default PostSubmitThanks;
+export default DiaryPostSubmitPage;

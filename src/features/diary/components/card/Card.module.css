@@ -85,3 +85,33 @@
 .card.other:hover {
   background-color: rgba(135, 135, 135, 0.1);
 }
+
+.card.self .count {
+  opacity: 1;
+  transform: none;
+  pointer-events: auto;
+}
+
+.card.other .count {
+  opacity: 0;
+  transform: translateY(4px);
+  pointer-events: none; /* 마우스 이벤트 막기 */
+  transition: opacity 180ms ease, transform 180ms ease, filter 180ms ease;
+  filter: blur(2px);
+}
+
+/* 호버 시(마우스) + 포커스 포함(키보드 접근성) */
+.card.other:hover .count,
+.card.other:focus-within .count {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+  filter: blur(0);
+}
+
+/* 모션 최소화 선호 사용자 배려 */
+@media (prefers-reduced-motion: reduce) {
+  .card.other .count {
+    transition: none;
+  }
+}
