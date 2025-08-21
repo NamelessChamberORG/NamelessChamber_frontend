@@ -57,6 +57,13 @@ html {
   /* Effects */
   --blur-radius: 2px;
 
+  /* Layers */
+  --z-bg: 0;
+  --z-content: 1;
+  --z-header: 2;
+  --z-fab: 3;
+  --z-modal: 1000;
+
   /* Global text rendering */
   color: var(--text-color);
   line-height: 1.5;
@@ -78,7 +85,7 @@ body::before {
   content: "";
   position: fixed;
   inset: 0;
-  z-index: 0;
+  z-index: var(--z-bg);
   pointer-events: none;
 
   background:
@@ -110,9 +117,13 @@ body::before {
   contain: paint;
 }
 
+#root,
 .app {
   position: relative;
-  z-index: 1;
+  z-index: var(--z-content);
+}
+
+.app {
   min-height: 100%;
   display: flex;
   flex-direction: column;
