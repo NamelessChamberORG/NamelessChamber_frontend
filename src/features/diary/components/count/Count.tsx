@@ -3,9 +3,9 @@ import classes from "./Count.module.css";
 
 type CountProps = ComponentPropsWithRef<"p">;
 
-const Count = ({ children, ...props }: CountProps) => {
+const Count = ({ className = "", children, ...props }: CountProps) => {
   return (
-    <p className={classes.count} {...props}>
+    <p className={`${classes.count} ${className}`} {...props}>
       {children}자
     </p>
   );
