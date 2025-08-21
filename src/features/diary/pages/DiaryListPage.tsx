@@ -5,10 +5,6 @@ import classes from "./DiaryListPage.module.css";
 function DiaryListPage() {
   const { data: diaries, isLoading } = useDiaries();
 
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
-
   return (
     <div className={classes.submit}>
       <img
@@ -16,7 +12,7 @@ function DiaryListPage() {
         alt="nameless_chamber_logo"
         style={{ width: "5rem" }}
       ></img>
-      <CardList diaries={diaries ?? []} />
+      <CardList diaries={diaries ?? []} isLoading={isLoading} />
     </div>
   );
 }
