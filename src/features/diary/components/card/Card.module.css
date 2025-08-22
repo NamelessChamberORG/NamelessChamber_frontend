@@ -7,9 +7,10 @@
   cursor: pointer;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
+  justify-content: space-between;
   align-items: flex-start;
-  gap: 3rem;
+  min-height: 16rem;
+  /* gap: 3rem; */
   background-color: rgba(41, 40, 39, 0.6);
   transition: background-color 0.3s, color 0.3s;
 
