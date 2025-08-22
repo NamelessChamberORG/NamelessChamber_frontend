@@ -1,33 +1,22 @@
-import { useState, useEffect, useCallback } from "react";
+import { useMemo } from "react";
+import { useFullscreenState } from "./useFullscreenState";
 
 export function useFullscreen(
   targetRef?:
     | React.RefObject<HTMLElement | null>
-    | React.MutableRefObject<HTMLElement | null>
+    | React.MutableRefObject<HTMLElement | null>,
+  forceDocument = true
 ) {
-  const [isFullscreen, setIsFullscreen] = useState(false);
+  const { isFullscreen, enter, exit, toggle } = useFullscreenState();
 
-  const toggle = useCallback(() => {
-    const elem = (targetRef?.current ??
-      document.documentElement) as HTMLElement;
-
-    if (!document.fullscreenElement) {
-      elem.requestFullscreen().catch((err) => {
-        console.error("전체 화면 진입 실패:", err);
-      });
-    } else {
-      document.exitFullscreen().catch((err) => {
-        console.error("전체 화면 종료 실패:", err);
-      });
-    }
-  }, [targetRef]);
-
-  useEffect(() => {
-    const handleChange = () =>
-      setIsFullscreen(Boolean(document.fullscreenElement));
-    document.addEventListener("fullscreenchange", handleChange);
-    return () => document.removeEventListener("fullscreenchange", handleChange);
-  }, []);
-
-  return { isFullscreen, toggle };
+  return useMemo(() => {
+    const pickTarget = () =>
+      forceDocument ? undefined : targetRef?.current ?? undefined;
+    return {
+      isFullscreen,
+      enter: () => enter(pickTarget()),
+      exit,
+      toggle: () => toggle(pickTarget()),
+    };
+  }, [isFullscreen, enter, exit, toggle, targetRef, forceDocument]);
 }
