@@ -4,6 +4,7 @@
   font-size: var(--t1-font-size);
   line-height: var(--t1-line-height);
   letter-spacing: var(--t1-letter-spacing);
+  text-align: left;
 }
 
 .title.other {
