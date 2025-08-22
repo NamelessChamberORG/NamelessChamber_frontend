@@ -5,7 +5,7 @@ import {
   getServerSnapshot,
   enterFullscreen,
   exitFullscreen,
-} from "./fullscreenStore";
+} from "../lib/fullscreen/fullscreenStore";
 
 export function useFullscreenState() {
   const isFullscreen = useSyncExternalStore(

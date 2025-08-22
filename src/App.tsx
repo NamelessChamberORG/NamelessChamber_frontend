@@ -2,7 +2,7 @@ import "./App.css";
 import { RouterProvider } from "react-router";
 import router from "./routes";
 import { useEffect } from "react";
-import { attachGlobalFullscreenListenersOnce } from "./hooks/fullscreenStore";
+import { attachGlobalFullscreenListenersOnce } from "./lib/fullscreen/fullscreenStore";
 
 function App() {
   useEffect(() => {
