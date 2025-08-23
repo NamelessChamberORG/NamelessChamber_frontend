@@ -4,3 +4,11 @@
   gap: 3rem;
   width: 100%;
 }
+
+.empty {
+  grid-column: 1 / -1;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
