@@ -16,6 +16,7 @@ function DiaryWritePage() {
   const formRef = useRef<FormHandle>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
+  const [content, setContent] = useState("");
   const [count, setCount] = useState(0);
   const [showConfirm, setShowConfirm] = useState(false);
   const [submitting, setSubmitting] = useState(false);
@@ -23,36 +24,13 @@ function DiaryWritePage() {
 
   const { showToast } = useToast();
   const navigate = useNavigate();
-  const { mutateAsync } = useCreateDiary();
 
-  async function handleSave(value: unknown) {
-    if (submitting) return;
-
-    const v = (value ?? {}) as Record<string, FormDataEntryValue>;
-    const title = typeof v.title === "string" ? v.title : "";
-    const content = typeof v.content === "string" ? v.content : "";
-
-    if (!content.trim()) {
-      showToast("내용을 입력해주세요.", "info");
-      return;
-    }
-    if (!title.trim()) {
-      showToast("제목을 입력해주세요.", "info");
-      return;
-    }
-
-    try {
-      setSubmitting(true);
-
-      await mutateAsync({
-        title,
-        content,
-      });
-
+  const { mutateAsync } = useCreateDiary({
+    onSuccess: () => {
       formRef.current?.clear();
       setTitle("");
+      setContent("");
       setCount(0);
-
       navigate("/diary/submit", {
         replace: true,
         state: {
@@ -61,16 +39,38 @@ function DiaryWritePage() {
           message: "작성해주신 소중한 마음은 소중히 보관할게요",
         },
       });
-    } catch (err) {
-      console.error("저장 실패:", err);
-      showToast("무명 일기 저장에 실패했습니다. 다시 시도해주세요", "cancel");
-      setTitle("");
+    },
+  });
+
+  async function handleSave() {
+    if (submitting) return;
+
+    if (content.trim().length < 100) {
+      showToast("조금 더 이야기해주세요. 100자 이상 입력해주세요.", "info");
+      return;
+    }
+
+    try {
+      setSubmitting(true);
+      await mutateAsync({ title: title.trim(), content: content.trim() });
+    } finally {
       setSubmitting(false);
+      setShowConfirm(false);
     }
   }
 
+  function handleOpenConfirm() {
+    if (content.trim().length < 100) {
+      showToast("조금 더 이야기해주세요. 100자 이상 입력해주세요.", "info");
+      return;
+    }
+    setShowConfirm(true);
+  }
+
   function handleTextChange(e: ChangeEvent<HTMLTextAreaElement>) {
-    setCount(e.target.value.length);
+    const val = e.target.value;
+    setContent(val);
+    setCount(val.length);
   }
 
   return (
@@ -95,7 +95,7 @@ function DiaryWritePage() {
           {count > 0 && (
             <Button
               type="button"
-              onClick={() => setShowConfirm(true)}
+              onClick={() => handleOpenConfirm()}
               disabled={submitting}
             >
               {submitting ? "보관 중..." : "무명소에 흘러보내기"}
@@ -119,7 +119,6 @@ function DiaryWritePage() {
           onChange={(e: ChangeEvent<HTMLTextAreaElement>) =>
             setTitle(e.target.value)
           }
-          required
           disabled={submitting}
         />
 
