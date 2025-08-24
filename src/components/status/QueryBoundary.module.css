@@ -1,0 +1,74 @@
+.listSkeleton {
+  display: grid;
+  gap: 1.2rem;
+}
+.cardSkeleton {
+  list-style: none;
+  height: 6.4rem;
+  border-radius: 0.8rem;
+  background: rgba(217, 217, 217, 0.06);
+  position: relative;
+  overflow: hidden;
+}
+.cardSkeleton::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.08),
+    transparent
+  );
+  animation: shimmer 1.1s infinite;
+}
+
+.detailSkeleton {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+.line {
+  height: 1.6rem;
+  border-radius: 0.4rem;
+  background: rgba(217, 217, 217, 0.08);
+  position: relative;
+  overflow: hidden;
+}
+.lineShort {
+  composes: line;
+  width: 60%;
+}
+.line::after,
+.lineShort::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.08),
+    transparent
+  );
+  animation: shimmer 1.1s infinite;
+}
+
+.error {
+  margin-top: 1.2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  align-items: center;
+}
+.empty {
+  opacity: 0.7;
+  padding: 0.8rem 0;
+}
+
+@keyframes shimmer {
+  to {
+    transform: translateX(100%);
+  }
+}

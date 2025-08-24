@@ -1,6 +1,6 @@
 .toast {
   position: relative;
-  width: 35rem;
+  width: 45rem;
   background: linear-gradient(
     90deg,
     #262524e6 0%,
@@ -39,7 +39,7 @@
   width: var(--glow-size, 212px);
   height: var(--glow-size, 212px);
   pointer-events: none;
-  z-index: 0;
+  z-index: var(--z-toast);
   border-radius: 50%;
 }
 
