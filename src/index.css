@@ -63,6 +63,7 @@ html {
   --z-header: 2;
   --z-fab: 3;
   --z-modal: 1000;
+  --z-toast: 1100;
 
   /* Global text rendering */
   color: var(--text-color);
