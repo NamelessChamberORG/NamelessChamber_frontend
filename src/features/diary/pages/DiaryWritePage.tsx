@@ -64,6 +64,7 @@ function DiaryWritePage() {
     } catch (err) {
       console.error("저장 실패:", err);
       showToast("무명 일기 저장에 실패했습니다. 다시 시도해주세요", "cancel");
+      setTitle("");
       setSubmitting(false);
     }
   }
