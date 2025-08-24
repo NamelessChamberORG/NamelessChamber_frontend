@@ -1,9 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
 import { diaryApi } from "../api/diary";
 
-export function useDiaries() {
+export function useDiary(id: string) {
   return useQuery({
-    queryKey: ["diaries"],
-    queryFn: diaryApi.getAll,
+    queryKey: ["diary", id],
+    queryFn: () => diaryApi.getById(id),
   });
 }

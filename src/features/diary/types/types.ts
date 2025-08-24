@@ -18,4 +18,14 @@ export type DiaryPreview = {
   createdAt?: string;
 };
 
+export type DiaryDetail = {
+  id: string;
+  title: string;
+  content: string;
+  likes: number;
+  views: number;
+  createdAt: string;
+};
+
 export type GetDiariesResponse = ApiResponse<DiaryPreview[]>;
+export type GetDiaryResponse = ApiResponse<DiaryDetail>;
