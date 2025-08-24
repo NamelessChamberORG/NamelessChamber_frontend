@@ -20,7 +20,9 @@ function DiaryDetailPage() {
 
   return (
     <section className={`${classes.diary} ${classes.detail}`}>
-      <Paragraph>곰곰이 시간을 들여서 다른 고민을 읽어보세요</Paragraph>
+      <Paragraph className={classes.intro}>
+        곰곰이 시간을 들여서 다른 고민을 읽어보세요
+      </Paragraph>
 
       <div className={classes.lines}>
         {paragraphs.map((p, i) => (
