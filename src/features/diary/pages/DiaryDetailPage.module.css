@@ -60,6 +60,16 @@
   );
   animation: shimmer 1.1s infinite;
 }
+
+.closing {
+  display: inline-flex;
+  padding: 8rem 0;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 2.4rem;
+}
+
 @keyframes shimmer {
   to {
     transform: translateX(100%);
