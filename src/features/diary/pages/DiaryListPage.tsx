@@ -16,7 +16,7 @@ function DiaryListPage() {
   const isEmpty = !isLoading && !isError && diaries.length === 0;
 
   return (
-    <div className={classes.submit}>
+    <div className={classes.list}>
       <QueryBoundary
         isError={isError}
         error={error}
