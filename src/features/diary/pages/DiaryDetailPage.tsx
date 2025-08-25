@@ -4,9 +4,9 @@ import Paragraph from "../../../components/paragraph/Paragraph";
 import classes from "./DiaryDetailPage.module.css";
 import { useMemo } from "react";
 import { useDiary } from "../hooks/useDiary";
-import { useParams, Navigate, Link } from "react-router";
+import { useParams, Navigate } from "react-router";
 import { formatDiaryTime } from "../../../lib/diary/formatDiaryTime";
-import Button from "../../../components/button/Button";
+import StoryPrompt from "../components/storyPrompt/StoryPrompt";
 
 function DetailContent({
   content,
@@ -42,15 +42,13 @@ function DetailContent({
                 {p}
               </FadeInOnView>
             ))}
-            <div className={classes.closing}>
-              <div>
-                <Paragraph>또 하나의 고백을 만나기 위해,</Paragraph>
-                <Paragraph>당신의 이야기를 한 번 더 흘려보내주세요</Paragraph>
-              </div>
-              <Link to="/diary/new" className={classes.link}>
-                <Button>한 번 더 흘려 보내기</Button>
-              </Link>
-            </div>
+            <StoryPrompt
+              lines={[
+                "또 하나의 고백을 만나기 위해,",
+                "당신의 이야기를 한 번 더 흘려보내주세요",
+              ]}
+              to="/diary/new"
+            />
           </>
         ) : (
           <div className={classes.empty} role="status" aria-live="polite">
