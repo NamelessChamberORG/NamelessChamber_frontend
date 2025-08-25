@@ -1,10 +1,11 @@
+// DiaryWritePage.tsx
 import { useRef, useState, type ChangeEvent } from "react";
 import Form, { type FormHandle } from "../../../components/form/Form";
 import TextArea from "../components/text/TextArea";
 import TextCount from "../components/text/TextCount";
 import classes from "./DiaryWritePage.module.css";
 import Button from "../../../components/button/Button";
-import { useNavigate } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import Modal from "../../../components/modal/Modal";
 import { useToast } from "../../../contexts/ToastContext";
 import FullscreenToggleButton from "../../../components/fullsrceen/FullscreenToggleButton";
@@ -25,7 +26,12 @@ function DiaryWritePage() {
   const { showToast } = useToast();
   const navigate = useNavigate();
 
-  const { mutateAsync } = useCreateDiary({
+  const { type } = useParams<{ type: string }>();
+  const upper = type?.toUpperCase();
+  const diaryType: "SHORT" | "LONG" =
+    upper === "SHORT" || upper === "LONG" ? upper : "SHORT";
+
+  const { mutateAsync } = useCreateDiary(diaryType, {
     onSuccess: () => {
       formRef.current?.clear();
       setTitle("");
@@ -52,6 +58,7 @@ function DiaryWritePage() {
 
     try {
       setSubmitting(true);
+      // type은 훅이 주입하므로 여기서는 title/content만 전달
       await mutateAsync({ title: title.trim(), content: content.trim() });
     } finally {
       setSubmitting(false);
@@ -95,7 +102,7 @@ function DiaryWritePage() {
           {count > 0 && (
             <Button
               type="button"
-              onClick={() => handleOpenConfirm()}
+              onClick={handleOpenConfirm}
               disabled={submitting}
             >
               {submitting ? "보관 중..." : "무명소에 흘러보내기"}
@@ -126,7 +133,6 @@ function DiaryWritePage() {
           <button type="button" onClick={() => setShowConfirm(false)}>
             닫기
           </button>
-          {/* 실제 폼 제출 트리거 */}
           <button
             type="submit"
             form={FORM_ID}
