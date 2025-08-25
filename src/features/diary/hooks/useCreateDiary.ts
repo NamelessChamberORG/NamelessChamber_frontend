@@ -8,8 +8,8 @@ import type { CreateDiaryRequest } from "../types/types";
 import { AxiosError } from "axios";
 import { useToast } from "../../../contexts/ToastContext";
 
-type Vars = Omit<CreateDiaryRequest, "type">;
 type Res = Awaited<ReturnType<typeof diaryApi.create>>;
+type Vars = Omit<CreateDiaryRequest, "type">;
 
 function getErrorMessage(err: unknown) {
   const ax = err as AxiosError<any>;
@@ -21,13 +21,14 @@ function getErrorMessage(err: unknown) {
 }
 
 export function useCreateDiary(
+  defaultType: "SHORT" | "LONG" = "SHORT",
   options?: UseMutationOptions<Res, unknown, Vars>
 ) {
   const queryClient = useQueryClient();
   const { showToast } = useToast();
 
   return useMutation<Res, unknown, Vars>({
-    mutationFn: (body) => diaryApi.create({ ...body, type: "SHORT" }),
+    mutationFn: (body) => diaryApi.create({ ...body, type: defaultType }),
     onSuccess: (data, vars, ctx) => {
       queryClient.invalidateQueries({ queryKey: ["diaries"] });
       options?.onSuccess?.(data, vars, ctx);
