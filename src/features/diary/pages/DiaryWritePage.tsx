@@ -9,6 +9,7 @@ import Modal from "../../../components/modal/Modal";
 import { useToast } from "../../../contexts/ToastContext";
 import FullscreenToggleButton from "../../../components/fullsrceen/FullscreenToggleButton";
 import { useCreateDiary } from "../hooks/useCreateDiary";
+import { usePostAccess } from "../../../hooks/usePostAccess";
 
 const FORM_ID = "diary-form";
 
@@ -24,6 +25,7 @@ function DiaryWritePage() {
   const { showToast } = useToast();
   const navigate = useNavigate();
   const { mutateAsync } = useCreateDiary();
+  const { recordWrite } = usePostAccess();
 
   async function handleSave(value: unknown) {
     if (submitting) return;
@@ -48,6 +50,8 @@ function DiaryWritePage() {
         title,
         content,
       });
+
+      recordWrite();
 
       formRef.current?.clear();
       setTitle("");
