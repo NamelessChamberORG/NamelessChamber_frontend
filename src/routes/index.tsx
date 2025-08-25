@@ -30,7 +30,7 @@ const router = createBrowserRouter([
     element: <DiaryPostSubmitPage />,
   },
   {
-    path: "/diary/new",
+    path: "/diary/new/:type",
     element: <DiaryWritePage />,
   },
 ]);
