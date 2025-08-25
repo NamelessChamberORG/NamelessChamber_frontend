@@ -86,6 +86,7 @@
 .modal-actions button {
   background-color: transparent;
   cursor: pointer;
+  font-family: var(--p1-font-family);
   font-weight: var(--p1-font-weight);
   font-size: var(--p1-font-size);
   line-height: var(--p1-font-line-height);

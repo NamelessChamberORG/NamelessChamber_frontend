@@ -1,5 +1,5 @@
 import QueryBoundary from "../../../components/status/QueryBoundary";
-import CardList from "../components/card/CardList";
+import CardListContainer from "../components/card/CardListContainer";
 import { useDiaries } from "../hooks/useDiaries";
 import classes from "./DiaryListPage.module.css";
 
@@ -16,12 +16,7 @@ function DiaryListPage() {
   const isEmpty = !isLoading && !isError && diaries.length === 0;
 
   return (
-    <div className={classes.submit}>
-      <img
-        src="/logo_kr.png"
-        alt="nameless_chamber_logo"
-        style={{ width: "5rem" }}
-      />
+    <div className={classes.list}>
       <QueryBoundary
         isError={isError}
         error={error}
@@ -30,7 +25,11 @@ function DiaryListPage() {
         isEmpty={isEmpty}
         variant="list"
       >
-        <CardList diaries={diaries} isLoading={isFetching} />
+        <CardListContainer
+          diaries={diaries}
+          isLoading={isFetching}
+          isEmpty={isEmpty}
+        />
       </QueryBoundary>
     </div>
   );

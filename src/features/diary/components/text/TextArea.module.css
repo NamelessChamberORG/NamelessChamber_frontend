@@ -7,6 +7,7 @@
   font-size: 0.8rem;
   padding: 1rem;
   outline: none;
+  font-family: var(--p1-font-family);
   font-weight: var(--p1-font-weight);
   font-size: var(--p1-font-size);
   line-height: var(--p1-font-line-height);

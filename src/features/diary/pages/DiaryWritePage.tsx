@@ -108,7 +108,7 @@ function DiaryWritePage() {
 
       <Modal isOpen={showConfirm} onClose={() => setShowConfirm(false)}>
         <Modal.Title id="submit-title">
-          작성하신 일기를 정리해주세요
+          작성하신 일기를 한마디로 표현해주세요
         </Modal.Title>
 
         <Modal.Textarea

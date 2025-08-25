@@ -28,7 +28,7 @@ function LandingPage() {
     <div className={classes.landing}>
       {step === 0 && (
         <Button revealOnMount revealDelay={400} onClick={handleClick}>
-          작성 시작
+          익명의 기록을 시작합니다
         </Button>
       )}
 
