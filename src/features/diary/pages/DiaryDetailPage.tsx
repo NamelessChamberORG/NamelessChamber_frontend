@@ -48,6 +48,7 @@ function DetailContent({
                 "당신의 이야기를 한 번 더 흘려보내주세요",
               ]}
               to="/diary/new"
+              paddingSize="large"
             />
           </>
         ) : (

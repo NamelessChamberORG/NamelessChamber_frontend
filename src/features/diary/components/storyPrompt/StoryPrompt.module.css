@@ -1,8 +1,15 @@
 .closing {
   display: inline-flex;
-  padding: 8rem 0;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   gap: 2.4rem;
+}
+
+.largePadding {
+  padding: 8rem 0;
+}
+
+.smallPadding {
+  padding: 2rem 0;
 }
