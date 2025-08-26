@@ -1,8 +1,8 @@
 .diary.detail {
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
   gap: 6rem;
+  min-height: 70vh;
   overflow: auto;
 }
 
@@ -20,14 +20,13 @@
   display: flex;
   flex-direction: column;
   gap: 3.2rem;
+  flex: 1 1 auto;
 }
 
 .paragraph {
-  white-space: normal;
-
-  text-align: justify;
-  text-justify: inter-word;
-  text-align-last: center;
+  white-space: pre-line;
+  text-align: left;
+  text-align-last: left;
 
   word-break: keep-all;
   line-break: loose;
@@ -72,8 +71,17 @@
   padding: 0.8rem 0;
 }
 
+/* StoryPrompt 하단 배치 및 위계 낮추기 */
+.storyPromptWrapper {
+  margin-top: auto;
+  display: flex;
+  justify-content: center;
+  padding-bottom: 2.4rem;
+}
+
 @media (max-width: 768px) {
   .lines {
+    width: 88%;
     gap: 2.4rem;
   }
   .paragraph {
@@ -84,7 +92,7 @@
 
 @media (max-width: 480px) {
   .lines {
-    max-width: 88vw;
+    width: 90%;
     gap: 2rem;
   }
   .paragraph {

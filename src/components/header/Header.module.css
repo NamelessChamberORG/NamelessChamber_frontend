@@ -18,7 +18,12 @@
   z-index: -1;
   pointer-events: none;
 
-  background: url("/noise-light.png") repeat 0 0 / 30px 30px,
+  background: linear-gradient(
+      180deg,
+      rgba(38, 37, 36, 0.8) 75%,
+      rgba(38, 37, 36, 0) 100%
+    ),
+    url("/noise-light.png") repeat 0 0 / 30px 30px,
     url("/noise-light.png") repeat 0 0 / 240px 240px,
     linear-gradient(108deg, #2a2928 0%, #262524 45%, #242322 55%, #262524 100%),
     repeating-linear-gradient(
@@ -28,10 +33,10 @@
       rgba(255, 255, 255, 0.015) 1px,
       rgba(255, 255, 255, 0.015) 2px
     );
-  background-repeat: repeat, repeat, no-repeat, repeat;
-  background-size: 30px 30px, 240px 240px, cover, auto;
 
-  background-attachment: fixed, fixed, fixed, fixed;
+  background-repeat: no-repeat, repeat, repeat, no-repeat, repeat;
+  background-size: cover, 30px 30px, 240px 240px, cover, auto;
+  background-attachment: fixed, fixed, fixed, fixed, fixed;
 
   will-change: transform;
   transform: translateZ(0);

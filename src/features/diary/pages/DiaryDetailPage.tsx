@@ -42,14 +42,6 @@ function DetailContent({
                 {p}
               </FadeInOnView>
             ))}
-            <StoryPrompt
-              lines={[
-                "또 하나의 고백을 만나기 위해,",
-                "당신의 이야기를 한 번 더 흘려보내주세요",
-              ]}
-              to="/"
-              paddingSize="large"
-            />
           </>
         ) : (
           <div className={classes.empty} role="status" aria-live="polite">
@@ -57,13 +49,23 @@ function DetailContent({
           </div>
         )}
       </div>
+
+      <div className={classes.storyPromptWrapper}>
+        <StoryPrompt
+          lines={[
+            "또 하나의 고백을 만나기 위해,",
+            "당신의 이야기를 한 번 더 흘려보내주세요",
+          ]}
+          to="/"
+          paddingSize="large"
+        />
+      </div>
     </section>
   );
 }
 
 export default function DiaryDetailPage() {
   const { id } = useParams<{ id: string }>();
-
   const { data, isLoading, isError, error, refetch, isFetching } = useDiary(id);
 
   if (!id) return <Navigate to="/diaries" replace />;
