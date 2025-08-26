@@ -10,6 +10,7 @@ import Modal from "../../../components/modal/Modal";
 import { useToast } from "../../../contexts/ToastContext";
 import FullscreenToggleButton from "../../../components/fullsrceen/FullscreenToggleButton";
 import { useCreateDiary } from "../hooks/useCreateDiary";
+import { usePostAccess } from "../hooks/usePostAccess";
 
 const FORM_ID = "diary-form";
 
@@ -25,6 +26,7 @@ function DiaryWritePage() {
 
   const { showToast } = useToast();
   const navigate = useNavigate();
+  const { recordWrite } = usePostAccess();
 
   const { type } = useParams<{ type: string }>();
   const upper = type?.toUpperCase();
@@ -33,6 +35,8 @@ function DiaryWritePage() {
 
   const { mutateAsync } = useCreateDiary(diaryType, {
     onSuccess: () => {
+      recordWrite();
+
       formRef.current?.clear();
       setTitle("");
       setContent("");
@@ -58,7 +62,6 @@ function DiaryWritePage() {
 
     try {
       setSubmitting(true);
-      // type은 훅이 주입하므로 여기서는 title/content만 전달
       await mutateAsync({ title: title.trim(), content: content.trim() });
     } finally {
       setSubmitting(false);
