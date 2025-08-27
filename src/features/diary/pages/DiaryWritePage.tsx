@@ -4,18 +4,25 @@ import TextArea from "../components/text/TextArea";
 import TextCount from "../components/text/TextCount";
 import classes from "./DiaryWritePage.module.css";
 import Button from "../../../components/button/Button";
-import { useNavigate } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import Modal from "../../../components/modal/Modal";
 import { useToast } from "../../../contexts/ToastContext";
 import FullscreenToggleButton from "../../../components/fullsrceen/FullscreenToggleButton";
 import { useCreateDiary } from "../hooks/useCreateDiary";
+import { usePostAccess } from "../hooks/usePostAccess";
+import { PATHS } from "../../../constants/path";
 
 const FORM_ID = "diary-form";
+const MIN_LENGTH = 30;
+
+const isContentValid = (s: string) =>
+  s.length >= MIN_LENGTH && s.trim().length > 0;
 
 function DiaryWritePage() {
   const formRef = useRef<FormHandle>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
+  const [content, setContent] = useState("");
   const [count, setCount] = useState(0);
   const [showConfirm, setShowConfirm] = useState(false);
   const [submitting, setSubmitting] = useState(false);
@@ -23,54 +30,67 @@ function DiaryWritePage() {
 
   const { showToast } = useToast();
   const navigate = useNavigate();
-  const { mutateAsync } = useCreateDiary();
+  const { recordWrite } = usePostAccess();
 
-  async function handleSave(value: unknown) {
+  const { type } = useParams<{ type: string }>();
+  const upper = type?.toUpperCase();
+  const diaryType: "SHORT" | "LONG" =
+    upper === "SHORT" || upper === "LONG" ? upper : "SHORT";
+
+  const { mutateAsync } = useCreateDiary(diaryType, {
+    onSuccess: () => {
+      recordWrite();
+
+      formRef.current?.clear();
+      setTitle("");
+      setContent("");
+      setCount(0);
+      navigate(PATHS.DIARY_SUBMIT, {
+        replace: true,
+        state: {
+          next: PATHS.DIARY_LIST,
+          stayMs: 1600,
+          message: "작성해주신 소중한 마음은 소중히 보관할게요",
+        },
+      });
+    },
+  });
+
+  async function handleSave() {
     if (submitting) return;
 
-    const v = (value ?? {}) as Record<string, FormDataEntryValue>;
-    const title = typeof v.title === "string" ? v.title : "";
-    const content = typeof v.content === "string" ? v.content : "";
-
-    if (!content.trim()) {
-      showToast("내용을 입력해주세요.", "info");
-      return;
-    }
-    if (!title.trim()) {
-      showToast("제목을 입력해주세요.", "info");
+    if (!isContentValid(content)) {
+      showToast(
+        `조금 더 이야기해주세요. ${MIN_LENGTH}자 이상 입력해주세요.`,
+        "info"
+      );
       return;
     }
 
     try {
       setSubmitting(true);
-
-      await mutateAsync({
-        title,
-        content,
-      });
-
-      formRef.current?.clear();
-      setTitle("");
-      setCount(0);
-
-      navigate("/diary/submit", {
-        replace: true,
-        state: {
-          next: `/diary`,
-          stayMs: 1600,
-          message: "작성해주신 소중한 마음은 소중히 보관할게요",
-        },
-      });
-    } catch (err) {
-      console.error("저장 실패:", err);
-      showToast("무명 일기 저장에 실패했습니다. 다시 시도해주세요", "cancel");
-      setTitle("");
+      await mutateAsync({ title: title.trim(), content: content.trim() });
+    } finally {
       setSubmitting(false);
+      setShowConfirm(false);
     }
   }
 
+  function handleOpenConfirm() {
+    if (!isContentValid(content)) {
+      showToast(
+        `조금 더 이야기해주세요. ${MIN_LENGTH}자 이상 입력해주세요.`,
+        "info"
+      );
+      return;
+    }
+    setShowConfirm(true);
+  }
+
   function handleTextChange(e: ChangeEvent<HTMLTextAreaElement>) {
-    setCount(e.target.value.length);
+    const val = e.target.value;
+    setContent(val);
+    setCount(val.length);
   }
 
   return (
@@ -95,7 +115,7 @@ function DiaryWritePage() {
           {count > 0 && (
             <Button
               type="button"
-              onClick={() => setShowConfirm(true)}
+              onClick={handleOpenConfirm}
               disabled={submitting}
             >
               {submitting ? "보관 중..." : "무명소에 흘러보내기"}
@@ -108,18 +128,17 @@ function DiaryWritePage() {
 
       <Modal isOpen={showConfirm} onClose={() => setShowConfirm(false)}>
         <Modal.Title id="submit-title">
-          작성하신 일기를 정리해주세요
+          작성하신 일기를 한마디로 표현해주세요
         </Modal.Title>
 
         <Modal.Textarea
           name="title"
           form={FORM_ID}
-          placeholder="제목을 작성하기..."
+          placeholder="제목 작성하기.."
           value={title}
           onChange={(e: ChangeEvent<HTMLTextAreaElement>) =>
             setTitle(e.target.value)
           }
-          required
           disabled={submitting}
         />
 
@@ -127,7 +146,6 @@ function DiaryWritePage() {
           <button type="button" onClick={() => setShowConfirm(false)}>
             닫기
           </button>
-          {/* 실제 폼 제출 트리거 */}
           <button
             type="submit"
             form={FORM_ID}

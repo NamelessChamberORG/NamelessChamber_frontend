@@ -1,5 +1,5 @@
 .paragraph {
-  font-family: var(--font-p1-family);
+  font-family: var(--p1-font-family);
   font-weight: var(--p1-font-weight);
   color: var(--color-text);
   font-size: var(--p1-font-size);

@@ -3,12 +3,13 @@ import Button from "../button/Button";
 import Logo from "../logo/Logo";
 import classes from "./Header.module.css";
 import { useToast } from "../../contexts/ToastContext";
+import { PATHS } from "../../constants/path";
 
 const Header = () => {
   const { showToast } = useToast();
   return (
     <header className={classes.header}>
-      <Link to="/" className={classes.logoLink}>
+      <Link to={PATHS.HOME} className={classes.logoLink}>
         <Logo />
       </Link>
       <Button

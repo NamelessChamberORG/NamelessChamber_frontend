@@ -1,18 +1,36 @@
-import CardList from "../components/card/CardList";
+import QueryBoundary from "../../../components/status/QueryBoundary";
+import CardListContainer from "../components/card/CardListContainer";
 import { useDiaries } from "../hooks/useDiaries";
 import classes from "./DiaryListPage.module.css";
 
 function DiaryListPage() {
-  const { data: diaries, isLoading } = useDiaries();
+  const {
+    data: diaries = [],
+    isLoading,
+    isError,
+    error,
+    refetch,
+    isFetching,
+  } = useDiaries();
+
+  const isEmpty = !isLoading && !isError && diaries.length === 0;
 
   return (
-    <div className={classes.submit}>
-      <img
-        src="/logo_kr.png"
-        alt="nameless_chamber_logo"
-        style={{ width: "5rem" }}
-      ></img>
-      <CardList diaries={diaries ?? []} isLoading={isLoading} />
+    <div className={classes.list}>
+      <QueryBoundary
+        isError={isError}
+        error={error}
+        isFetching={isFetching}
+        onRetry={() => void refetch()}
+        isEmpty={isEmpty}
+        variant="list"
+      >
+        <CardListContainer
+          diaries={diaries}
+          isLoading={isFetching}
+          isEmpty={isEmpty}
+        />
+      </QueryBoundary>
     </div>
   );
 }

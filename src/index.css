@@ -34,19 +34,20 @@ html {
   --color-gray-3: #878787;
 
   /* Typography tokens */
-  --p1-font-weight: 200; /* ExtraLight */
+  --p1-font-family: Pretendard, sans-serif;
+  --p1-font-weight: 500;
   --p1-font-size: 18px;
-  --p1-font-line-height: 150%;
-  --p1-font-letter-spacing: 0;
+  --p1-font-line-height: 1.8;
+  --p1-font-letter-spacing: 0.12em;
 
   --t1-font-family: Pretendard, sans-serif;
-  --t1-font-weight: 400;
+  --t1-font-weight: 500;
   --t1-font-size: 24px;
   --t1-line-height: 1.5;
   --t1-letter-spacing: 0.04em;
 
   --c1-font-family: "Inter", sans-serif;
-  --c1-font-weight: 400;
+  --c1-font-weight: 500;
   --c1-font-size: 16px;
   --c1-line-height: normal;
   --c1-letter-spacing: 0.04em;
@@ -63,11 +64,12 @@ html {
   --z-header: 2;
   --z-fab: 3;
   --z-modal: 1000;
+  --z-toast: 1100;
 
   /* Global text rendering */
   color: var(--text-color);
   line-height: 1.5;
-  font-weight: 400;
+  font-weight: 500;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

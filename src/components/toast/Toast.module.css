@@ -1,6 +1,6 @@
 .toast {
   position: relative;
-  width: 35rem;
+  width: 46rem;
   background: linear-gradient(
     90deg,
     #262524e6 0%,
@@ -21,8 +21,9 @@
   animation: fadeIn 0.3s ease;
   border-radius: 0.8rem;
   overflow: hidden; /* hide the glow effect */
-
+  white-space: nowrap;
   /* p1 style */
+  font-family: var(--p1-font-family);
   font-weight: var(--p1-font-weight);
   font-size: var(--p1-font-size);
   line-height: var(--font-p1-line-height);
@@ -39,7 +40,7 @@
   width: var(--glow-size, 212px);
   height: var(--glow-size, 212px);
   pointer-events: none;
-  z-index: 0;
+  z-index: var(--z-toast);
   border-radius: 50%;
 }
 
