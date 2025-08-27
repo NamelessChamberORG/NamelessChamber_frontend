@@ -56,20 +56,19 @@
   background: transparent;
   border: transparent;
   color: var(--color-gray-3);
-  font-size: 1.4rem;
+  font-family: var(--p1-font-family);
+  font-weight: var(--p1-font-weight);
+  font-size: var(--p1-font-size);
+  line-height: var(--p1-font-line-height);
+  letter-spacing: var(--p1-font-letter-spacing);
   border-radius: 10px;
-  padding: 12px 14px;
   outline: none;
   caret-color: rgba(255, 255, 255, 0.95);
   resize: vertical;
   min-height: 88px;
 }
 .modal-textarea::placeholder {
-  color: rgba(217, 217, 217, 0.45);
-}
-.modal-textarea:focus {
-  /* 은은한 포커스 */
-  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.06);
+  color: var(--color-gray-3);
 }
 
 .modal-actions {
