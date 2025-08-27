@@ -134,7 +134,7 @@ function DiaryWritePage() {
         <Modal.Textarea
           name="title"
           form={FORM_ID}
-          placeholder="제목을 작성하기..."
+          placeholder="제목 작성하기.."
           value={title}
           onChange={(e: ChangeEvent<HTMLTextAreaElement>) =>
             setTitle(e.target.value)
