@@ -1,4 +1,3 @@
-// DiaryWritePage.tsx
 import { useRef, useState, type ChangeEvent } from "react";
 import Form, { type FormHandle } from "../../../components/form/Form";
 import TextArea from "../components/text/TextArea";
@@ -11,8 +10,13 @@ import { useToast } from "../../../contexts/ToastContext";
 import FullscreenToggleButton from "../../../components/fullsrceen/FullscreenToggleButton";
 import { useCreateDiary } from "../hooks/useCreateDiary";
 import { usePostAccess } from "../hooks/usePostAccess";
+import { PATHS } from "../../../constants/path";
 
 const FORM_ID = "diary-form";
+const MIN_LENGTH = 30;
+
+const isContentValid = (s: string) =>
+  s.length >= MIN_LENGTH && s.trim().length > 0;
 
 function DiaryWritePage() {
   const formRef = useRef<FormHandle>(null);
@@ -41,10 +45,10 @@ function DiaryWritePage() {
       setTitle("");
       setContent("");
       setCount(0);
-      navigate("/diary/submit", {
+      navigate(PATHS.DIARY_SUBMIT, {
         replace: true,
         state: {
-          next: `/diary`,
+          next: PATHS.DIARY_LIST,
           stayMs: 1600,
           message: "작성해주신 소중한 마음은 소중히 보관할게요",
         },
@@ -55,8 +59,11 @@ function DiaryWritePage() {
   async function handleSave() {
     if (submitting) return;
 
-    if (content.trim().length < 100) {
-      showToast("조금 더 이야기해주세요. 100자 이상 입력해주세요.", "info");
+    if (!isContentValid(content)) {
+      showToast(
+        `조금 더 이야기해주세요. ${MIN_LENGTH}자 이상 입력해주세요.`,
+        "info"
+      );
       return;
     }
 
@@ -70,8 +77,11 @@ function DiaryWritePage() {
   }
 
   function handleOpenConfirm() {
-    if (content.trim().length < 100) {
-      showToast("조금 더 이야기해주세요. 100자 이상 입력해주세요.", "info");
+    if (!isContentValid(content)) {
+      showToast(
+        `조금 더 이야기해주세요. ${MIN_LENGTH}자 이상 입력해주세요.`,
+        "info"
+      );
       return;
     }
     setShowConfirm(true);

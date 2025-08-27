@@ -7,6 +7,7 @@ import StoryPrompt from "../storyPrompt/StoryPrompt";
 import type { DiaryPreview } from "../../types/types";
 import { usePostAccess } from "../../hooks/usePostAccess";
 import Modal from "../../../../components/modal/Modal";
+import { PATHS } from "../../../../constants/path";
 
 type Props = {
   diaries: DiaryPreview[];
@@ -37,12 +38,12 @@ const CardListContainer = ({ diaries, isLoading, isEmpty }: Props) => {
   const confirmView = () => {
     if (!pendingId) return;
     recordView();
-    navigate(`/diary/${pendingId}`);
+    navigate(PATHS.DIARY_DETAIL(pendingId));
     closeModal();
   };
 
   const goWrite = () => {
-    navigate("/");
+    navigate(PATHS.HOME);
     closeModal();
   };
 
@@ -68,7 +69,7 @@ const CardListContainer = ({ diaries, isLoading, isEmpty }: Props) => {
     <>
       <StoryPrompt
         lines={["당신의 이야기를", "한 번 더 흘려보내주세요"]}
-        to="/"
+        to={PATHS.HOME}
         paddingSize="small"
       />
 
