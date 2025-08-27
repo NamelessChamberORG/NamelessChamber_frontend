@@ -11,6 +11,7 @@ import { useToast } from "../../../contexts/ToastContext";
 import FullscreenToggleButton from "../../../components/fullsrceen/FullscreenToggleButton";
 import { useCreateDiary } from "../hooks/useCreateDiary";
 import { usePostAccess } from "../hooks/usePostAccess";
+import { PATHS } from "../../../constants/path";
 
 const FORM_ID = "diary-form";
 
@@ -41,10 +42,10 @@ function DiaryWritePage() {
       setTitle("");
       setContent("");
       setCount(0);
-      navigate("/diary/submit", {
+      navigate(PATHS.DIARY_SUBMIT, {
         replace: true,
         state: {
-          next: `/diary`,
+          next: PATHS.DIARY_LIST,
           stayMs: 1600,
           message: "작성해주신 소중한 마음은 소중히 보관할게요",
         },

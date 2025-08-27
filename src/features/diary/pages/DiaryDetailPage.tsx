@@ -7,6 +7,7 @@ import { useDiary } from "../hooks/useDiary";
 import { useParams, Navigate } from "react-router";
 import { formatDiaryTime } from "../../../lib/diary/formatDiaryTime";
 import StoryPrompt from "../components/storyPrompt/StoryPrompt";
+import { PATHS } from "../../../constants/path";
 
 function DetailContent({
   content,
@@ -56,7 +57,7 @@ function DetailContent({
             "또 하나의 고백을 만나기 위해,",
             "당신의 이야기를 한 번 더 흘려보내주세요",
           ]}
-          to="/"
+          to={PATHS.HOME}
           paddingSize="large"
         />
       </div>
@@ -68,7 +69,7 @@ export default function DiaryDetailPage() {
   const { id } = useParams<{ id: string }>();
   const { data, isLoading, isError, error, refetch, isFetching } = useDiary(id);
 
-  if (!id) return <Navigate to="/diaries" replace />;
+  if (!id) return <Navigate to={PATHS.DIARY_LIST} replace />;
 
   const createdLabel =
     data?.createdAt && !isLoading ? formatDiaryTime(data.createdAt) : undefined;
