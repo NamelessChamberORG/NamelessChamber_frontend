@@ -54,7 +54,11 @@ const Title = ({ className = "", ...rest }: TitleProps) => (
 
 type ModalTextareaProps = TextareaHTMLAttributes<HTMLTextAreaElement>;
 const Textarea = ({ className = "", ...rest }: ModalTextareaProps) => (
-  <textarea className={`${classes["modal-textarea"]} ${className}`} {...rest} />
+  <textarea
+    spellCheck={false}
+    className={`${classes["modal-textarea"]} ${className}`}
+    {...rest}
+  />
 );
 
 /* ===== default export 유지 + 정적 속성 부여 ===== */
