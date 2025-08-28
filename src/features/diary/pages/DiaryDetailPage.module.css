@@ -89,14 +89,3 @@
     line-height: 1.6;
   }
 }
-
-@media (max-width: 480px) {
-  .lines {
-    width: 90%;
-    gap: 2rem;
-  }
-  .paragraph {
-    font-size: 18px;
-    line-height: 1.65;
-  }
-}
