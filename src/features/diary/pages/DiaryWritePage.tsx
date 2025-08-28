@@ -60,10 +60,7 @@ function DiaryWritePage() {
     if (submitting) return;
 
     if (!isContentValid(content)) {
-      showToast(
-        `조금 더 이야기해주세요. ${MIN_LENGTH}자 이상 입력해주세요.`,
-        "info"
-      );
+      showToast(`${MIN_LENGTH}자 이상 입력해주세요.`, "info");
       return;
     }
 
@@ -78,10 +75,7 @@ function DiaryWritePage() {
 
   function handleOpenConfirm() {
     if (!isContentValid(content)) {
-      showToast(
-        `조금 더 이야기해주세요. ${MIN_LENGTH}자 이상 입력해주세요.`,
-        "info"
-      );
+      showToast(`${MIN_LENGTH}자 이상 입력해주세요.`, "info");
       return;
     }
     setShowConfirm(true);

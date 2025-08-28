@@ -25,16 +25,11 @@
   --stroke-rgba: 217, 217, 217, 0.08;
 
   background: linear-gradient(
-    to bottom right,
-    rgba(var(--bg-rgb), 0.3) 0%,
-    rgba(var(--bg-rgb), 0.3) 14%,
-    rgba(var(--bg-rgb), 0.34) 22%,
-    rgba(var(--bg-rgb), 0.34) 36%,
-    rgba(var(--bg-rgb), 0.3) 63%,
-    rgba(var(--bg-rgb), 0.3) 74%,
-    rgba(var(--bg-rgb), 0.3) 87%,
-    rgba(var(--bg-rgb), 0.34) 100%
-  );
+      to bottom right,
+      rgba(var(--bg-rgb), 0.3) 0%,
+      rgba(var(--bg-rgb), 0.34) 100%
+    ),
+    rgba(var(--bg-rgb), 0.92);
 
   border: 1px solid rgba(var(--stroke-rgba));
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.35), 0 2px 12px rgba(0, 0, 0, 0.25);
