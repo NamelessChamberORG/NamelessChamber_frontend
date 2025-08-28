@@ -45,3 +45,17 @@
 .hidden {
   opacity: 0;
 }
+
+@media (max-width: 640px) {
+  .textGroup {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 3rem;
+    justify-items: center;
+  }
+
+  .textGroup > div {
+    justify-content: center;
+    height: auto;
+  }
+}

@@ -1,6 +1,6 @@
 .toast {
   position: relative;
-  width: 46rem;
+  width: 44rem;
   background: linear-gradient(
     90deg,
     #262524e6 0%,
@@ -28,6 +28,8 @@
   font-size: var(--p1-font-size);
   line-height: var(--font-p1-line-height);
   letter-spacing: var(--p1-font-letter-spacing);
+
+  inline-size: min(44rem, calc(100dvw - 32px));
 }
 
 /* glow effect */
@@ -83,4 +85,19 @@
 .toast img {
   position: relative;
   z-index: 1;
+}
+
+@media (max-width: 640px) {
+  .toast {
+    inline-size: calc(100dvw - 32px);
+    padding: 1.2rem 1rem;
+  }
+  .msg {
+    white-space: normal;
+    word-break: keep-all; /* 한국어 단어 단위 유지 */
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+  }
 }

@@ -79,7 +79,7 @@ html {
 body {
   font-size: 1.8rem;
   min-width: 320px;
-  min-height: 100vh;
+  min-height: 100svh;
   position: relative;
 }
 
