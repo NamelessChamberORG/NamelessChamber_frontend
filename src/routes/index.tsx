@@ -17,7 +17,7 @@ const router = createBrowserRouter([
         element: <LandingPage />,
       },
       {
-        path: PATHS.DIARY_LIST,
+        path: "/diary/:type",
         element: <DiaryListPage />,
       },
       {
@@ -27,7 +27,7 @@ const router = createBrowserRouter([
     ],
   },
   {
-    path: PATHS.DIARY_SUBMIT,
+    path: "/diary/submit/:type",
     element: <DiaryPostSubmitPage />,
   },
   {
