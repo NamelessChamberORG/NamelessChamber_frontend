@@ -10,7 +10,7 @@ const TextCount = ({ count, minLength }: TextCountProps) => {
     <div className={classes.textCount}>
       {count == 0 && <p>0자</p>}
       {0 < count && count <= minLength && <p>{minLength - count}자 남음...</p>}
-      {count > 500 && <p>{count - minLength}자 넘음...</p>}
+      {count > minLength && <p>{count - minLength}자 넘음...</p>}
     </div>
   );
 };
