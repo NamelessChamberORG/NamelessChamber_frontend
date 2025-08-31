@@ -47,10 +47,12 @@ function DiaryWritePage() {
       setTitle("");
       setContent("");
       setCount(0);
-      navigate(PATHS.DIARY_SUBMIT, {
+      const typeLower = diaryType === "SHORT" ? "short" : "long";
+
+      navigate(PATHS.DIARY_SUBMIT_TYPE(typeLower), {
         replace: true,
         state: {
-          next: PATHS.DIARY_LIST,
+          next: PATHS.DIARY_LIST_TYPE(typeLower),
           stayMs: 1600,
           message: "작성해주신 소중한 마음은 소중히 보관할게요",
         },
