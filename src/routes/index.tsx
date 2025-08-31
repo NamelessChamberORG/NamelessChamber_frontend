@@ -17,21 +17,21 @@ const router = createBrowserRouter([
         element: <LandingPage />,
       },
       {
-        path: "/diary/:type",
+        path: PATHS.DIARY_LIST,
         element: <DiaryListPage />,
       },
       {
-        path: "/diary/:id",
+        path: PATHS.DIARY_DETAIL,
         element: <DiaryDetailPage />,
       },
     ],
   },
   {
-    path: "/diary/submit/:type",
+    path: PATHS.DIARY_SUBMIT,
     element: <DiaryPostSubmitPage />,
   },
   {
-    path: "/diary/new/:type",
+    path: PATHS.DIARY_NEW,
     element: <DiaryWritePage />,
   },
 ]);
