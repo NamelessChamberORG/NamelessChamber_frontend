@@ -13,10 +13,11 @@ import { usePostAccess } from "../hooks/usePostAccess";
 import { PATHS } from "../../../constants/path";
 
 const FORM_ID = "diary-form";
-const MIN_LENGTH = 30;
+const SHORT_MIN_LENGTH = 30;
+const LONG_MIN_LENGTH = 100;
 
-const isContentValid = (s: string) =>
-  s.length >= MIN_LENGTH && s.trim().length > 0;
+const isContentValid = (s: string, minLength: number) =>
+  s.length >= minLength && s.trim().length > 0;
 
 function DiaryWritePage() {
   const formRef = useRef<FormHandle>(null);
@@ -36,6 +37,7 @@ function DiaryWritePage() {
   const upper = type?.toUpperCase();
   const diaryType: "SHORT" | "LONG" =
     upper === "SHORT" || upper === "LONG" ? upper : "SHORT";
+  const MIN_LENGTH = diaryType === "SHORT" ? SHORT_MIN_LENGTH : LONG_MIN_LENGTH;
 
   const { mutateAsync } = useCreateDiary(diaryType, {
     onSuccess: () => {
@@ -59,7 +61,7 @@ function DiaryWritePage() {
   async function handleSave() {
     if (submitting) return;
 
-    if (!isContentValid(content)) {
+    if (!isContentValid(content, MIN_LENGTH)) {
       showToast(`${MIN_LENGTH}자 이상 입력해주세요.`, "info");
       return;
     }
@@ -74,7 +76,7 @@ function DiaryWritePage() {
   }
 
   function handleOpenConfirm() {
-    if (!isContentValid(content)) {
+    if (!isContentValid(content, MIN_LENGTH)) {
       showToast(`${MIN_LENGTH}자 이상 입력해주세요.`, "info");
       return;
     }
@@ -118,7 +120,7 @@ function DiaryWritePage() {
         </div>
       </Form>
 
-      <TextCount count={count} />
+      <TextCount count={count} minLength={MIN_LENGTH} />
 
       <Modal isOpen={showConfirm} onClose={() => setShowConfirm(false)}>
         <Modal.Title id="submit-title">
