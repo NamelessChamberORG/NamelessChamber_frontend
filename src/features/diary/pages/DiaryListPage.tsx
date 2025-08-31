@@ -1,9 +1,15 @@
+import { useParams } from "react-router";
 import QueryBoundary from "../../../components/status/QueryBoundary";
 import CardListContainer from "../components/card/CardListContainer";
 import { useDiaries } from "../hooks/useDiaries";
 import classes from "./DiaryListPage.module.css";
 
 function DiaryListPage() {
+  const { type } = useParams<{ type: string }>();
+  const lower = type?.toLowerCase();
+
+  const listType: "SHORT" | "LONG" = lower === "short" ? "SHORT" : "LONG";
+
   const {
     data: diaries = [],
     isLoading,
@@ -11,7 +17,7 @@ function DiaryListPage() {
     error,
     refetch,
     isFetching,
-  } = useDiaries();
+  } = useDiaries({ type: listType });
 
   const isEmpty = !isLoading && !isError && diaries.length === 0;
 
