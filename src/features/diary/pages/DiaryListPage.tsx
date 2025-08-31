@@ -1,4 +1,4 @@
-import { useParams } from "react-router";
+import { useParams } from "react-router-dom";
 import QueryBoundary from "../../../components/status/QueryBoundary";
 import CardListContainer from "../components/card/CardListContainer";
 import { useDiaries } from "../hooks/useDiaries";
