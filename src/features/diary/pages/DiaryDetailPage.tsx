@@ -4,7 +4,7 @@ import Paragraph from "../../../components/paragraph/Paragraph";
 import classes from "./DiaryDetailPage.module.css";
 import { useMemo } from "react";
 import { useDiary } from "../hooks/useDiary";
-import { useParams, Navigate } from "react-router";
+import { useParams, Navigate } from "react-router-dom";
 import { formatDiaryTime } from "../../../lib/diary/formatDiaryTime";
 import StoryPrompt from "../components/storyPrompt/StoryPrompt";
 import { PATHS } from "../../../constants/path";

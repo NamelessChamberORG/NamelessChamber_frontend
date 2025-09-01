@@ -41,7 +41,7 @@ const CardListContainer = ({ diaries, isLoading, isEmpty }: Props) => {
   const confirmView = () => {
     if (!pendingId) return;
     recordView();
-    navigate(PATHS.DIARY_DETAIL(pendingId));
+    navigate(PATHS.DIARY_DETAIL_ID(pendingId));
     closeModal();
   };
 

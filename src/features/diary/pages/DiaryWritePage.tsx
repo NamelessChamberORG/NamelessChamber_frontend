@@ -11,12 +11,19 @@ import FullscreenToggleButton from "../../../components/fullsrceen/FullscreenTog
 import { useCreateDiary } from "../hooks/useCreateDiary";
 import { usePostAccess } from "../hooks/usePostAccess";
 import { PATHS } from "../../../constants/path";
+import {
+  API_TO_UI,
+  UI_TO_API,
+  type ApiType,
+  type UiType,
+} from "../types/typeMap";
 
 const FORM_ID = "diary-form";
-const MIN_LENGTH = 30;
+const SHORT_MIN_LENGTH = 30;
+const LONG_MIN_LENGTH = 100;
 
-const isContentValid = (s: string) =>
-  s.length >= MIN_LENGTH && s.trim().length > 0;
+const isContentValid = (s: string, minLength: number) =>
+  s.length >= minLength && s.trim().length > 0;
 
 function DiaryWritePage() {
   const formRef = useRef<FormHandle>(null);
@@ -32,10 +39,11 @@ function DiaryWritePage() {
   const navigate = useNavigate();
   const { recordWrite } = usePostAccess();
 
-  const { type } = useParams<{ type: string }>();
-  const upper = type?.toUpperCase();
-  const diaryType: "SHORT" | "LONG" =
-    upper === "SHORT" || upper === "LONG" ? upper : "SHORT";
+  const { type } = useParams<{ type: UiType }>();
+  const diaryType: ApiType =
+    type && UI_TO_API[type] ? UI_TO_API[type] : "SHORT";
+
+  const MIN_LENGTH = diaryType === "SHORT" ? SHORT_MIN_LENGTH : LONG_MIN_LENGTH;
 
   const { mutateAsync } = useCreateDiary(diaryType, {
     onSuccess: () => {
@@ -45,10 +53,12 @@ function DiaryWritePage() {
       setTitle("");
       setContent("");
       setCount(0);
-      navigate(PATHS.DIARY_SUBMIT, {
+      const typeLower = API_TO_UI[diaryType];
+
+      navigate(PATHS.DIARY_SUBMIT_TYPE(typeLower), {
         replace: true,
         state: {
-          next: PATHS.DIARY_LIST,
+          next: PATHS.DIARY_LIST_TYPE(typeLower),
           stayMs: 1600,
           message: "작성해주신 소중한 마음은 소중히 보관할게요",
         },
@@ -59,7 +69,7 @@ function DiaryWritePage() {
   async function handleSave() {
     if (submitting) return;
 
-    if (!isContentValid(content)) {
+    if (!isContentValid(content, MIN_LENGTH)) {
       showToast(`${MIN_LENGTH}자 이상 입력해주세요.`, "info");
       return;
     }
@@ -74,7 +84,7 @@ function DiaryWritePage() {
   }
 
   function handleOpenConfirm() {
-    if (!isContentValid(content)) {
+    if (!isContentValid(content, MIN_LENGTH)) {
       showToast(`${MIN_LENGTH}자 이상 입력해주세요.`, "info");
       return;
     }
@@ -118,7 +128,7 @@ function DiaryWritePage() {
         </div>
       </Form>
 
-      <TextCount count={count} />
+      <TextCount count={count} minLength={MIN_LENGTH} />
 
       <Modal isOpen={showConfirm} onClose={() => setShowConfirm(false)}>
         <Modal.Title id="submit-title">
