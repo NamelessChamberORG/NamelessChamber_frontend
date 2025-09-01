@@ -3,12 +3,13 @@ import QueryBoundary from "../../../components/status/QueryBoundary";
 import CardListContainer from "../components/card/CardListContainer";
 import { useDiaries } from "../hooks/useDiaries";
 import classes from "./DiaryListPage.module.css";
+import type { UiType } from "../types/typeMap";
 
 function DiaryListPage() {
-  const { type } = useParams<{ type: string }>();
+  const { type } = useParams<{ type: UiType }>();
   const lower = type?.toLowerCase();
 
-  const listType: "SHORT" | "LONG" = lower === "short" ? "SHORT" : "LONG";
+  const listType: "SHORT" | "LONG" = lower === "daily" ? "SHORT" : "LONG";
 
   const {
     data: diaries = [],

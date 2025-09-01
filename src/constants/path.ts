@@ -5,8 +5,8 @@ export const PATHS = {
   DIARY_NEW: "/diary/new/:type",
   DIARY_DETAIL: "/diary/v/:id",
 
-  DIARY_LIST_TYPE: (type: "short" | "long") => `/diary/${type}`,
-  DIARY_SUBMIT_TYPE: (type: "short" | "long") => `/diary/submit/${type}`,
+  DIARY_LIST_TYPE: (type: "daily" | "mind") => `/diary/${type}`,
+  DIARY_SUBMIT_TYPE: (type: "daily" | "mind") => `/diary/submit/${type}`,
   DIARY_DETAIL_ID: (id: string) => `/diary/v/${id}`,
-  DIARY_NEW_TYPE: (type: string) => `/diary/new/${type}`,
+  DIARY_NEW_TYPE: (type: "daily" | "mind") => `/diary/new/${type}`,
 } as const;

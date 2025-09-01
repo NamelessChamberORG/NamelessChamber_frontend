@@ -11,6 +11,12 @@ import FullscreenToggleButton from "../../../components/fullsrceen/FullscreenTog
 import { useCreateDiary } from "../hooks/useCreateDiary";
 import { usePostAccess } from "../hooks/usePostAccess";
 import { PATHS } from "../../../constants/path";
+import {
+  API_TO_UI,
+  UI_TO_API,
+  type ApiType,
+  type UiType,
+} from "../types/typeMap";
 
 const FORM_ID = "diary-form";
 const SHORT_MIN_LENGTH = 30;
@@ -33,10 +39,10 @@ function DiaryWritePage() {
   const navigate = useNavigate();
   const { recordWrite } = usePostAccess();
 
-  const { type } = useParams<{ type: string }>();
-  const upper = type?.toUpperCase();
-  const diaryType: "SHORT" | "LONG" =
-    upper === "SHORT" || upper === "LONG" ? upper : "SHORT";
+  const { type } = useParams<{ type: UiType }>();
+  const diaryType: ApiType =
+    type && UI_TO_API[type] ? UI_TO_API[type] : "SHORT";
+
   const MIN_LENGTH = diaryType === "SHORT" ? SHORT_MIN_LENGTH : LONG_MIN_LENGTH;
 
   const { mutateAsync } = useCreateDiary(diaryType, {
@@ -47,7 +53,7 @@ function DiaryWritePage() {
       setTitle("");
       setContent("");
       setCount(0);
-      const typeLower = diaryType === "SHORT" ? "short" : "long";
+      const typeLower = API_TO_UI[diaryType];
 
       navigate(PATHS.DIARY_SUBMIT_TYPE(typeLower), {
         replace: true,

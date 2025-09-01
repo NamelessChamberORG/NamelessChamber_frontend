@@ -37,7 +37,7 @@ function LandingPage() {
         <div className={classes.textGroup}>
           <div className={classes.left}>
             {step >= 2 && (
-              <Link to={PATHS.DIARY_NEW_TYPE("short")} className={classes.link}>
+              <Link to={PATHS.DIARY_NEW_TYPE("daily")} className={classes.link}>
                 <Button revealOnMount revealDelay={400}>
                   오늘 있었던 일 작성
                 </Button>
@@ -60,7 +60,7 @@ function LandingPage() {
 
           <div className={classes.right}>
             {step >= 4 && (
-              <Link to={PATHS.DIARY_NEW_TYPE("long")} className={classes.link}>
+              <Link to={PATHS.DIARY_NEW_TYPE("mind")} className={classes.link}>
                 <Button revealOnMount revealDelay={400}>
                   마음 속 큰 고민 작성
                 </Button>
