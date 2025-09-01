@@ -5,11 +5,16 @@ export function formatDiaryTime(
   const tz = "Asia/Seoul";
   const start = new Date(createdAt);
   const diffMs = Math.max(0, now.getTime() - start.getTime());
-  const hourMs = 1000 * 60 * 60;
+  const minMs = 1000 * 60;
+  const hourMs = minMs * 60;
   const dayMs = hourMs * 24;
   const weekMs = dayMs * 7;
   const fourWeeksMs = dayMs * 28;
 
+  if (diffMs < hourMs) {
+    const mins = Math.max(1, Math.floor(diffMs / minMs));
+    return `${mins}분 전에 작성한 글입니다`;
+  }
   if (diffMs < dayMs) {
     const hours = Math.max(1, Math.floor(diffMs / hourMs));
     return `${hours}시간 전에 작성한 글입니다`;
