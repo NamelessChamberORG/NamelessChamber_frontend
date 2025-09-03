@@ -6,9 +6,9 @@ import DiaryListPage from "../features/diary/pages/DiaryListPage";
 import DiaryDetailPage from "../features/diary/pages/DiaryDetailPage";
 import DiaryPostSubmitPage from "../features/diary/pages/DiaryPostSubmitPage";
 import { PATHS } from "../constants/path";
-import NotFoundPage from "../features/diary/pages/NotFoundPage";
-import LoginPage from "../features/diary/pages/LoginPage";
-import SignupPage from "../features/diary/pages/SignupPage";
+import NotFoundPage from "../features/error/pages/NotFoundPage";
+import LoginPage from "../features/auth/pages/LoginPage";
+import SignupPage from "../features/auth/pages/SignupPage";
 
 const router = createBrowserRouter([
   {
