@@ -32,6 +32,7 @@ html {
   --color-green: #556028;
   --color-gray-2: #d9d9d9;
   --color-gray-3: #878787;
+  --color-gray-4: #302e2d;
 
   /* Typography tokens */
   --p1-font-family: Pretendard, sans-serif;
@@ -46,11 +47,17 @@ html {
   --t1-line-height: 1.5;
   --t1-letter-spacing: 0.04em;
 
-  --c1-font-family: "Inter", sans-serif;
+  --c1-font-family: Pretendard, sans-serif;
   --c1-font-weight: 500;
   --c1-font-size: 16px;
   --c1-line-height: normal;
   --c1-letter-spacing: 0.04em;
+
+  --body1-font-family: Pretendard, sans-serif;
+  --body1-font-weight: 700;
+  --body1-font-size: 16px;
+  --body1-line-height: 140%;
+  --body1-letter-spacing: -0.03em;
 
   /* Layout */
   --header-height: 12rem;
