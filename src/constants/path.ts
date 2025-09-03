@@ -4,6 +4,8 @@ export const PATHS = {
   DIARY_SUBMIT: "/diary/submit/:type",
   DIARY_NEW: "/diary/new/:type",
   DIARY_DETAIL: "/diary/v/:id",
+  LOGIN: "/login",
+  SIGN_UP: "/signup",
 
   DIARY_LIST_TYPE: (type: "daily" | "mind") => `/diary/${type}`,
   DIARY_SUBMIT_TYPE: (type: "daily" | "mind") => `/diary/submit/${type}`,
