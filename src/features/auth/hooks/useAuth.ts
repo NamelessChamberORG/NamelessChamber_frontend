@@ -1,36 +1,12 @@
 import { useMutation, type UseMutationResult } from "@tanstack/react-query";
 import type { AuthResponse } from "../types/types";
 import { authApi } from "../api/auth";
-
-const ACCESS_TOKEN_KEY = "accessToken";
-const REFRESH_TOKEN_KEY = "refreshToken";
-const EMAIL_KEY = "email";
-
-function notifyAuthUpdate() {
-  // 같은 탭에서도 헤더가 즉시 갱신되도록 커스텀 이벤트 발행
-  window.dispatchEvent(new Event("auth:update"));
-}
-
-function persistAuth(res: AuthResponse & { email?: string }) {
-  localStorage.setItem(ACCESS_TOKEN_KEY, res.accessToken);
-  localStorage.setItem(REFRESH_TOKEN_KEY, res.refreshToken);
-  if (res.email) localStorage.setItem(EMAIL_KEY, res.email);
-  notifyAuthUpdate();
-}
-
-export function clearAuth() {
-  localStorage.removeItem(ACCESS_TOKEN_KEY);
-  localStorage.removeItem(REFRESH_TOKEN_KEY);
-  localStorage.removeItem(EMAIL_KEY);
-  notifyAuthUpdate();
-}
-
-export function getAccessToken(): string | null {
-  return localStorage.getItem(ACCESS_TOKEN_KEY);
-}
-export function getEmail(): string | null {
-  return localStorage.getItem(EMAIL_KEY);
-}
+import {
+  persistAuth,
+  clearAuth as clearAuthStore,
+  getAccessToken,
+  getEmail,
+} from "../api/tokenStore";
 
 type CommonOpts = {
   onSuccess?: (data: AuthResponse) => void;
@@ -81,3 +57,5 @@ export function useAnonymousLogin(opts: CommonOpts = {}) {
     onError: (err) => opts.onError?.(err),
   });
 }
+
+export { clearAuthStore as clearAuth, getAccessToken, getEmail };
