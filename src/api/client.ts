@@ -3,11 +3,13 @@ import axios from "axios";
 export const authClient = axios.create({
   baseURL: import.meta.env.VITE_API_BASE_URL,
   timeout: 5000,
+  validateStatus: () => true,
 });
 
 const client = axios.create({
   baseURL: import.meta.env.VITE_API_BASE_URL,
   timeout: 5000,
+  validateStatus: () => true,
 });
 
 client.interceptors.request.use((config) => {
