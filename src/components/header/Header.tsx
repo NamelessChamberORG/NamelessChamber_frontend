@@ -27,7 +27,7 @@ const Header = () => {
         <Logo />
       </Link>
 
-      {email ? (
+      {email && email !== "anonymous" ? (
         <div className={classes.userArea}>
           <span className={classes.nickname}>{email}님</span>
           <Button alwaysHoverStyle onClick={handleLogout}>
