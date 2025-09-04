@@ -4,14 +4,14 @@ import Button from "../button/Button";
 import Logo from "../logo/Logo";
 import classes from "./Header.module.css";
 import { PATHS } from "../../constants/path";
-import { getNickname, clearAuth } from "../../features/auth/hooks/useAuth";
+import { getEmail, clearAuth } from "../../features/auth/hooks/useAuth";
 
 const Header = () => {
   const navigate = useNavigate();
-  const [nickname, setNickname] = useState<string | null>(getNickname());
+  const [email, setEmail] = useState<string | null>(getEmail());
 
   useEffect(() => {
-    const update = () => setNickname(getNickname());
+    const update = () => setEmail(getEmail());
     window.addEventListener("auth:update", update);
     return () => window.removeEventListener("auth:update", update);
   }, []);
@@ -27,9 +27,9 @@ const Header = () => {
         <Logo />
       </Link>
 
-      {nickname ? (
+      {email ? (
         <div className={classes.userArea}>
-          <span className={classes.nickname}>{nickname}님</span>
+          <span className={classes.nickname}>{email}님</span>
           <Button alwaysHoverStyle onClick={handleLogout}>
             로그아웃
           </Button>

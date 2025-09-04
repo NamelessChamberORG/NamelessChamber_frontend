@@ -4,11 +4,11 @@ import { authClient } from "../../../api/client";
 import { unwrap } from "../../../api/helpers";
 
 export const authApi = {
-  async login(nickname: string, password: string): Promise<AuthResponse> {
+  async login(email: string, password: string): Promise<AuthResponse> {
     const res = await authClient.post<ApiResponse<AuthResponse>>(
       "/auth/login",
       {
-        nickname,
+        email,
         password,
       }
     );
@@ -19,11 +19,11 @@ export const authApi = {
     return data;
   },
 
-  async signup(nickname: string, password: string): Promise<AuthResponse> {
+  async signup(email: string, password: string): Promise<AuthResponse> {
     const res = await authClient.post<ApiResponse<AuthResponse>>(
       "/auth/signup",
       {
-        nickname,
+        email,
         password,
       }
     );

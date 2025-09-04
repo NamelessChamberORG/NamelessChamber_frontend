@@ -14,7 +14,7 @@ function SignupPage() {
   const navigate = useNavigate();
   const { showToast } = useToast();
 
-  const [nickname, setNickname] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const { mutate: signup, isPending } = useSignup({
@@ -28,7 +28,7 @@ function SignupPage() {
   });
 
   function handleSignup() {
-    const id = nickname.trim();
+    const id = email.trim();
     const pw = password.trim();
 
     if (!id || !pw) {
@@ -41,7 +41,7 @@ function SignupPage() {
       return;
     }
 
-    signup({ nickname: id, password: pw });
+    signup({ email: id, password: pw });
   }
 
   return (
@@ -51,8 +51,8 @@ function SignupPage() {
         <Input
           type="text"
           placeholder="아이디"
-          value={nickname}
-          onChange={(e) => setNickname(e.target.value)}
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
           autoComplete="username"
         />
         <Input
