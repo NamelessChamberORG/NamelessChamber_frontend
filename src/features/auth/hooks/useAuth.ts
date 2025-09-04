@@ -11,10 +11,10 @@ function notifyAuthUpdate() {
   window.dispatchEvent(new Event("auth:update"));
 }
 
-function persistAuth(res: AuthResponse & { nickname?: string }) {
+function persistAuth(res: AuthResponse & { email?: string }) {
   localStorage.setItem(ACCESS_TOKEN_KEY, res.accessToken);
   localStorage.setItem(REFRESH_TOKEN_KEY, res.refreshToken);
-  if (res.nickname) localStorage.setItem(EMAIL_KEY, res.nickname);
+  if (res.email) localStorage.setItem(EMAIL_KEY, res.email);
   notifyAuthUpdate();
 }
 
@@ -47,7 +47,7 @@ export function useLogin(
   return useMutation({
     mutationFn: ({ email, password }) => authApi.login(email, password),
     onSuccess: (data, variables) => {
-      persistAuth({ ...data, nickname: variables.email });
+      persistAuth({ ...data, email: variables.email });
       opts.onSuccess?.(data);
     },
     onError: (err) => opts.onError?.(err),
@@ -64,7 +64,7 @@ export function useSignup(
   return useMutation({
     mutationFn: ({ email, password }) => authApi.signup(email, password),
     onSuccess: (data, variables) => {
-      persistAuth({ ...data, nickname: variables.email });
+      persistAuth({ ...data, email: variables.email });
       opts.onSuccess?.(data);
     },
     onError: (err) => opts.onError?.(err),
