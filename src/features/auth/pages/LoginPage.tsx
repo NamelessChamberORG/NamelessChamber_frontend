@@ -64,7 +64,7 @@ function LoginPage() {
       <Form onSave={handleLogin}>
         <Input
           type="text"
-          placeholder="아이디 또는 이메일"
+          placeholder="아이디"
           value={nickname}
           onChange={(e) => setNickname(e.target.value)}
           autoComplete="username"
