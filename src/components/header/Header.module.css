@@ -51,3 +51,9 @@
   align-items: center;
   cursor: pointer;
 }
+
+.userArea {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
