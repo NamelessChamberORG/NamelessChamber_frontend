@@ -12,11 +12,7 @@ export const authApi = {
         password,
       }
     );
-    const data = unwrap<AuthResponse>(res);
-
-    localStorage.setItem("accessToken", data.accessToken);
-
-    return data;
+    return unwrap<AuthResponse>(res);
   },
 
   async signup(email: string, password: string): Promise<AuthResponse> {
@@ -28,21 +24,13 @@ export const authApi = {
       }
     );
 
-    const data = unwrap<AuthResponse>(res);
-
-    localStorage.setItem("accessToken", data.accessToken);
-
-    return data;
+    return unwrap<AuthResponse>(res);
   },
 
   async anonymousLogin(): Promise<AuthResponse> {
     const res = await authClient.post<ApiResponse<AuthResponse>>(
       "/auth/anonymous"
     );
-    const data = unwrap<AuthResponse>(res);
-
-    localStorage.setItem("accessToken", data.accessToken);
-
-    return data;
+    return unwrap<AuthResponse>(res);
   },
 };
