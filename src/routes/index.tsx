@@ -6,7 +6,9 @@ import DiaryListPage from "../features/diary/pages/DiaryListPage";
 import DiaryDetailPage from "../features/diary/pages/DiaryDetailPage";
 import DiaryPostSubmitPage from "../features/diary/pages/DiaryPostSubmitPage";
 import { PATHS } from "../constants/path";
-import NotFoundPage from "../features/diary/pages/NotFoundPage";
+import NotFoundPage from "../features/error/pages/NotFoundPage";
+import LoginPage from "../features/auth/pages/LoginPage";
+import SignupPage from "../features/auth/pages/SignupPage";
 
 const router = createBrowserRouter([
   {
@@ -25,6 +27,14 @@ const router = createBrowserRouter([
       {
         path: PATHS.DIARY_DETAIL,
         element: <DiaryDetailPage />,
+      },
+      {
+        path: PATHS.LOGIN,
+        element: <LoginPage />,
+      },
+      {
+        path: PATHS.SIGN_UP,
+        element: <SignupPage />,
       },
     ],
   },

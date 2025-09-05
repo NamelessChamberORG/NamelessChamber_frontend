@@ -1,0 +1,20 @@
+.login {
+  display: flex;
+  flex-direction: column;
+  font-family: var(--p1-font-family);
+  font-weight: var(--p1-font-weight);
+  font-size: var(--p1-font-size);
+  line-height: var(--p1-font-line-height);
+  letter-spacing: var(--p1-font-letter-spacing);
+  width: 100%;
+  max-width: 40rem;
+  margin: 0 auto;
+  padding: 0 1.2rem;
+  gap: 2.4rem;
+}
+
+.authButtons {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}

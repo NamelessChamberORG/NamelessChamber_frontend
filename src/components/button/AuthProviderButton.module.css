@@ -1,0 +1,39 @@
+.authButton {
+  width: 100%;
+  cursor: pointer;
+  border-radius: 8px;
+  padding: 1.2rem 1.6rem;
+  border: none;
+}
+
+.kakao {
+  background-color: #fee500;
+  color: #121212;
+
+  font-family: var(--body1-font-family);
+  font-weight: var(--body1-font-weight);
+  font-size: var(--body1-font-size);
+  line-height: var(--body1-line-height);
+  letter-spacing: var(--body1-letter-spacing);
+}
+
+.naver {
+  background-color: #03c75a;
+  color: white;
+
+  font-family: var(--body1-font-family);
+  font-weight: var(--body1-font-weight);
+  font-size: var(--body1-font-size);
+  line-height: var(--body1-line-height);
+  letter-spacing: var(--body1-letter-spacing);
+}
+
+.email {
+  background-color: var(--color-gray-4);
+  color: var(--color-gray-2);
+  font-family: var(--c1-font-family);
+  font-weight: var(--c1-font-weight);
+  font-size: var(--c1-font-size);
+  line-height: var(--c1-font-line-height);
+  letter-spacing: var(--c1-font-letter-spacing);
+}
