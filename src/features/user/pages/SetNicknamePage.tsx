@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Form from "../../../components/form/Form";
 import Input from "../../../components/input/Input";
 import Paragraph from "../../../components/paragraph/Paragraph";
@@ -8,35 +8,46 @@ import { useCreateNickname } from "../hooks/useCreateNickname";
 import { useNavigate } from "react-router";
 import { PATHS } from "../../../constants/path";
 import { useToast } from "../../../contexts/ToastContext";
+import InputMessage from "../../../components/input/InputMessage";
+import { validateNickname } from "../../auth/validation/validators";
+import { firstError, hasError } from "../../auth/validation/validationHelpers";
 
 function SetNicknamePage() {
   const [nickname, setNickname] = useState("");
+  const [serverError, setServerError] = useState<string>("");
+
   const navigate = useNavigate();
   const { showToast } = useToast();
 
-  const {
-    mutate: createNickname,
-    isPending,
-    error,
-  } = useCreateNickname({
+  const nicknameIssues = useMemo(
+    () => validateNickname(nickname.trim()),
+    [nickname]
+  );
+  const clientInvalid = hasError(nicknameIssues);
+  const clientErrorMsg = firstError(nicknameIssues);
+
+  const { mutate: createNickname, isPending } = useCreateNickname({
     onSuccess: () => {
-      setNickname(nickname);
       navigate(PATHS.HOME);
     },
     onError: (err) => {
+      setServerError(err.message);
       showToast(err.message, "cancel");
     },
   });
 
+  useEffect(() => {
+    if (serverError) setServerError("");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [nickname]);
+
   function handleSubmit() {
     const value = nickname.trim();
-    if (value.length < 2) {
-      return;
-    }
+    if (clientInvalid) return;
     createNickname(value);
   }
 
-  const disabled = isPending || nickname.trim().length < 2;
+  const disabled = isPending || clientInvalid;
 
   return (
     <section className={classes.nickname}>
@@ -51,17 +62,23 @@ function SetNicknamePage() {
           placeholder="닉네임을 입력해주세요"
           value={nickname}
           onChange={(e) => setNickname(e.target.value)}
+          aria-invalid={clientInvalid || !!serverError}
         />
+
+        {clientInvalid ? (
+          <InputMessage type="error">{clientErrorMsg}</InputMessage>
+        ) : serverError ? (
+          <InputMessage type="error">{serverError}</InputMessage>
+        ) : (
+          <InputMessage type="error">
+            8~16자의 영문 또는 영문+숫자 조합
+          </InputMessage>
+        )}
+
         <AuthButton type="submit" disabled={disabled}>
           {isPending ? "설정 중..." : "설정하기"}
         </AuthButton>
       </Form>
-
-      {error && (
-        <p className={classes.error} aria-live="polite">
-          {error.message}
-        </p>
-      )}
     </section>
   );
 }

@@ -4,7 +4,8 @@ export type MsgKey =
   | "pw.chars"
   | "pw.mixed"
   | "pw.repeat3"
-  | "pw.confirm.mismatch";
+  | "pw.confirm.mismatch"
+  | "nickname.pattern";
 
 const MESSAGES: Record<MsgKey, string> = {
   "id.pattern": "8~16자의 영문 또는 영문+숫자 조합",
@@ -13,6 +14,7 @@ const MESSAGES: Record<MsgKey, string> = {
   "pw.mixed": "영문과 숫자를 2개 이상 조합",
   "pw.repeat3": "동일한 숫자 3개 이상 연속 사용 불가",
   "pw.confirm.mismatch": "동일한 비밀번호를 입력",
+  "nickname.pattern": "8~16자의 영문 또는 영문+숫자 조합",
 };
 
 export function getMsg(key: MsgKey) {

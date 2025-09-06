@@ -40,3 +40,15 @@ export function validatePasswordConfirm(
     ? []
     : [{ key: "pw.confirm.mismatch", message: getMsg("pw.confirm.mismatch") }];
 }
+
+export function validateNickname(nickname: string): ValidationResult {
+  const issues: ValidationResult = [];
+  const ok = /^(?=.{8,16}$)[A-Za-z\d]+$/.test(nickname);
+  if (!ok) {
+    issues.push({
+      key: "nickname.pattern",
+      message: getMsg("nickname.pattern"),
+    });
+  }
+  return issues;
+}
