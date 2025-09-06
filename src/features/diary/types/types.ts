@@ -10,6 +10,7 @@ export type CreateDiaryRequest = {
 
 export type DiaryPreview = {
   postId: string;
+  userId: string;
   title: string;
   contentPreview?: string;
   contentLength: number;
