@@ -11,14 +11,11 @@ function DiaryListPage() {
 
   const listType: "SHORT" | "LONG" = lower === "daily" ? "SHORT" : "LONG";
 
-  const {
-    data: diaries = [],
-    isLoading,
-    isError,
-    error,
-    refetch,
-    isFetching,
-  } = useDiaries({ type: listType });
+  const { data, isLoading, isError, error, refetch, isFetching } = useDiaries({
+    type: listType,
+  });
+  const diaries = data?.posts ?? [];
+  const coin = data?.coin ?? 0;
 
   const isEmpty = !isLoading && !isError && diaries.length === 0;
 
@@ -34,6 +31,7 @@ function DiaryListPage() {
       >
         <CardListContainer
           diaries={diaries}
+          coin={coin}
           isLoading={isFetching}
           isEmpty={isEmpty}
         />

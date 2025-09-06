@@ -12,6 +12,7 @@ import { useToast } from "../../../../contexts/ToastContext";
 
 type Props = {
   diaries: DiaryPreview[];
+  coin: number;
   isLoading: boolean;
   isEmpty: boolean;
 };
