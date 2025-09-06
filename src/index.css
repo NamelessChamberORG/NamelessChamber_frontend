@@ -30,6 +30,8 @@ html {
 
   /* Palette */
   --color-green: #556028;
+  --color-yellow: #f2d899;
+  --color-red: #f04248;
   --color-gray-2: #d9d9d9;
   --color-gray-3: #878787;
   --color-gray-4: #302e2d;
@@ -58,6 +60,14 @@ html {
   --body1-font-size: 16px;
   --body1-line-height: 140%;
   --body1-letter-spacing: -0.03em;
+
+  --btn-font-family: Pretendard, sans-serif;
+  --btn-font-weight: 700;
+  --btn-font-size: 18px;
+  --btn-line-height: 1.8;
+  --btn-letter-spacing: 0.02em;
+  --btn-padding-x: 1.2rem;
+  --btn-padding-y: 0.8rem;
 
   /* Layout */
   --header-height: 12rem;
