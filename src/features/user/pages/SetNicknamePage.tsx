@@ -48,6 +48,10 @@ function SetNicknamePage() {
   }
 
   const disabled = isPending || clientInvalid;
+  const hasValue = nickname.trim().length > 0;
+  const showClientError = clientInvalid && hasValue;
+  const showServerError = !!serverError;
+  const showSuccess = hasValue && !clientInvalid && !serverError;
 
   return (
     <section className={classes.nickname}>
@@ -65,14 +69,20 @@ function SetNicknamePage() {
           aria-invalid={clientInvalid || !!serverError}
         />
 
-        {clientInvalid ? (
-          <InputMessage type="error">{clientErrorMsg}</InputMessage>
-        ) : serverError ? (
-          <InputMessage type="error">{serverError}</InputMessage>
-        ) : (
-          <InputMessage type="error">
-            8~16자의 영문 또는 영문+숫자 조합
+        {showClientError ? (
+          <InputMessage type="error" aria-live="polite">
+            {clientErrorMsg}
           </InputMessage>
+        ) : showServerError ? (
+          <InputMessage type="error" aria-live="polite">
+            {serverError}
+          </InputMessage>
+        ) : showSuccess ? (
+          <InputMessage type="success" aria-live="polite">
+            사용 가능합니다.
+          </InputMessage>
+        ) : (
+          <InputMessage></InputMessage>
         )}
 
         <AuthButton type="submit" disabled={disabled}>
