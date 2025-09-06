@@ -1,8 +1,8 @@
 import type { ApiResponse } from "../../../api/types";
 
 export type AuthResponse = {
-  id: string;
-  eamil: string;
+  userId: string;
+  email: string;
   nickname: string;
   coin: number;
   accessToken: string;

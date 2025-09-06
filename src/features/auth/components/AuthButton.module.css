@@ -1,0 +1,15 @@
+.authButton {
+  width: 100%;
+  background-color: var(--color-yellow);
+  padding: var(--btn-padding-y) var(--btn-padding-x);
+  color: #262524;
+  border: none;
+  cursor: pointer;
+  border-radius: 10px;
+
+  font-family: var(--btn-font-family);
+  font-weight: var(--btn-font-weight);
+  font-size: var(--btn-font-size);
+  line-height: var(--btn-line-height);
+  letter-spacing: var(--btn-letter-spacing);
+}

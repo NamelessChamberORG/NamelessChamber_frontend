@@ -9,7 +9,8 @@ export type CreateDiaryRequest = {
 };
 
 export type DiaryPreview = {
-  id: string;
+  postId: string;
+  userId: string;
   title: string;
   contentPreview?: string;
   contentLength: number;
@@ -19,7 +20,7 @@ export type DiaryPreview = {
 };
 
 export type DiaryDetail = {
-  id: string;
+  postId: string;
   title: string;
   content: string;
   likes: number;
