@@ -17,7 +17,6 @@ import {
   type ApiType,
   type UiType,
 } from "../types/typeMap";
-import { useEnsureSession } from "../../auth/hooks/useEnsureSession";
 
 const FORM_ID = "diary-form";
 const SHORT_MIN_LENGTH = 30;
@@ -39,7 +38,6 @@ function DiaryWritePage() {
   const { showToast } = useToast();
   const navigate = useNavigate();
   const { recordWrite } = usePostAccess();
-  useEnsureSession();
 
   const { type } = useParams<{ type: UiType }>();
   const diaryType: ApiType =
