@@ -9,7 +9,7 @@ import { PATHS } from "../constants/path";
 import NotFoundPage from "../features/error/pages/NotFoundPage";
 import LoginPage from "../features/auth/pages/LoginPage";
 import SignupPage from "../features/auth/pages/SignupPage";
-import SetNicknamePage from "../features/auth/pages/SetNicknamePage";
+import SetNicknamePage from "../features/user/pages/SetNicknamePage";
 
 const router = createBrowserRouter([
   {
