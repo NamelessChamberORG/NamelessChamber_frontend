@@ -13,9 +13,16 @@ type Props = {
   coin: number;
   isLoading: boolean;
   isEmpty: boolean;
+  type: "daily" | "mind";
 };
 
-const CardListContainer = ({ diaries, coin, isLoading, isEmpty }: Props) => {
+const CardListContainer = ({
+  diaries,
+  coin,
+  isLoading,
+  isEmpty,
+  type,
+}: Props) => {
   const navigate = useNavigate();
 
   const [pendingId, setPendingId] = useState<string | null>(null);
@@ -98,7 +105,10 @@ const CardListContainer = ({ diaries, coin, isLoading, isEmpty }: Props) => {
           <button type="button" onClick={closeCoinModal}>
             닫기
           </button>
-          <button type="button" onClick={() => navigate(PATHS.DIARY_NEW)}>
+          <button
+            type="button"
+            onClick={() => navigate(PATHS.DIARY_NEW_TYPE(type))}
+          >
             글 쓰러 가기
           </button>
         </Modal.Actions>
