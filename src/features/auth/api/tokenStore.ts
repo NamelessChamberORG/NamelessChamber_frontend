@@ -73,29 +73,55 @@ export function clearAuth() {
   notifyAuthUpdate();
 }
 
+export type UserRole = "USER" | "ANONYMOUS" | string;
+type JwtPayload = { sub?: string; role?: UserRole; exp?: number };
+
+function safeAtob(b64: string): string | null {
+  try {
+    if (typeof atob !== "function") return null;
+    return atob(b64);
+  } catch {
+    return null;
+  }
+}
+
 function base64UrlToBase64(s: string) {
   const b64 = s.replace(/-/g, "+").replace(/_/g, "/");
   const pad = b64.length % 4 === 2 ? "==" : b64.length % 4 === 3 ? "=" : "";
   return b64 + pad;
 }
 
-export function parseJwtExp(token: string | null): number | null {
+export function parseJwtPayload(token: string | null): JwtPayload | null {
   if (!token) return null;
   try {
     const parts = token.split(".");
     if (parts.length < 2) return null;
-    const payload = parts[1];
-    const json = JSON.parse(atob(base64UrlToBase64(payload)));
-    return typeof json?.exp === "number" ? json.exp : null;
+    const jsonStr = safeAtob(base64UrlToBase64(parts[1]));
+    if (!jsonStr) return null;
+    const payload = JSON.parse(jsonStr);
+    return payload && typeof payload === "object" ? payload : null;
   } catch {
     return null;
   }
 }
 
-export function hasValidToken(skewSec = 15): boolean {
-  const token = getAccessToken();
-  const exp = parseJwtExp(token);
-  if (!token || !exp) return false;
-  const now = Math.floor(Date.now() / 1000);
-  return now + skewSec < exp;
+export function parseJwtExp(token: string | null): number | null {
+  const payload = parseJwtPayload(token);
+  return typeof payload?.exp === "number" ? payload.exp : null;
+}
+
+export function getCurrentIdentity(): {
+  userId: string;
+  role: UserRole;
+} | null {
+  const payload = parseJwtPayload(getAccessToken());
+  const userId = payload?.sub;
+  const role = payload?.role;
+  if (!userId || !role) return null;
+  return { userId, role };
+}
+
+export function isAuthenticatedUser(): boolean {
+  const id = getCurrentIdentity();
+  return !!id && id.role !== "ANONYMOUS";
 }
