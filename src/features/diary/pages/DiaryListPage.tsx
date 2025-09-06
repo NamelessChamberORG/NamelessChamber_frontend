@@ -34,6 +34,7 @@ function DiaryListPage() {
           coin={coin}
           isLoading={isFetching}
           isEmpty={isEmpty}
+          type={type ?? "daily"}
         />
       </QueryBoundary>
     </div>
