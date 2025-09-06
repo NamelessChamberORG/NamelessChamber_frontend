@@ -19,6 +19,11 @@ export type DiaryPreview = {
   createdAt?: string;
 };
 
+export type PostsPayload = {
+  coin: number;
+  posts: DiaryPreview[];
+};
+
 export type DiaryDetail = {
   postId: string;
   title: string;
