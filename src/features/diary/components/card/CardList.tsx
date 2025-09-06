@@ -3,16 +3,16 @@ import Card from "./Card";
 
 type CardListProps = {
   diaries: DiaryPreview[];
-  onClickCard: (id: string) => void;
+  onClickCard: (postId: string) => void;
 };
 
 const CardList = ({ diaries, onClickCard }: CardListProps) => {
   return (
     <>
       {diaries.map((diary, idx) => (
-        <li key={diary.id}>
+        <li key={diary.postId}>
           <Card
-            onClick={() => onClickCard(diary.id)}
+            onClick={() => onClickCard(diary.postId)}
             title={diary.title}
             isAuthor={idx === 0}
             textCount={diary.contentLength}
