@@ -9,7 +9,6 @@ import Modal from "../../../components/modal/Modal";
 import { useToast } from "../../../contexts/ToastContext";
 import FullscreenToggleButton from "../../../components/fullsrceen/FullscreenToggleButton";
 import { useCreateDiary } from "../hooks/useCreateDiary";
-import { usePostAccess } from "../hooks/usePostAccess";
 import { PATHS } from "../../../constants/path";
 import {
   API_TO_UI,
@@ -37,7 +36,6 @@ function DiaryWritePage() {
 
   const { showToast } = useToast();
   const navigate = useNavigate();
-  const { recordWrite } = usePostAccess();
 
   const { type } = useParams<{ type: UiType }>();
   const diaryType: ApiType =
@@ -47,8 +45,6 @@ function DiaryWritePage() {
 
   const { mutateAsync } = useCreateDiary(diaryType, {
     onSuccess: () => {
-      recordWrite();
-
       formRef.current?.clear();
       setTitle("");
       setContent("");

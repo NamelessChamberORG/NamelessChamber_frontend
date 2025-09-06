@@ -1,14 +1,12 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import classes from "./CardList.module.css";
 import CardSkeleton from "./CardSkeleton";
 import CardList from "./CardList";
 import StoryPrompt from "../storyPrompt/StoryPrompt";
 import type { DiaryPreview } from "../../types/types";
-import { usePostAccess } from "../../hooks/usePostAccess";
 import Modal from "../../../../components/modal/Modal";
 import { PATHS } from "../../../../constants/path";
-import { useToast } from "../../../../contexts/ToastContext";
 
 type Props = {
   diaries: DiaryPreview[];
@@ -17,33 +15,41 @@ type Props = {
   isEmpty: boolean;
 };
 
-const CardListContainer = ({ diaries, isLoading, isEmpty }: Props) => {
+const CardListContainer = ({ diaries, coin, isLoading, isEmpty }: Props) => {
   const navigate = useNavigate();
-  const { canView, recordView } = usePostAccess();
-  const { showToast } = useToast();
 
   const [pendingId, setPendingId] = useState<string | null>(null);
-  const [isOpen, setOpen] = useState(false);
+  const [isConfirmOpen, setConfirmOpen] = useState(false);
+  const [isCoinEmptyOpen, setCoinEmptyOpen] = useState(false);
+
+  useEffect(() => {
+    if (coin <= 0 && isConfirmOpen) {
+      setConfirmOpen(false);
+      setPendingId(null);
+    }
+  }, [coin, isConfirmOpen]);
 
   const onClickCard = (id: string) => {
-    if (!canView()) {
-      showToast("보실 수 있는 일기를 모두 만나봤어요", "info");
+    if (coin <= 0) {
+      setCoinEmptyOpen(true);
       return;
     }
     setPendingId(id);
-    setOpen(true);
+    setConfirmOpen(true);
   };
 
-  const closeModal = () => {
-    setOpen(false);
+  const closeCoinModal = () => setCoinEmptyOpen(false);
+
+  const closeConfirm = () => {
+    setConfirmOpen(false);
     setPendingId(null);
   };
 
   const confirmView = () => {
     if (!pendingId) return;
-    recordView();
+
     navigate(PATHS.DIARY_DETAIL_ID(pendingId));
-    closeModal();
+    closeConfirm();
   };
 
   if (isLoading) {
@@ -77,8 +83,30 @@ const CardListContainer = ({ diaries, isLoading, isEmpty }: Props) => {
       </ul>
 
       <Modal
-        isOpen={isOpen}
-        onClose={closeModal}
+        isOpen={isCoinEmptyOpen}
+        onClose={closeCoinModal}
+        aria-labelledby="coin-title"
+      >
+        <Modal.Title id="coin-title">
+          <>
+            열람 가능한 횟수가 없어요.
+            <br />
+            당신의 이야기를 남기면 다른 사람의 고백 한 편이 열립니다.
+          </>
+        </Modal.Title>
+        <Modal.Actions>
+          <button type="button" onClick={closeCoinModal}>
+            닫기
+          </button>
+          <button type="button" onClick={() => navigate(PATHS.DIARY_NEW)}>
+            글 쓰러 가기
+          </button>
+        </Modal.Actions>
+      </Modal>
+
+      <Modal
+        isOpen={isConfirmOpen}
+        onClose={closeConfirm}
         aria-labelledby="preview-title"
       >
         <Modal.Title id="preview-title">
@@ -88,9 +116,8 @@ const CardListContainer = ({ diaries, isLoading, isEmpty }: Props) => {
             선택하신 고백으로 읽어보시겠어요?
           </>
         </Modal.Title>
-
         <Modal.Actions>
-          <button type="button" onClick={closeModal}>
+          <button type="button" onClick={closeConfirm}>
             닫기
           </button>
           <button type="button" onClick={confirmView}>
