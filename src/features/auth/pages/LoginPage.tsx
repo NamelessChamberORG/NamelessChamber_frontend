@@ -44,17 +44,6 @@ function LoginPage() {
 
   return (
     <section className={classes.login}>
-      <div>
-        <p>하루에 한번의 기록,</p>
-        <p>무명소</p>
-      </div>
-
-      <div className={classes.authButtons}>
-        <Link to={PATHS.SIGN_UP}>
-          <AuthButton>무명소에 합류하기</AuthButton>
-        </Link>
-      </div>
-
       <Paragraph>로그인</Paragraph>
       <Form onSave={handleLogin}>
         <Input
@@ -91,6 +80,17 @@ function LoginPage() {
           {isPending ? "로그인 중..." : "로그인 하기"}
         </Button>
       </Form>
+
+      <div>
+        <p>하루에 한번의 기록,</p>
+        <p>무명소</p>
+      </div>
+
+      <div className={classes.authButtons}>
+        <Link to={PATHS.SIGN_UP}>
+          <AuthButton>무명소에 합류하기</AuthButton>
+        </Link>
+      </div>
     </section>
   );
 }
