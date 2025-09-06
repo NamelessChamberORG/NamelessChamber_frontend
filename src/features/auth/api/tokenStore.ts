@@ -125,3 +125,21 @@ export function isAuthenticatedUser(): boolean {
   const id = getCurrentIdentity();
   return !!id && id.role !== "ANONYMOUS";
 }
+
+export function hasValidToken(nowSec = Math.floor(Date.now() / 1000)): boolean {
+  const token = getAccessToken();
+  if (!token) return false;
+  const exp = parseJwtExp(token);
+  if (exp == null) return true;
+  return exp > nowSec + 5;
+}
+
+export function hasValidRefreshToken(
+  nowSec = Math.floor(Date.now() / 1000)
+): boolean {
+  const rt = getRefreshToken();
+  if (!rt) return false;
+  const exp = parseJwtExp(rt);
+  if (exp == null) return true;
+  return exp > nowSec + 5;
+}
