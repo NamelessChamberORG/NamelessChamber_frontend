@@ -1,0 +1,22 @@
+.message {
+  font-family: var(--p1-font-family, Pretendard, sans-serif);
+  font-weight: 400;
+  font-size: 1.4rem;
+  line-height: normal;
+  letter-spacing: 0;
+  text-align: left;
+  margin-top: 0.4rem;
+  min-height: 2.2rem;
+}
+
+.hidden {
+  visibility: hidden;
+}
+
+.error {
+  color: var(--color-red);
+}
+
+.success {
+  color: var(--color-yellow);
+}
