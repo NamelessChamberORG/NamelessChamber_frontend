@@ -1,6 +1,5 @@
 import { Link, useNavigate } from "react-router";
 import { useState } from "react";
-import AuthProviderButton from "../../../components/button/AuthProviderButton";
 import Button from "../../../components/button/Button";
 import Form from "../../../components/form/Form";
 import Input from "../../../components/input/Input";
@@ -10,6 +9,8 @@ import { PATHS } from "../../../constants/path";
 import { useLogin } from "../hooks/useAuth";
 import { useToast } from "../../../contexts/ToastContext";
 import { getErrorMessage } from "../../../api/helpers";
+import AuthButton from "../components/AuthButton";
+import InputMessage from "../../../components/input/InputMessage";
 
 function LoginPage() {
   const navigate = useNavigate();
@@ -17,6 +18,7 @@ function LoginPage() {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [serverError, setServerError] = useState<string>("");
 
   const { mutate: login, isPending } = useLogin({
     onSuccess: () => {
@@ -24,24 +26,19 @@ function LoginPage() {
       navigate(PATHS.HOME);
     },
     onError: (err) => {
-      showToast(getErrorMessage(err), "cancel");
+      const msg = getErrorMessage(err);
+      setServerError(msg);
     },
   });
 
   function handleLogin() {
     const id = email.trim();
     const pw = password.trim();
-
     if (!id || !pw) {
-      showToast("아이디와 비밀번호를 모두 입력해주세요", "info");
+      setServerError("아이디와 비밀번호를 모두 입력해주세요");
       return;
     }
-
-    if (!/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,15}$/.test(pw)) {
-      showToast("비밀번호는 숫자·영문 포함 8-15자여야 합니다", "info");
-      return;
-    }
-
+    setServerError("");
     login({ email: id, password: pw });
   }
 
@@ -54,9 +51,7 @@ function LoginPage() {
 
       <div className={classes.authButtons}>
         <Link to={PATHS.SIGN_UP}>
-          <AuthProviderButton provider="email">
-            무명소에 합류하기
-          </AuthProviderButton>
+          <AuthButton>무명소에 합류하기</AuthButton>
         </Link>
       </div>
 
@@ -66,16 +61,32 @@ function LoginPage() {
           type="text"
           placeholder="아이디"
           value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          onChange={(e) => {
+            if (serverError) setServerError("");
+            setEmail(e.target.value);
+          }}
           autoComplete="username"
         />
+        <InputMessage />
         <Input
           type="password"
-          placeholder="비밀번호 (숫자, 영문 포함 8-15자)"
+          placeholder="비밀번호"
           value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          onChange={(e) => {
+            if (serverError) setServerError("");
+            setPassword(e.target.value);
+          }}
           autoComplete="current-password"
         />
+
+        {serverError ? (
+          <InputMessage type="error" aria-live="polite">
+            {serverError}
+          </InputMessage>
+        ) : (
+          <InputMessage />
+        )}
+
         <Button type="submit" disabled={isPending}>
           {isPending ? "로그인 중..." : "로그인 하기"}
         </Button>
