@@ -55,10 +55,12 @@ function SetNicknamePage() {
 
   return (
     <section className={classes.nickname}>
-      <Paragraph>닉네임</Paragraph>
-      <p className={classes.description}>
-        이곳에서 당신은 무슨 이름으로 불리고 싶나요?
-      </p>
+      <div className={classes.header}>
+        <Paragraph>닉네임</Paragraph>
+        <p className={classes.description}>
+          이곳에서 당신은 무슨 이름으로 불리고 싶나요?
+        </p>
+      </div>
 
       <Form onSave={handleSubmit}>
         <Input
