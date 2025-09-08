@@ -59,7 +59,7 @@ export default function ErrorPage() {
     <section className={classes.error}>
       <div className={classes.card}>
         <h1 className={classes.title}>{copy.title}</h1>
-        <p className={message ?? classes.desc} aria-live="polite">
+        <p className={message ?? copy.desc} aria-live="polite">
           {copy.desc}
         </p>
 
