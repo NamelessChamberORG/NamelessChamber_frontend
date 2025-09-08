@@ -1,4 +1,3 @@
-import QueryBoundary from "../../../components/status/QueryBoundary";
 import FadeInOnView from "../components/FadeInOnView";
 import Paragraph from "../../../components/paragraph/Paragraph";
 import classes from "./DiaryDetailPage.module.css";
@@ -8,6 +7,7 @@ import { useParams, Navigate } from "react-router-dom";
 import { formatDiaryTime } from "../../../lib/diary/formatDiaryTime";
 import StoryPrompt from "../components/storyPrompt/StoryPrompt";
 import { PATHS } from "../../../constants/path";
+import { InlineError } from "../../../components/status/InlineStates";
 
 function DetailContent({
   content,
@@ -71,22 +71,23 @@ export default function DiaryDetailPage() {
 
   if (!id) return <Navigate to={PATHS.DIARY_LIST} replace />;
 
+  if (isError)
+    return (
+      <InlineError
+        isFetching={isFetching}
+        onRetry={() => void refetch()}
+        message={error.message}
+      />
+    );
+
   const createdLabel =
     data?.createdAt && !isLoading ? formatDiaryTime(data.createdAt) : undefined;
 
   return (
-    <QueryBoundary
-      isError={isError || (!isLoading && !data)}
-      error={error}
-      isFetching={isFetching}
-      onRetry={() => void refetch()}
-      variant="detail"
-    >
-      <DetailContent
-        content={data?.content}
-        isLoading={isLoading || isFetching}
-        createdLabel={createdLabel}
-      />
-    </QueryBoundary>
+    <DetailContent
+      content={data?.content}
+      isLoading={isLoading || isFetching}
+      createdLabel={createdLabel}
+    />
   );
 }

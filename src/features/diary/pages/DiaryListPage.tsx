@@ -1,9 +1,9 @@
 import { useParams } from "react-router-dom";
-import QueryBoundary from "../../../components/status/QueryBoundary";
 import CardListContainer from "../components/card/CardListContainer";
 import { useDiaries } from "../hooks/useDiaries";
 import classes from "./DiaryListPage.module.css";
 import type { UiType } from "../types/typeMap";
+import { InlineError } from "../../../components/status/InlineStates";
 
 function DiaryListPage() {
   const { type } = useParams<{ type: UiType }>();
@@ -14,6 +14,16 @@ function DiaryListPage() {
   const { data, isLoading, isError, error, refetch, isFetching } = useDiaries({
     type: listType,
   });
+
+  if (isError)
+    return (
+      <InlineError
+        isFetching={isFetching}
+        onRetry={() => void refetch()}
+        message={error.message}
+      />
+    );
+
   const diaries = data?.posts ?? [];
   const coin = data?.coin ?? 0;
 
@@ -21,22 +31,13 @@ function DiaryListPage() {
 
   return (
     <div className={classes.list}>
-      <QueryBoundary
-        isError={isError}
-        error={error}
-        isFetching={isFetching}
-        onRetry={() => void refetch()}
+      <CardListContainer
+        diaries={diaries}
+        coin={coin}
+        isLoading={isFetching}
         isEmpty={isEmpty}
-        variant="list"
-      >
-        <CardListContainer
-          diaries={diaries}
-          coin={coin}
-          isLoading={isFetching}
-          isEmpty={isEmpty}
-          type={type ?? "daily"}
-        />
-      </QueryBoundary>
+        type={type ?? "daily"}
+      />
     </div>
   );
 }
