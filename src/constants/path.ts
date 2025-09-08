@@ -7,6 +7,7 @@ export const PATHS = {
   LOGIN: "/login",
   SIGN_UP: "/signup",
   NICKNAME: "/signup/nickname",
+  ERROR: "/error",
 
   DIARY_LIST_TYPE: (type: "daily" | "mind") => `/diary/${type}`,
   DIARY_SUBMIT_TYPE: (type: "daily" | "mind") => `/diary/submit/${type}`,

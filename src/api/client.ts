@@ -1,4 +1,5 @@
 import axios from "axios";
+import { toAppError } from "./errors";
 
 export const authClient = axios.create({
   baseURL: import.meta.env.VITE_API_BASE_URL,
@@ -19,5 +20,20 @@ client.interceptors.request.use((config) => {
   }
   return config;
 });
+
+client.interceptors.response.use(
+  (res) => {
+    if (typeof res.data === "object" && res.data?.success === false) {
+      throw toAppError({ response: res });
+    }
+    if (res.status >= 400) {
+      throw toAppError({ response: res });
+    }
+    return res;
+  },
+  (err) => {
+    throw toAppError(err);
+  }
+);
 
 export default client;
