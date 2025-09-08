@@ -10,12 +10,13 @@ import NotFoundPage from "../features/error/pages/NotFoundPage";
 import LoginPage from "../features/auth/pages/LoginPage";
 import SignupPage from "../features/auth/pages/SignupPage";
 import SetNicknamePage from "../features/user/pages/SetNicknamePage";
+import ErrorPage from "../features/error/pages/ErrorPage";
 
 const router = createBrowserRouter([
   {
     path: PATHS.HOME,
     element: <RootLayout />,
-
+    errorElement: <ErrorPage />,
     children: [
       {
         path: PATHS.HOME,
@@ -50,6 +51,10 @@ const router = createBrowserRouter([
   {
     path: PATHS.DIARY_NEW,
     element: <DiaryWritePage />,
+  },
+  {
+    path: PATHS.ERROR,
+    element: <ErrorPage />,
   },
   { path: "*", element: <NotFoundPage /> },
 ]);
