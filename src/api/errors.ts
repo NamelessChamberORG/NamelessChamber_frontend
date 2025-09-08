@@ -68,8 +68,9 @@ export function toAppError(err: unknown): AppError {
           ? mapErrorCode(data.errorCode)
           : "UNKNOWN";
       const message =
-        (typeof data.errorMsg === "string" && data.errorMsg) ||
-        "요청 처리 중 오류가 발생했습니다.";
+        typeof data.errorMsg === "string"
+          ? data.errorMsg
+          : "요청 처리 중 오류가 발생했습니다.";
       return { code, message, httpStatus: status, raw: err };
     }
 
