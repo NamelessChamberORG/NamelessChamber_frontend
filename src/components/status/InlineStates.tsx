@@ -18,7 +18,7 @@ type InlineErrorProps = {
 export function InlineError({
   onRetry,
   isFetching,
-  message,
+  message = "문제가 발생했어요. 잠시 후 다시 시도해주세요.",
 }: InlineErrorProps) {
   return (
     <div className={classes.container}>
