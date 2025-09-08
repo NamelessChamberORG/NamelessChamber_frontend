@@ -36,18 +36,13 @@ export function toAppError(err: any): AppError {
 
   const api = res.data;
   if (api && api.success === false && typeof api.errorCode === "number") {
-    const code =
-      api.errorCode === 1012
-        ? "INVALID_ACCESS"
-        : api.errorCode === 1011
-        ? "NO_COIN"
-        : "UNKNOWN";
+    const code = mapErrorCode(api.errorCode);
     return { code, message: api.errorMsg, httpStatus: res.status, raw: err };
   }
 
   switch (res.status) {
     case 401:
-      return { code: "INVALID_ACCESS", httpStatus: 401, raw: err }; // ← 여기
+      return { code: "INVALID_ACCESS", httpStatus: 401, raw: err };
     case 403:
       return { code: "FORBIDDEN", httpStatus: 403, raw: err };
     case 404:
