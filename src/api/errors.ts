@@ -27,22 +27,27 @@ const mapErrorCode = (n?: number): AppErrorCode => {
 };
 
 export function toAppError(err: any): AppError {
+  if (err && typeof err === "object" && "code" in err) {
+    return err as AppError;
+  }
+
   const res = err?.response;
   if (!res) return { code: "NETWORK", message: "네트워크 오류", raw: err };
 
   const api = res.data;
   if (api && api.success === false && typeof api.errorCode === "number") {
-    return {
-      code: mapErrorCode(api.errorCode),
-      message: api.errorMsg,
-      httpStatus: res.status,
-      raw: err,
-    };
+    const code =
+      api.errorCode === 1012
+        ? "INVALID_ACCESS"
+        : api.errorCode === 1011
+        ? "NO_COIN"
+        : "UNKNOWN";
+    return { code, message: api.errorMsg, httpStatus: res.status, raw: err };
   }
 
   switch (res.status) {
     case 401:
-      return { code: "UNAUTHORIZED", httpStatus: 401, raw: err };
+      return { code: "INVALID_ACCESS", httpStatus: 401, raw: err }; // ← 여기
     case 403:
       return { code: "FORBIDDEN", httpStatus: 403, raw: err };
     case 404:
