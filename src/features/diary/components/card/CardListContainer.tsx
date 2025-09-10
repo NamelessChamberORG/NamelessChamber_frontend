@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import classes from "./CardList.module.css";
 import CardSkeleton from "./CardSkeleton";
 import CardList from "./CardList";
-import StoryPrompt from "../storyPrompt/StoryPrompt";
 import type { DiaryPreview } from "../../types/types";
 import Modal from "../../../../components/modal/Modal";
 import { PATHS } from "../../../../constants/path";
@@ -79,12 +78,6 @@ const CardListContainer = ({
 
   return (
     <>
-      <StoryPrompt
-        lines={["당신의 이야기를", "한 번 더 흘려보내주세요"]}
-        to={PATHS.HOME}
-        paddingSize="small"
-      />
-
       <ul className={classes.cardList}>
         <CardList diaries={diaries} onClickCard={onClickCard} />
       </ul>
