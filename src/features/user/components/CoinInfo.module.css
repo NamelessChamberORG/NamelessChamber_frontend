@@ -1,0 +1,17 @@
+.coin {
+  width: 100%;
+  font-family: var(--c1-font-family);
+  font-weight: var(--c1-font-weight);
+  font-size: var(--c1-font-size);
+  line-height: var(--c1-font-line-height);
+  letter-spacing: var(--c1-font-letter-spacing);
+  text-align: left;
+}
+
+.coin p:first-of-type {
+  color: var(--color-gray-3);
+}
+
+.coin p:nth-of-type(2) {
+  color: var(--color-gray-2);
+}
