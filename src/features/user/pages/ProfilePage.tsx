@@ -1,15 +1,24 @@
+import { useNavigate } from "react-router";
 import Button from "../../../components/button/Button";
 import CoinInfo from "../components/CoinInfo";
 import FeedbackCard from "../components/FeedbackCard";
 import UserInfo from "../components/UserInfo";
 import { useUserMe } from "../hooks/useUser";
 import classes from "./ProfilePage.module.css";
+import { PATHS } from "../../../constants/path";
+import { clearAuth } from "../../auth/api/tokenStore";
 
 function ProfilePage() {
   const { data: me, isLoading: isMeLoading } = useUserMe();
+  const navigate = useNavigate();
 
   if (isMeLoading) {
     return <div>Loading...</div>;
+  }
+
+  function handleLogout() {
+    clearAuth();
+    navigate(PATHS.HOME);
   }
   return (
     <section className={classes.profile}>
@@ -18,7 +27,9 @@ function ProfilePage() {
         <CoinInfo coin={me?.coin ?? 0} />
         <Button alwaysHoverStyle={true}>프로필 편집</Button>
         <FeedbackCard />
-        <button className={classes.logout}>로그아웃</button>
+        <button className={classes.logout} onClick={handleLogout}>
+          로그아웃
+        </button>
       </div>
     </section>
   );
