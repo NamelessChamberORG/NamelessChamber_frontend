@@ -13,6 +13,7 @@ type Props = {
   isLoading: boolean;
   isEmpty: boolean;
   type: "daily" | "mind";
+  emptyMessage: string;
 };
 
 const CardListContainer = ({
@@ -21,6 +22,7 @@ const CardListContainer = ({
   isLoading,
   isEmpty,
   type,
+  emptyMessage,
 }: Props) => {
   const navigate = useNavigate();
 
@@ -71,7 +73,7 @@ const CardListContainer = ({
   if (isEmpty) {
     return (
       <ul className={classes.cardList}>
-        <li className={classes.empty}>아직 등록된 글이 없어요.</li>
+        <li className={classes.empty}>{emptyMessage}</li>
       </ul>
     );
   }

@@ -37,6 +37,7 @@ function DiaryListPage() {
         isLoading={isFetching}
         isEmpty={isEmpty}
         type={type ?? "daily"}
+        emptyMessage={"아직 등록된 글이 없어요"}
       />
     </div>
   );
