@@ -1,7 +1,7 @@
 import client from "../../../api/client";
 import { unwrap, unwrapNoContent } from "../../../api/helpers";
 import type { ApiResponse } from "../../../api/types";
-import type { UserMe } from "../type/types";
+import type { ReadDiaries, UserMe } from "../type/types";
 
 export const userApi = {
   async createNickname(nickname: string): Promise<void> {
@@ -16,5 +16,9 @@ export const userApi = {
     const res = await client.get<ApiResponse<UserMe>>("/users/me");
 
     return unwrap(res);
+  },
+  async getReadDiaries(): Promise<ReadDiaries> {
+    const res = await client.get<ApiResponse<ReadDiaries>>("/read-history");
+    return unwrap<ReadDiaries>(res);
   },
 };

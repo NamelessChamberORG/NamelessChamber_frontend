@@ -1,3 +1,5 @@
+import type { DiaryPreview } from "../../diary/types/types";
+
 export type UserMe = {
   userId: string;
   nickname: string;
@@ -6,4 +8,9 @@ export type UserMe = {
   coin: number;
   createdAt: string;
   lastLoginAt: string;
+};
+
+export type ReadDiaries = {
+  coin: number;
+  posts: DiaryPreview[];
 };
