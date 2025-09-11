@@ -15,12 +15,12 @@ const Card = ({ title, textCount, isAuthor, ...props }: CardProps) => {
   const authorType = isAuthor ? "self" : "other";
 
   return (
-    <li className={`${classes.card} ${classes[authorType]}`} {...props}>
+    <article className={`${classes.card} ${classes[authorType]}`} {...props}>
       <Title authorType={authorType}>{title}</Title>
       <div>
         <Count className={classes.count}>{textCount}</Count>
       </div>
-    </li>
+    </article>
   );
 };
 
