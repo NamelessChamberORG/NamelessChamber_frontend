@@ -1,0 +1,9 @@
+.signup {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 40rem;
+  margin: 0 auto;
+  padding: 0 1.2rem;
+  gap: 2.4rem;
+}

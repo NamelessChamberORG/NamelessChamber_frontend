@@ -5,6 +5,7 @@ import {
   useImperativeHandle,
   forwardRef,
 } from "react";
+import classes from "./Form.module.css";
 
 export type FormHandle = {
   clear: () => void;
@@ -37,7 +38,12 @@ const Form = forwardRef<FormHandle, FormProps>(function Form(
     form.current?.reset();
   }
   return (
-    <form onSubmit={handleSubmit} ref={form} {...otherProps}>
+    <form
+      className={classes.form}
+      onSubmit={handleSubmit}
+      ref={form}
+      {...otherProps}
+    >
       {children}
     </form>
   );

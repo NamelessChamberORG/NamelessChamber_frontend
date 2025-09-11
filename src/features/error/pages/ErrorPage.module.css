@@ -1,0 +1,104 @@
+.error {
+  min-height: calc(100dvh);
+  display: grid;
+  place-items: center;
+  padding: 4.8rem 2.4rem;
+  background: var(--background-color);
+  color: var(--text-color);
+}
+
+.card {
+  width: 100%;
+  max-width: 56rem;
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+  background: var(--background-secondary-color);
+  border: 1px solid var(--border-color);
+  border-radius: 1.6rem;
+  box-shadow: 0 0.8rem 2.4rem rgba(0, 0, 0, 0.25);
+  padding: 3.2rem;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+
+.title {
+  margin: 0 0 1.2rem 0;
+  font-family: var(--p1-font-family, Pretendard, sans-serif);
+  font-weight: 700;
+  font-size: 2.4rem;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+  color: var(--color-gray-2, #d9d9d9);
+}
+
+.desc {
+  margin: 0 0 2.4rem 0;
+  font-family: var(--p1-font-family, Pretendard, sans-serif);
+  font-weight: 500;
+  font-size: 1.6rem;
+  line-height: 1.7;
+  color: var(--text-secondary-color);
+}
+
+.actions {
+  display: flex;
+  justify-content: center;
+  gap: 1.2rem;
+}
+
+.actions :global(button),
+.actions :global(a[role="button"]) {
+  margin: 0;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 1.6rem;
+  padding: 0.4rem 0.8rem;
+  border-radius: 999px;
+  font-size: 1.2rem;
+  color: var(--color-green);
+  background: color-mix(in oklab, var(--color-green) 12%, transparent);
+  border: 1px solid color-mix(in oklab, var(--color-green) 30%, transparent);
+}
+
+@media (max-width: 480px) {
+  .card {
+    padding: 2.4rem;
+  }
+  .title {
+    font-size: 2.1rem;
+  }
+  .desc {
+    font-size: 1.5rem;
+  }
+}
+
+.card :focus-visible {
+  outline: 2px solid var(--color-yellow);
+  outline-offset: 2px;
+  border-radius: 0.8rem;
+}
+
+.card {
+  opacity: 0;
+  transform: translateY(6px);
+  animation: fadeInUp 320ms ease-out forwards;
+}
+
+@keyframes fadeInUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.hr {
+  height: 1px;
+  background: var(--border-color);
+  border: 0;
+  margin: 2rem 0 2.4rem;
+}

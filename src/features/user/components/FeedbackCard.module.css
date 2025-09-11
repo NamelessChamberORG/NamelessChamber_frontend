@@ -1,0 +1,15 @@
+.feedbackCard {
+  display: flex;
+  width: 100%;
+  text-align: left;
+
+  justify-content: space-between;
+  padding: 2.4rem;
+  border-radius: 0.8rem;
+  background-color: var(--color-gray-4);
+  font-family: var(--p1-font-family);
+  font-weight: var(--p1-font-weight);
+  font-size: var(--p1-font-size);
+  line-height: var(--p1-font-line-height);
+  letter-spacing: var(--p1-font-letter-spacing);
+}

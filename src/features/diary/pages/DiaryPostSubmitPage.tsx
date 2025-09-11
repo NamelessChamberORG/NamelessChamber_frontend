@@ -1,8 +1,9 @@
 import { useEffect, useRef } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import classes from "./DiaryPostSubmitPage.module.css";
 import FullscreenToggleButton from "../../../components/fullsrceen/FullscreenToggleButton";
 import { PATHS } from "../../../constants/path";
+import type { UiType } from "../types/typeMap";
 
 type State = {
   next?: string;
@@ -15,7 +16,9 @@ function DiaryPostSubmitPage() {
   const location = useLocation();
   const state = (location.state || {}) as State;
 
-  const next = state.next ?? PATHS.DIARY_LIST;
+  const { type } = useParams<{ type: UiType }>();
+
+  const next = state.next ?? PATHS.DIARY_LIST_TYPE(type ?? "daily");
   const stayMs = state.stayMs ?? 1600;
   const message = state.message ?? "작성해주신 소중한 마음은 소중히 보관할게요";
 

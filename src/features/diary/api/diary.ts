@@ -5,11 +5,14 @@ import type {
   CreateDiaryRequest,
   DiaryPreview,
   DiaryDetail,
+  PostsPayload,
 } from "../types/types";
 
 export const diaryApi = {
-  async getAll(): Promise<DiaryPreview[]> {
-    const res = await client.get<ApiResponse<DiaryPreview[]>>("/posts");
+  async getAll(type: "SHORT" | "LONG"): Promise<PostsPayload> {
+    const res = await client.get<ApiResponse<PostsPayload>>("/posts", {
+      params: { type },
+    });
     return unwrap(res);
   },
   async getById(id: string): Promise<DiaryDetail> {

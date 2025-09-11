@@ -22,11 +22,14 @@
     opacity var(--reveal-duration) var(--reveal-easing) var(--reveal-delay),
     transform var(--reveal-duration) var(--reveal-easing) var(--reveal-delay);
   will-change: opacity, transform;
+  background-color: var(--background-secondary-color);
+  border: 0.1rem solid var(--border-color);
 }
 
 .content {
-  filter: blur(var(--blur-radius));
-  transition: filter 200ms ease;
+  filter: blur(var(--blur-radius, 4px));
+  transition: filter var(--reveal-duration) var(--reveal-easing)
+    var(--reveal-delay);
   will-change: filter;
 }
 
@@ -40,16 +43,20 @@
   transform: translateY(0) scale(1);
 }
 
+.revealed .content {
+  filter: none;
+}
+
 .button:hover .content,
 .hover-style .content {
   filter: none;
 }
 
-.button:hover,
+/* .button:hover,
 .hover-style {
   background-color: var(--background-secondary-color);
   border: 0.1rem solid var(--border-color);
-}
+} */
 
 /* === 포커스 가시성 (접근성) === */
 .button:focus-visible {
@@ -79,5 +86,9 @@
   }
   .revealed {
     opacity: 1;
+  }
+  .content {
+    transition: none;
+    filter: none;
   }
 }

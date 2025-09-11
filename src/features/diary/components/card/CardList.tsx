@@ -1,24 +1,35 @@
+import { useMemo } from "react";
 import type { DiaryPreview } from "../../types/types";
 import Card from "./Card";
+import { getCurrentIdentity } from "../../../auth/api/tokenStore";
 
 type CardListProps = {
   diaries: DiaryPreview[];
-  onClickCard: (id: string) => void;
+  onClickCard: (postId: string) => void;
 };
 
 const CardList = ({ diaries, onClickCard }: CardListProps) => {
+  const identity = useMemo(() => getCurrentIdentity(), []);
+
   return (
     <>
-      {diaries.map((diary, idx) => (
-        <li key={diary.id}>
-          <Card
-            onClick={() => onClickCard(diary.id)}
-            title={diary.title}
-            isAuthor={idx === 0}
-            textCount={diary.contentLength}
-          />
-        </li>
-      ))}
+      {diaries.map((diary) => {
+        const isAuthor =
+          !!identity &&
+          identity.role !== "ANONYMOUS" &&
+          diary.userId === identity.userId;
+
+        return (
+          <li key={diary.postId}>
+            <Card
+              onClick={() => onClickCard(diary.postId)}
+              title={diary.title}
+              isAuthor={isAuthor}
+              textCount={diary.contentLength}
+            />
+          </li>
+        );
+      })}
     </>
   );
 };

@@ -9,7 +9,8 @@ export type CreateDiaryRequest = {
 };
 
 export type DiaryPreview = {
-  id: string;
+  postId: string;
+  userId: string;
   title: string;
   contentPreview?: string;
   contentLength: number;
@@ -18,8 +19,13 @@ export type DiaryPreview = {
   createdAt?: string;
 };
 
+export type PostsPayload = {
+  coin: number;
+  posts: DiaryPreview[];
+};
+
 export type DiaryDetail = {
-  id: string;
+  postId: string;
   title: string;
   content: string;
   likes: number;
