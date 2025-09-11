@@ -11,13 +11,13 @@ export function InlineEmpty({ message = "표시할 내용이 없어요." }) {
 
 type InlineErrorProps = {
   onRetry?: () => void;
-  isFetching?: boolean;
+  isLoading?: boolean;
   message?: string;
 };
 
 export function InlineError({
   onRetry,
-  isFetching,
+  isLoading,
   message = "문제가 발생했어요. 잠시 후 다시 시도해주세요.",
 }: InlineErrorProps) {
   return (
@@ -28,9 +28,9 @@ export function InlineError({
           <Button
             className={classes.button}
             onClick={onRetry}
-            disabled={isFetching}
+            disabled={isLoading}
           >
-            {isFetching ? "다시 시도 중…" : "다시 시도"}
+            {isLoading ? "다시 시도 중…" : "다시 시도"}
           </Button>
         )}
       </div>
