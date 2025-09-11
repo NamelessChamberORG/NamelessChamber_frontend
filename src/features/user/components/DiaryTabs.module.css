@@ -23,11 +23,9 @@
 
 .tab[aria-selected="true"] {
   color: var(--color-gray-2);
-}
-
-.tab[aria-selected="true"] {
   position: relative;
 }
+
 .tab[aria-selected="true"]::after {
   content: "";
   position: absolute;
@@ -36,4 +34,17 @@
   bottom: -8px;
   height: 2px;
   background: var(--color-gray-2);
+}
+
+@media (max-width: 768px) {
+  .tablist {
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  .tab {
+    flex: 1;
+    padding: 0.75rem;
+    text-align: center;
+  }
 }
