@@ -58,7 +58,9 @@ const CardListContainer = ({
     return (
       <ul className={classes.cardList}>
         {Array.from({ length: 6 }).map((_, i) => (
-          <CardSkeleton key={i} />
+          <li key={i}>
+            <CardSkeleton />
+          </li>
         ))}
       </ul>
     );
