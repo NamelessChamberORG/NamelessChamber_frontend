@@ -43,5 +43,10 @@
 .userArea {
   display: flex;
   align-items: center;
-  gap: 2rem;
+}
+
+@media (max-width: 767px) {
+  .header {
+    padding: 0;
+  }
 }

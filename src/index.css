@@ -163,3 +163,9 @@ body::before {
   margin: 0 auto;
   padding-inline: 16px;
 }
+
+@media (max-width: 767px) {
+  .container {
+    padding: 0 3rem;
+  }
+}

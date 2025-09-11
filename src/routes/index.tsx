@@ -11,6 +11,7 @@ import LoginPage from "../features/auth/pages/LoginPage";
 import SignupPage from "../features/auth/pages/SignupPage";
 import SetNicknamePage from "../features/user/pages/SetNicknamePage";
 import ErrorPage from "../features/error/pages/ErrorPage";
+import ProfilePage from "../features/user/pages/ProfilePage";
 
 const router = createBrowserRouter([
   {
@@ -41,6 +42,10 @@ const router = createBrowserRouter([
       {
         path: PATHS.NICKNAME,
         element: <SetNicknamePage />,
+      },
+      {
+        path: PATHS.PROFILE,
+        element: <ProfilePage />,
       },
     ],
   },
