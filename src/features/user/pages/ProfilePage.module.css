@@ -2,6 +2,8 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  gap: 2rem;
+  padding-top: calc(var(--header-height) + 16px);
 }
 .profileSection {
   width: 100%;
@@ -21,4 +23,23 @@
   font-size: var(--p1-font-size);
   line-height: var(--p1-font-line-height);
   letter-spacing: var(--p1-font-letter-spacing);
+}
+
+.listSection {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 4rem;
+}
+
+.listSection :global(.tablist) {
+  display: flex;
+  justify-content: flex-start;
+}
+
+@media (max-width: 767px) {
+  .profile {
+    display: flex;
+    justify-content: center;
+  }
 }
