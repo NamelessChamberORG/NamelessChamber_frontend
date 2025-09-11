@@ -2,9 +2,6 @@
   display: flex;
   width: 100%;
   text-align: left;
-
-  /* align-items: center;
-  cursor: pointer; */
   color: var(--text-color);
   font-family: var(--p1-font-family);
   font-weight: var(--p1-font-weight);

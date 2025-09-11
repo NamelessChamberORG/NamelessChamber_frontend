@@ -4,9 +4,9 @@ type UserInfoProps = {
   nickname: string;
 };
 
-const ProfileSection = ({ nickname }: UserInfoProps) => {
+const UserInfo = ({ nickname }: UserInfoProps) => {
   return (
-    <div className={classes.profileSection}>
+    <div className={classes.userInfo}>
       <div>
         <p>{nickname} 님, 안녕하세요!</p>
       </div>
@@ -14,4 +14,4 @@ const ProfileSection = ({ nickname }: UserInfoProps) => {
   );
 };
 
-export default ProfileSection;
+export default UserInfo;
