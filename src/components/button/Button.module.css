@@ -1,9 +1,5 @@
 .button {
   border-radius: 0.6rem;
-  background-color: transparent;
-  color: var(--text-color);
-  border: none;
-  cursor: pointer;
   font-family: var(--p1-font-family);
   font-weight: var(--p1-font-weight);
   font-size: var(--p1-font-size);
@@ -19,14 +15,13 @@
   --reveal-duration: 800ms;
   --reveal-easing: ease-in;
 
-  transition: background-color 0.2s ease, border 0.2s ease,
+  transition: background-color 0.2s ease, border 0.2s ease, color 0.2s ease,
     opacity var(--reveal-duration) var(--reveal-easing) var(--reveal-delay),
     transform var(--reveal-duration) var(--reveal-easing) var(--reveal-delay);
   will-change: opacity, transform;
-  background-color: var(--background-secondary-color);
-  border: 0.1rem solid var(--border-color);
 }
 
+/* reveal */
 .content {
   filter: blur(var(--blur-radius, 4px));
   transition: filter var(--reveal-duration) var(--reveal-easing)
@@ -43,69 +38,72 @@
   opacity: 1;
   transform: translateY(0) scale(1);
 }
-
-.revealed .content {
-  filter: none;
-}
-
+.revealed .content,
 .button:hover .content,
 .hover-style .content {
   filter: none;
 }
 
+/* states × variants */
 .default.main {
-  background-color: rgba(217, 217, 217, 0.04);
-  border: 1px solid rgba(217, 217, 217, 0.08);
-  color: var(--text-color, #d9d9d9);
+  background-color: var(--background-secondary-color);
+  border: 1px solid var(--border-color);
+  color: var(--text-color);
 }
-
 .active.main {
   background-color: var(--color-yellow);
+  border: 1px solid transparent;
   color: var(--color-gray-4);
 }
 
 .default.sub {
-  background-color: rgba(217, 217, 217, 0.04);
-  border: 1px solid rgba(217, 217, 217, 0.08);
+  background-color: var(--background-secondary-color);
+  border: 1px solid var(--border-color);
   color: rgba(217, 217, 217, 0.8);
 }
 
 .active.sub {
   background-color: var(--color-green);
+  border: 1px solid transparent;
   color: var(--color-yellow);
 }
 
 .default.ghost {
   border-radius: 0;
-  background-color: transparent;
+  background: transparent;
   border: none;
-  color: rgba(217, 217, 217, 0.8);
+  color: var(--text-color);
 }
 
 .active.ghost {
   border-radius: 4px;
-  background-color: transparent;
+  background: transparent;
   border: none;
   color: var(--color-gray-03);
 }
 
 .default.solid {
-  background-color: transparent;
+  background: transparent;
   border: none;
   color: rgba(217, 217, 217, 0.8);
 }
 
 .active.solid {
-  background-color: rgba(217, 217, 217, 0.04);
-  border: 1px solid rgba(217, 217, 217, 0.08);
-  color: rgba(217, 217, 217, 0.8);
+  background-color: var(--background-secondary-color);
+  border: 1px solid var(--border-color);
+  color: var(--text-color);
 }
 
-/* === 포커스 가시성 (접근성) === */
+/* 접근성 */
 .button:focus-visible {
   outline: 0.2rem solid color-mix(in oklab, var(--text-color) 60%, transparent);
   outline-offset: 0.2rem;
   border-radius: 0.6rem;
+}
+
+.button:disabled {
+  cursor: default;
+  pointer-events: none;
 }
 
 .button svg,
@@ -116,7 +114,7 @@
 
 @media (prefers-reduced-motion: reduce) {
   .button {
-    transition: background-color 0.2s ease, border 0.2s ease;
+    transition: background-color 0.2s ease, border 0.2s ease, color 0.2s ease;
   }
   .hidden {
     opacity: 0;
