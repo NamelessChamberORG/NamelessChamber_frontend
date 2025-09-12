@@ -61,7 +61,12 @@ function FeedbackPage() {
         />
 
         <div className={classes.actions}>
-          <Button type="submit" disabled={createFeedback.isPending}>
+          <Button
+            type="submit"
+            variant="main"
+            state={content.trim().length > 0 ? "active" : "default"}
+            disabled={createFeedback.isPending || content.trim().length === 0}
+          >
             {createFeedback.isPending ? "전송 중..." : "무명소에 제보하기"}
           </Button>
         </div>
