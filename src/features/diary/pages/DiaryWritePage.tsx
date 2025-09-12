@@ -118,7 +118,7 @@ function DiaryWritePage() {
               onClick={handleOpenConfirm}
               disabled={submitting}
             >
-              {submitting ? "보관 중..." : "무명소에 흘러보내기"}
+              {submitting ? "보관 중..." : "무명소에 흘려보내기"}
             </Button>
           )}
         </div>
@@ -128,7 +128,7 @@ function DiaryWritePage() {
 
       <Modal isOpen={showConfirm} onClose={() => setShowConfirm(false)}>
         <Modal.Title id="submit-title">
-          작성하신 일기를 한마디로 표현해주세요
+          작성하신 글을 한마디로 표현해주세요
         </Modal.Title>
 
         <Modal.Textarea
@@ -143,16 +143,25 @@ function DiaryWritePage() {
         />
 
         <Modal.Actions>
-          <button type="button" onClick={() => setShowConfirm(false)}>
+          <Button
+            type="button"
+            alwaysHoverStyle
+            variant="main"
+            state="default"
+            onClick={() => setShowConfirm(false)}
+          >
             닫기
-          </button>
-          <button
+          </Button>
+          <Button
             type="submit"
             form={FORM_ID}
+            alwaysHoverStyle
+            variant="main"
+            state="default"
             disabled={submitting || !title.trim()}
           >
             완료하기
-          </button>
+          </Button>
         </Modal.Actions>
       </Modal>
     </div>
