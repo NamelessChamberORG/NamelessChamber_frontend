@@ -44,9 +44,8 @@ const Button = ({
 
   const combinedClassName = [
     classes.button,
-    classes[variant], // main, sub, ghost, solid
-    classes[state], // default, active
-    classes[`${state}_${variant}`], // ex) active_main, default_sub
+    classes[variant],
+    classes[state],
     alwaysHoverStyle && classes["hover-style"],
     revealed ? classes.revealed : classes.hidden,
     className,
