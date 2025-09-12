@@ -13,6 +13,7 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
 
   --reveal-delay: 0ms;
   --reveal-duration: 800ms;
@@ -52,22 +53,59 @@
   filter: none;
 }
 
-/* .button:hover,
-.hover-style {
-  background-color: var(--background-secondary-color);
-  border: 0.1rem solid var(--border-color);
-} */
+.default.main {
+  background-color: rgba(217, 217, 217, 0.04);
+  border: 1px solid rgba(217, 217, 217, 0.08);
+  color: var(--text-color, #d9d9d9);
+}
+
+.active.main {
+  background-color: var(--color-yellow);
+  color: var(--color-gray-4);
+}
+
+.default.sub {
+  background-color: rgba(217, 217, 217, 0.04);
+  border: 1px solid rgba(217, 217, 217, 0.08);
+  color: rgba(217, 217, 217, 0.8);
+}
+
+.active.sub {
+  background-color: var(--color-green);
+  color: var(--color-yellow);
+}
+
+.default.ghost {
+  border-radius: 0;
+  background-color: transparent;
+  border: none;
+  color: rgba(217, 217, 217, 0.8);
+}
+
+.active.ghost {
+  border-radius: 4px;
+  background-color: transparent;
+  border: none;
+  color: var(--color-gray-03);
+}
+
+.default.solid {
+  background-color: transparent;
+  border: none;
+  color: rgba(217, 217, 217, 0.8);
+}
+
+.active.solid {
+  background-color: rgba(217, 217, 217, 0.04);
+  border: 1px solid rgba(217, 217, 217, 0.08);
+  color: rgba(217, 217, 217, 0.8);
+}
 
 /* === 포커스 가시성 (접근성) === */
 .button:focus-visible {
   outline: 0.2rem solid color-mix(in oklab, var(--text-color) 60%, transparent);
   outline-offset: 0.2rem;
   border-radius: 0.6rem;
-}
-
-.button:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
 }
 
 .button svg,
