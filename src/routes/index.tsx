@@ -12,6 +12,7 @@ import SignupPage from "../features/auth/pages/SignupPage";
 import SetNicknamePage from "../features/user/pages/SetNicknamePage";
 import ErrorPage from "../features/error/pages/ErrorPage";
 import ProfilePage from "../features/user/pages/ProfilePage";
+import FeedbackPage from "../features/feedback/pages/FeedbackPage";
 
 const router = createBrowserRouter([
   {
@@ -57,6 +58,7 @@ const router = createBrowserRouter([
     path: PATHS.DIARY_NEW,
     element: <DiaryWritePage />,
   },
+  { path: PATHS.FEEDBACK, element: <FeedbackPage /> },
   {
     path: PATHS.ERROR,
     element: <ErrorPage />,

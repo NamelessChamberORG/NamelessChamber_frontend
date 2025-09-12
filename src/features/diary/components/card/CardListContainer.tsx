@@ -6,6 +6,7 @@ import CardList from "./CardList";
 import type { DiaryPreview } from "../../types/types";
 import Modal from "../../../../components/modal/Modal";
 import { PATHS } from "../../../../constants/path";
+import Button from "../../../../components/button/Button";
 
 type InteractionMode = "modal" | "direct";
 
@@ -95,15 +96,24 @@ const CardListContainer = ({
               </>
             </Modal.Title>
             <Modal.Actions>
-              <button type="button" onClick={() => setCoinEmptyOpen(false)}>
-                닫기
-              </button>
-              <button
+              <Button
                 type="button"
+                alwaysHoverStyle
+                variant="main"
+                state="default"
+                onClick={() => setCoinEmptyOpen(false)}
+              >
+                닫기
+              </Button>
+              <Button
+                type="button"
+                alwaysHoverStyle
+                variant="main"
+                state="default"
                 onClick={() => navigate(PATHS.DIARY_NEW_TYPE(type))}
               >
                 글 쓰러 가기
-              </button>
+              </Button>
             </Modal.Actions>
           </Modal>
 
@@ -123,16 +133,19 @@ const CardListContainer = ({
               </>
             </Modal.Title>
             <Modal.Actions>
-              <button
+              <Button
                 type="button"
+                alwaysHoverStyle
+                variant="main"
+                state="default"
                 onClick={() => {
                   setConfirmOpen(false);
                   setPendingId(null);
                 }}
               >
                 닫기
-              </button>
-              <button
+              </Button>
+              <Button
                 type="button"
                 onClick={() => {
                   if (!pendingId) return;
@@ -142,7 +155,7 @@ const CardListContainer = ({
                 }}
               >
                 선택하기
-              </button>
+              </Button>
             </Modal.Actions>
           </Modal>
         </>

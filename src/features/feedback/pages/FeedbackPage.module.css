@@ -1,0 +1,55 @@
+.feedback {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  padding: 6rem 0;
+  gap: 4rem;
+}
+
+.topActions {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  padding-right: 2rem;
+}
+
+.feedback h2 {
+  font-family: var(--p1-font-family);
+  font-weight: var(--p1-font-weight);
+  font-size: var(--p1-font-size);
+  line-height: var(--p1-font-line-height);
+  letter-spacing: var(--p1-font-letter-spacing);
+}
+
+.feedback form {
+  flex: 1; /* 남은 공간을 차지 */
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* 필요시 가운데 정렬 */
+  width: 100%;
+  max-width: 60%;
+}
+
+.feedback form:focus-within {
+  outline: none;
+}
+
+.actions {
+  padding-left: 1rem;
+  display: flex;
+  justify-content: flex-start;
+}
+
+@media (max-width: 768px) {
+  .topActions {
+    padding-right: 1rem;
+  }
+
+  .feedback form {
+    max-width: 92%;
+    height: auto;
+  }
+}
