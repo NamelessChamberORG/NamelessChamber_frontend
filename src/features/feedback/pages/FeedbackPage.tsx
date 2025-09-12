@@ -5,38 +5,39 @@ import FullscreenToggleButton from "../../../components/fullsrceen/FullscreenTog
 import TextArea from "../../diary/components/text/TextArea";
 import classes from "./FeedbackPage.module.css";
 import { useToast } from "../../../contexts/ToastContext";
+import { useCreateFeedback } from "../hooks/useCreateFeedback";
+import { useNavigate } from "react-router";
+import { PATHS } from "../../../constants/path";
 
 const FORM_ID = "feedback-form";
 
 function FeedbackPage() {
+  const navigate = useNavigate();
   const formRef = useRef<FormHandle>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
   const { showToast } = useToast();
+  const createFeedback = useCreateFeedback();
 
   const [content, setContent] = useState("");
-  const [submitting, setSubmitting] = useState(false);
 
   function handleTextChange(e: ChangeEvent<HTMLTextAreaElement>) {
     setContent(e.target.value);
   }
 
   async function handleSave() {
-    if (submitting) return;
-
     try {
-      setSubmitting(true);
+      await createFeedback.mutateAsync({ content: content.trim() });
 
       formRef.current?.clear();
       setContent("");
       showToast("소중한 피드백 감사합니다. 빠르게 살펴볼게요!", "check");
+      navigate(PATHS.PROFILE);
     } catch (e) {
       showToast(
         "제출 중 문제가 발생했어요. 잠시 후 다시 시도해주세요.",
         "cancel"
       );
-    } finally {
-      setSubmitting(false);
     }
   }
 
@@ -45,7 +46,7 @@ function FeedbackPage() {
       <div className={classes.topActions}>
         <FullscreenToggleButton
           targetRef={containerRef}
-          disabled={submitting}
+          disabled={createFeedback.isPending}
         />
       </div>
       <Form id={FORM_ID} onSave={handleSave} ref={formRef}>
@@ -55,14 +56,13 @@ function FeedbackPage() {
           name="content"
           value={content}
           onChange={handleTextChange}
-          disabled={submitting}
+          disabled={createFeedback.isPending}
           required
-          placeholder="무명소 사용 중 겪은 불편 사항이나 제안하고 싶은 점을 자유롭게 적어주세요..."
         />
 
         <div className={classes.actions}>
-          <Button type="submit" disabled={submitting}>
-            {submitting ? "전송 중..." : "무명소에 제보하기"}
+          <Button type="submit" disabled={createFeedback.isPending}>
+            {createFeedback.isPending ? "전송 중..." : "무명소에 제보하기"}
           </Button>
         </div>
       </Form>
