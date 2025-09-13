@@ -57,8 +57,12 @@ function LandingPage() {
           </div>
 
           <div className={classes.textGroup}>
-            <div className={classes.left}>
-              {step >= 2 && (
+            <div
+              className={`${classes.slot} ${
+                step >= 2 ? classes["fade-in"] : classes["hidden"]
+              } ${classes.left}`}
+            >
+              {step >= 2 ? (
                 <Link
                   to={PATHS.DIARY_NEW_TYPE("daily")}
                   className={classes.link}
@@ -67,11 +71,17 @@ function LandingPage() {
                     오늘 인상 깊었던 일
                   </Button>
                 </Link>
+              ) : (
+                <div className={classes.placeholder} aria-hidden="true" />
               )}
             </div>
 
-            <div className={classes.center}>
-              {step >= 3 && (
+            <div
+              className={`${classes.slot} ${
+                step >= 3 ? classes["fade-in"] : classes["hidden"]
+              } ${classes.center}`}
+            >
+              {step >= 3 ? (
                 <Text
                   revealOnMount
                   revealDelay={200}
@@ -82,11 +92,17 @@ function LandingPage() {
                 >
                   아니면
                 </Text>
+              ) : (
+                <div className={classes.placeholder} aria-hidden="true" />
               )}
             </div>
 
-            <div className={classes.right}>
-              {step >= 4 && (
+            <div
+              className={`${classes.slot} ${
+                step >= 4 ? classes["fade-in"] : classes["hidden"]
+              } ${classes.right}`}
+            >
+              {step >= 4 ? (
                 <Link
                   to={PATHS.DIARY_NEW_TYPE("mind")}
                   className={classes.link}
@@ -95,6 +111,8 @@ function LandingPage() {
                     마음 속 큰 고민
                   </Button>
                 </Link>
+              ) : (
+                <div className={classes.placeholder} aria-hidden="true" />
               )}
             </div>
           </div>

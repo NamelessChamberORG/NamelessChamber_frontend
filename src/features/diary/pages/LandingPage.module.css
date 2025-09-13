@@ -11,6 +11,17 @@
   display: flex;
 }
 
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3rem;
+}
+
+.guide {
+  text-align: center;
+}
+
 .textGroup {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
@@ -20,11 +31,18 @@
   text-align: center;
 }
 
-.textGroup > div {
+.slot {
   display: flex;
   justify-content: center;
   align-items: center;
+  min-height: 3rem;
+}
+
+.placeholder {
+  display: block;
   height: 3rem;
+  width: 100%;
+  max-width: 320px;
 }
 
 .left {
@@ -37,36 +55,41 @@
   justify-content: flex-end;
 }
 
-.fade-in {
-  opacity: 1;
-  transition: opacity 0.8s ease-in;
-}
-
 .hidden {
   opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.fade-in {
+  opacity: 1;
+  transition: opacity 0.3s ease;
 }
 
 @media (max-width: 640px) {
+  .landing {
+    align-items: flex-start;
+    padding-top: 50px;
+  }
+
   .textGroup {
-    display: grid;
     grid-template-columns: 1fr;
-    gap: 6rem;
+    gap: 4rem;
     justify-items: center;
   }
 
-  .textGroup > div {
+  .slot {
     justify-content: center;
-    height: auto;
+    min-height: 3rem;
   }
-}
 
-.content {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 3rem;
-}
+  .left,
+  .center,
+  .right {
+    justify-content: center;
+  }
 
-.guide {
-  text-align: center;
+  .placeholder {
+    max-width: 100%;
+  }
 }
