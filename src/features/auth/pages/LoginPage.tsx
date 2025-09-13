@@ -52,9 +52,7 @@ function LoginPage() {
   }
 
   useEffect(() => {
-    if (step === "password") {
-      passwordRef.current?.focus();
-    }
+    if (step === "password") passwordRef.current?.focus();
   }, [step]);
 
   const showSignUp = step === "email" && email.trim().length === 0;
@@ -63,74 +61,80 @@ function LoginPage() {
     <section className={classes.login}>
       <Paragraph>로그인</Paragraph>
 
-      <Form onSave={handleLogin}>
-        <Input
-          type="text"
-          placeholder="아이디"
-          value={email}
-          onChange={(e) => {
-            if (serverError) setServerError("");
-            setEmail(e.target.value);
-          }}
-          onKeyDown={handleEmailKeyDown}
-          autoComplete="username"
-        />
-        <InputMessage />
+      <Form
+        onSave={handleLogin}
+        className={`${classes.form} ${classes.controlWidth}`}
+      >
+        <div className={classes.fieldGroup}>
+          <Input
+            type="text"
+            placeholder="아이디"
+            value={email}
+            onChange={(e) => {
+              if (serverError) setServerError("");
+              setEmail(e.target.value);
+            }}
+            onKeyDown={handleEmailKeyDown}
+            autoComplete="username"
+          />
+          <InputMessage />
+        </div>
 
-        {step === "password" && (
-          <>
-            <Input
-              ref={passwordRef}
-              type="password"
-              placeholder="비밀번호"
-              value={password}
-              onChange={(e) => {
-                if (serverError) setServerError("");
-                setPassword(e.target.value);
-              }}
-              autoComplete="current-password"
-            />
+        <div
+          className={`${classes.passwordArea} ${
+            step === "password" ? classes.show : ""
+          }`}
+          aria-hidden={step !== "password"}
+        >
+          <Input
+            ref={passwordRef}
+            type="password"
+            placeholder="비밀번호"
+            value={password}
+            onChange={(e) => {
+              if (serverError) setServerError("");
+              setPassword(e.target.value);
+            }}
+            autoComplete="current-password"
+          />
 
-            {serverError ? (
-              <InputMessage type="error" aria-live="polite">
-                {serverError}
-              </InputMessage>
-            ) : (
-              <InputMessage />
-            )}
+          {serverError ? (
+            <InputMessage type="error" aria-live="polite">
+              {serverError}
+            </InputMessage>
+          ) : (
+            <InputMessage />
+          )}
 
-            <Button
-              type="submit"
-              disabled={isPending}
-              variant={password.trim() ? "main" : "sub"}
-              state={password.trim() ? "active" : "default"}
-            >
-              {isPending ? "로그인 중..." : "로그인 하기"}
-            </Button>
-          </>
-        )}
+          <Button
+            type="submit"
+            disabled={isPending}
+            variant={password.trim() ? "main" : "sub"}
+            state={password.trim() ? "active" : "default"}
+            className={classes.submit}
+          >
+            {isPending ? "로그인 중..." : "로그인 하기"}
+          </Button>
+        </div>
       </Form>
 
-      {showSignUp && (
-        <>
-          <div>
-            <Paragraph>하루에</Paragraph>
-            <Paragraph>한 번의 기록, 무명소</Paragraph>
-          </div>
+      <div
+        className={`${classes.signUpArea} ${showSignUp ? classes.show : ""}`}
+        aria-hidden={!showSignUp}
+      >
+        <div>
+          <Paragraph>하루에</Paragraph>
+          <Paragraph>한 번의 기록, 무명소</Paragraph>
+        </div>
 
-          <div className={classes.authButtons}>
-            <Link to={PATHS.SIGN_UP} className={classes.fullWidth}>
-              <Button
-                variant="sub"
-                state="active"
-                className={classes.fullWidth}
-              >
-                무명소에 합류하기
-              </Button>
-            </Link>
-          </div>
-        </>
-      )}
+        <div className={`${classes.authButtons} ${classes.controlWidth}`}>
+          <Link to={PATHS.SIGN_UP} className={classes.fullWidth}>
+            <Button variant="sub" state="active" className={classes.fullWidth}>
+              무명소에 합류하기
+            </Button>
+          </Link>
+        </div>
+      </div>
     </section>
   );
 }
