@@ -114,8 +114,12 @@ function LoginPage() {
           </div>
 
           <div className={classes.authButtons}>
-            <Link to={PATHS.SIGN_UP}>
-              <Button variant="sub" state="active">
+            <Link to={PATHS.SIGN_UP} className={classes.fullWidth}>
+              <Button
+                variant="sub"
+                state="active"
+                className={classes.fullWidth}
+              >
                 무명소에 합류하기
               </Button>
             </Link>
