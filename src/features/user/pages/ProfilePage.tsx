@@ -12,6 +12,7 @@ import { useReadDiaries } from "../hooks/useReadDiaries";
 import { useMemo, useState } from "react";
 import CardListContainer from "../../diary/components/card/CardListContainer";
 import { useWrittenDiaries } from "../hooks/useWrittenDiaries";
+import ProfileSkeleton from "../components/ProfileSkeleton";
 
 function ProfilePage() {
   const [currentTab, setCurrentTab] = useState<"written" | "read">("written");
@@ -30,14 +31,10 @@ function ProfilePage() {
     return writtenData ?? [];
   }, [currentTab, readData, writtenData]);
 
-  if (isMeLoading) {
-    return <div>Loading...</div>;
-  }
+  const isListLoading =
+    currentTab === "read" ? isReadLoading : isWrittenLoading;
 
-  const isLoading =
-    isMeLoading || (currentTab === "read" ? isReadLoading : isWrittenLoading);
-
-  const isEmpty = !isLoading && diaries.length === 0;
+  const isEmpty = !isListLoading && (diaries?.length ?? 0) === 0;
 
   function handleLogout() {
     clearAuth();
@@ -47,21 +44,26 @@ function ProfilePage() {
   return (
     <section className={classes.profile}>
       <div className={classes.profileSection}>
-        <UserInfo nickname={me?.nickname ?? ""} />
-        <CoinInfo coin={me?.coin ?? 0} />
-        <Button alwaysHoverStyle={true}>프로필 편집</Button>
-        <FeedbackCard />
-        <button className={classes.logout} onClick={handleLogout}>
-          로그아웃
-        </button>
+        {isMeLoading ? (
+          <ProfileSkeleton />
+        ) : (
+          <>
+            <UserInfo nickname={me?.nickname ?? ""} />
+            <CoinInfo coin={me?.coin ?? 0} />
+            <Button alwaysHoverStyle={true}>프로필 편집</Button>
+            <FeedbackCard />
+            <button className={classes.logout} onClick={handleLogout}>
+              로그아웃
+            </button>
+          </>
+        )}
       </div>
 
       <div className={classes.listSection}>
         <DiaryTabs onChange={(id) => setCurrentTab(id as "written" | "read")} />
-
         <CardListContainer
           diaries={diaries}
-          isLoading={isLoading}
+          isLoading={isListLoading}
           isEmpty={isEmpty}
           coin={me?.coin ?? 0}
           type="daily"

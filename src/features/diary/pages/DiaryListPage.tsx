@@ -46,6 +46,9 @@ function DiaryListPage() {
 
   return (
     <div className={classes.list}>
+      <p className={classes.guide} role="note" aria-live="polite">
+        하나의 글을 작성하면, 누군가 남긴 하나의 글을 읽을 수 있습니다.
+      </p>
       <CardListContainer
         diaries={diaries}
         coin={coin}

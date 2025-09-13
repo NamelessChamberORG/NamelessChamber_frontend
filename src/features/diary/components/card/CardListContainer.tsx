@@ -103,7 +103,7 @@ const CardListContainer = ({
                 state="default"
                 onClick={() => setCoinEmptyOpen(false)}
               >
-                닫기
+                취소하기
               </Button>
               <Button
                 type="button"
@@ -127,9 +127,8 @@ const CardListContainer = ({
           >
             <Modal.Title id="preview-title">
               <>
-                일기를 작성하면 다른 사람의 고백을 하나 볼 수 있습니다.
-                <br />
-                선택하신 고백으로 읽어보시겠어요?
+                열람권 1개를 이 글을 여는 데 사용합니다.
+                <br />한 번 열린 기록은 언제든 다시 읽을 수 있습니다.
               </>
             </Modal.Title>
             <Modal.Actions>
@@ -143,7 +142,7 @@ const CardListContainer = ({
                   setPendingId(null);
                 }}
               >
-                닫기
+                취소하기
               </Button>
               <Button
                 type="button"
@@ -154,7 +153,7 @@ const CardListContainer = ({
                   setPendingId(null);
                 }}
               >
-                선택하기
+                열람하기
               </Button>
             </Modal.Actions>
           </Modal>

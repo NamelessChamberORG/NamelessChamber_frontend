@@ -8,7 +8,6 @@ const TextArea = ({ ...props }: TextAreaProps) => {
     <textarea
       {...props}
       className={classes.textarea}
-      placeholder="작성 시작..."
       spellCheck={false}
     ></textarea>
   );

@@ -39,7 +39,6 @@
   transform: translateY(0) scale(1);
 }
 .revealed .content,
-.button:hover .content,
 .hover-style .content {
   filter: none;
 }

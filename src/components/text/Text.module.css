@@ -1,11 +1,4 @@
 .text {
-  filter: blur(var(--blur-radius));
-  font-weight: var(--p1-font-weight);
-  font-family: var(--p1-font-family);
-  font-size: var(--p1-font-size);
-  line-height: var(--p1-font-line-height);
-  letter-spacing: var(--p1-font-letter-spacing);
-
   --reveal-delay: 0ms;
   --reveal-duration: 800ms;
   --reveal-easing: ease-in;
@@ -15,6 +8,46 @@
     opacity var(--reveal-duration) var(--reveal-easing) var(--reveal-delay),
     transform var(--reveal-duration) var(--reveal-easing) var(--reveal-delay);
   will-change: opacity, transform, filter;
+}
+
+.p1 {
+  font-family: var(--p1-font-family);
+  font-weight: var(--p1-font-weight);
+  font-size: var(--p1-font-size);
+  line-height: var(--p1-font-line-height);
+  letter-spacing: var(--p1-font-letter-spacing);
+}
+
+.t1 {
+  font-family: var(--t1-font-family);
+  font-weight: var(--t1-font-weight);
+  font-size: var(--t1-font-size);
+  line-height: var(--t1-font-line-height);
+  letter-spacing: var(--t1-font-letter-spacing);
+}
+
+.c1 {
+  font-family: var(--c1-font-family);
+  font-weight: var(--c1-font-weight);
+  font-size: var(--c1-font-size);
+  line-height: var(--c1-font-line-height);
+  letter-spacing: var(--c1-font-letter-spacing);
+}
+
+.default {
+  color: var(--color-text);
+}
+
+/* Gray scale */
+.gray-2 {
+  color: var(--color-gray-2);
+}
+.gray-3 {
+  color: var(--color-gray-3);
+}
+
+.gray-4 {
+  color: var(--color-gray-4);
 }
 
 .text:hover,
