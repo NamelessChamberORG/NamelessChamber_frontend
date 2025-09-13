@@ -117,92 +117,99 @@ function SignupPage() {
     <section className={classes.signup}>
       <Paragraph>환영합니다</Paragraph>
 
-      <Form onSave={handleSignup}>
-        <Input
-          ref={idRef}
-          type="text"
-          placeholder="아이디"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          onKeyDown={handleIdKeyDown}
-          autoComplete="username"
-          aria-invalid={showIdError}
-          aria-describedby="signup-id-help"
-        />
-        {showIdError ? (
-          <InputMessage type="error" aria-live="polite">
-            {idError}
-          </InputMessage>
-        ) : showIdSuccess ? (
-          <InputMessage type="success" aria-live="polite">
-            사용 가능합니다.
-          </InputMessage>
-        ) : (
-          <InputMessage />
-        )}
+      <Form
+        onSave={handleSignup}
+        className={`${classes.form} ${classes.controlWidth}`}
+      >
+        <div className={classes.fieldGroup}>
+          <Input
+            ref={idRef}
+            type="text"
+            placeholder="아이디"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            onKeyDown={handleIdKeyDown}
+            autoComplete="username"
+            aria-invalid={showIdError}
+            aria-describedby="signup-id-help"
+          />
+          {showIdError ? (
+            <InputMessage type="error" aria-live="polite">
+              {idError}
+            </InputMessage>
+          ) : showIdSuccess ? (
+            <InputMessage type="success" aria-live="polite">
+              사용 가능합니다.
+            </InputMessage>
+          ) : (
+            <InputMessage />
+          )}
+        </div>
 
-        {step !== "id" && (
-          <>
-            <Input
-              ref={pwRef}
-              type="password"
-              placeholder="비밀번호 (숫자, 영문 포함 8-15자)"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              onKeyDown={handlePwKeyDown}
-              autoComplete="new-password"
-              aria-invalid={showPwError}
-              aria-describedby="signup-pw-help"
-            />
-            {showPwError ? (
-              <InputMessage type="error" aria-live="polite">
-                {pwError}
-              </InputMessage>
-            ) : showPwSuccess ? (
-              <InputMessage type="success" aria-live="polite">
-                사용 가능합니다.
-              </InputMessage>
-            ) : (
-              <InputMessage />
-            )}
-          </>
-        )}
+        <div
+          className={`${classes.pwArea} ${step !== "id" ? classes.show : ""}`}
+          aria-hidden={step === "id"}
+        >
+          <Input
+            ref={pwRef}
+            type="password"
+            placeholder="비밀번호 (숫자, 영문 포함 8-15자)"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            onKeyDown={handlePwKeyDown}
+            autoComplete="new-password"
+            aria-invalid={showPwError}
+            aria-describedby="signup-pw-help"
+          />
+          {showPwError ? (
+            <InputMessage type="error" aria-live="polite">
+              {pwError}
+            </InputMessage>
+          ) : showPwSuccess ? (
+            <InputMessage type="success" aria-live="polite">
+              사용 가능합니다.
+            </InputMessage>
+          ) : (
+            <InputMessage />
+          )}
+        </div>
 
-        {step === "pwc" && (
-          <>
-            <Input
-              ref={pwcRef}
-              type="password"
-              placeholder="비밀번호 확인"
-              value={passwordConfirm}
-              onChange={(e) => setPasswordConfirm(e.target.value)}
-              onKeyDown={handlePwcKeyDown}
-              autoComplete="new-password"
-              aria-invalid={showPwcError}
-              aria-describedby="signup-pwc-help"
-            />
-            {showPwcError ? (
-              <InputMessage type="error" aria-live="polite">
-                {pwcError}
-              </InputMessage>
-            ) : showPwcSuccess ? (
-              <InputMessage type="success" aria-live="polite">
-                일치합니다.
-              </InputMessage>
-            ) : (
-              <InputMessage />
-            )}
+        <div
+          className={`${classes.pwcArea} ${step === "pwc" ? classes.show : ""}`}
+          aria-hidden={step !== "pwc"}
+        >
+          <Input
+            ref={pwcRef}
+            type="password"
+            placeholder="비밀번호 확인"
+            value={passwordConfirm}
+            onChange={(e) => setPasswordConfirm(e.target.value)}
+            onKeyDown={handlePwcKeyDown}
+            autoComplete="new-password"
+            aria-invalid={showPwcError}
+            aria-describedby="signup-pwc-help"
+          />
+          {showPwcError ? (
+            <InputMessage type="error" aria-live="polite">
+              {pwcError}
+            </InputMessage>
+          ) : showPwcSuccess ? (
+            <InputMessage type="success" aria-live="polite">
+              일치합니다.
+            </InputMessage>
+          ) : (
+            <InputMessage />
+          )}
 
-            <Button
-              type="submit"
-              disabled={disabled}
-              variant={!disabled ? "sub" : "sub"}
-              state={!disabled ? "active" : "default"}
-            >
-              {isPending ? "가입 중..." : "가입하기"}
-            </Button>
-          </>
-        )}
+          <Button
+            type="submit"
+            disabled={disabled}
+            variant={!disabled ? "sub" : "sub"}
+            state={!disabled ? "active" : "default"}
+          >
+            {isPending ? "가입 중..." : "가입하기"}
+          </Button>
+        </div>
       </Form>
     </section>
   );

@@ -1,6 +1,6 @@
 import { useRef, useState, type ChangeEvent } from "react";
 import Form, { type FormHandle } from "../../../components/form/Form";
-import TextArea from "../components/text/TextArea";
+import TextArea from "../../../components/textarea/TextArea";
 import TextCount from "../components/text/TextCount";
 import classes from "./DiaryWritePage.module.css";
 import Button from "../../../components/button/Button";

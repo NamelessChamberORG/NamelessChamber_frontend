@@ -5,6 +5,7 @@ import { useDiaries } from "../hooks/useDiaries";
 import classes from "./DiaryListPage.module.css";
 import type { UiType } from "../types/typeMap";
 import { InlineError } from "../../../components/status/InlineStates";
+import Paragraph from "../../../components/paragraph/Paragraph";
 
 function DiaryListPage() {
   const { type } = useParams<{ type: UiType }>();
@@ -46,9 +47,10 @@ function DiaryListPage() {
 
   return (
     <div className={classes.list}>
-      <p className={classes.guide} role="note" aria-live="polite">
-        하나의 글을 작성하면, 누군가 남긴 하나의 글을 읽을 수 있습니다.
-      </p>
+      <div className={classes.guide} role="note" aria-live="polite">
+        <Paragraph>하나의 글을 작성하면,</Paragraph>
+        <Paragraph>누군가 남긴 하나의 글을 읽을 수 있습니다.</Paragraph>
+      </div>
       <CardListContainer
         diaries={diaries}
         coin={coin}

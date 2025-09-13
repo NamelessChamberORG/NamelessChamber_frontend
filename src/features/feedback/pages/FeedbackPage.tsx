@@ -2,7 +2,7 @@ import { useRef, useState, type ChangeEvent } from "react";
 import Button from "../../../components/button/Button";
 import Form, { type FormHandle } from "../../../components/form/Form";
 import FullscreenToggleButton from "../../../components/fullsrceen/FullscreenToggleButton";
-import TextArea from "../../diary/components/text/TextArea";
+import TextArea from "../../../components/textarea/TextArea";
 import classes from "./FeedbackPage.module.css";
 import { useToast } from "../../../contexts/ToastContext";
 import { useCreateFeedback } from "../hooks/useCreateFeedback";
