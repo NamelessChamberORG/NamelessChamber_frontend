@@ -103,7 +103,7 @@ const CardListContainer = ({
                 state="default"
                 onClick={() => setCoinEmptyOpen(false)}
               >
-                닫기
+                취소하기
               </Button>
               <Button
                 type="button"
@@ -142,7 +142,7 @@ const CardListContainer = ({
                   setPendingId(null);
                 }}
               >
-                닫기
+                취소하기
               </Button>
               <Button
                 type="button"
@@ -153,7 +153,7 @@ const CardListContainer = ({
                   setPendingId(null);
                 }}
               >
-                선택하기
+                열람하기
               </Button>
             </Modal.Actions>
           </Modal>
