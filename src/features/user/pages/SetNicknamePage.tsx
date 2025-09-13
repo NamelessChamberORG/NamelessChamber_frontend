@@ -74,7 +74,7 @@ function SetNicknamePage() {
           value={nickname}
           name="nickname"
           onChange={(e) => setNickname(e.target.value)}
-          aria-invalid={clientInvalid || !!serverError}
+          aria-invalid={showClientError || showServerError}
         />
 
         {showClientError ? (
