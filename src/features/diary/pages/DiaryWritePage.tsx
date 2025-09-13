@@ -26,7 +26,7 @@ const isContentValid = (s: string, minLength: number) =>
 
 function DiaryWritePage() {
   const formRef = useRef<FormHandle>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLElement>(null);
 
   const [content, setContent] = useState("");
   const [count, setCount] = useState(0);
@@ -102,14 +102,16 @@ function DiaryWritePage() {
   }
 
   return (
-    <div className={classes.diaryForm} ref={containerRef}>
-      <div>
+    <section className={classes.write} ref={containerRef}>
+      <div className={classes.topActions}>
         <FullscreenToggleButton
           targetRef={containerRef}
           disabled={submitting}
         />
       </div>
+
       <h2 className={classes.title}>{TITLE}</h2>
+
       <Form id={FORM_ID} onSave={handleSave} ref={formRef}>
         <TextArea
           name="content"
@@ -130,7 +132,10 @@ function DiaryWritePage() {
               {submitting ? "보관 중..." : "무명소에 흘려보내기"}
             </Button>
           )}
-          <TextCount count={count} />
+
+          <div className={classes.countWrap}>
+            <TextCount count={count} />
+          </div>
         </div>
       </Form>
 
@@ -138,7 +143,6 @@ function DiaryWritePage() {
         <Modal.Title id="submit-title">
           작성하신 글을 한마디로 표현해주세요
         </Modal.Title>
-
         <Modal.Textarea
           name="title"
           form={FORM_ID}
@@ -149,7 +153,6 @@ function DiaryWritePage() {
           }
           disabled={submitting}
         />
-
         <Modal.Actions>
           <Button
             type="button"
@@ -172,7 +175,7 @@ function DiaryWritePage() {
           </Button>
         </Modal.Actions>
       </Modal>
-    </div>
+    </section>
   );
 }
 

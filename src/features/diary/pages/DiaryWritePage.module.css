@@ -1,14 +1,15 @@
-.diaryForm {
+.write {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-around;
   width: 100%;
   height: 100%;
-  background-color: transparent;
+  background: transparent;
+  padding: 6rem 0;
+  gap: 4rem;
 }
 
-.diaryForm div:nth-child(1) {
+.topActions {
   width: 100%;
   display: flex;
   justify-content: flex-end;
@@ -23,29 +24,38 @@
   letter-spacing: var(--p1-font-letter-spacing);
 }
 
-.diaryForm form {
+.write form {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   width: 100%;
   max-width: 50%;
-  height: 60%;
 }
 
-.diaryForm form:focus-within {
+.write form:focus-within {
   outline: none;
-}
-
-.diaryForm form > div {
-  display: flex;
 }
 
 .footer {
   width: 100%;
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: flex-start;
+  gap: 1rem;
+}
+
+.countWrap {
+  margin-left: auto;
 }
 
 @media (max-width: 768px) {
-  .diary form {
+  .topActions {
+    padding-right: 1rem;
+  }
+
+  .write form {
     max-width: 92%;
+    height: auto;
   }
 }
