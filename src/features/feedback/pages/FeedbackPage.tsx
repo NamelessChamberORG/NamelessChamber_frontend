@@ -49,14 +49,15 @@ function FeedbackPage() {
           disabled={createFeedback.isPending}
         />
       </div>
-      <Form id={FORM_ID} onSave={handleSave} ref={formRef}>
-        <h2>솔직한 피드백이 좋아요!</h2>
+      <h2>솔직한 피드백이 좋아요!</h2>
 
+      <Form id={FORM_ID} onSave={handleSave} ref={formRef}>
         <TextArea
           name="content"
           value={content}
           onChange={handleTextChange}
           disabled={createFeedback.isPending}
+          placeholder="작성 시작..."
           required
         />
 
