@@ -5,6 +5,7 @@ import Button from "../../../components/button/Button";
 import classes from "./LandingPage.module.css";
 import { PATHS } from "../../../constants/path";
 import { useEnsureSession } from "../../auth/hooks/useEnsureSession";
+import Paragraph from "../../../components/paragraph/Paragraph";
 
 function LandingPage() {
   const [step, setStep] = useState(0);
@@ -47,38 +48,53 @@ function LandingPage() {
       )}
 
       {step > 0 && (
-        <div className={classes.textGroup}>
-          <div className={classes.left}>
-            {step >= 2 && (
-              <Link to={PATHS.DIARY_NEW_TYPE("daily")} className={classes.link}>
-                <Button revealOnMount revealDelay={400} disabled={ensuring}>
-                  오늘 있었던 일 작성
-                </Button>
-              </Link>
-            )}
+        <div className={classes.content}>
+          <div className={classes.guide}>
+            <Text className={classes.guideText}>
+              기록의 깊이를 선택해주세요.
+              <Paragraph>당신의 말은 짧아도, 길어도 좋습니다.</Paragraph>
+            </Text>
           </div>
 
-          <div className={classes.center}>
-            {step >= 3 && (
-              <Text
-                revealOnMount
-                revealDelay={200}
-                alwaysHoverStyle
-                className={classes.centerText}
-              >
-                아니면
-              </Text>
-            )}
-          </div>
+          <div className={classes.textGroup}>
+            <div className={classes.left}>
+              {step >= 2 && (
+                <Link
+                  to={PATHS.DIARY_NEW_TYPE("daily")}
+                  className={classes.link}
+                >
+                  <Button revealOnMount revealDelay={200} disabled={ensuring}>
+                    오늘 인상 깊었던 일
+                  </Button>
+                </Link>
+              )}
+            </div>
 
-          <div className={classes.right}>
-            {step >= 4 && (
-              <Link to={PATHS.DIARY_NEW_TYPE("mind")} className={classes.link}>
-                <Button revealOnMount revealDelay={400} disabled={ensuring}>
-                  마음 속 큰 고민 작성
-                </Button>
-              </Link>
-            )}
+            <div className={classes.center}>
+              {step >= 3 && (
+                <Text
+                  revealOnMount
+                  revealDelay={200}
+                  alwaysHoverStyle
+                  className={classes.centerText}
+                >
+                  아니면
+                </Text>
+              )}
+            </div>
+
+            <div className={classes.right}>
+              {step >= 4 && (
+                <Link
+                  to={PATHS.DIARY_NEW_TYPE("mind")}
+                  className={classes.link}
+                >
+                  <Button revealOnMount revealDelay={200} disabled={ensuring}>
+                    마음 속 큰 고민
+                  </Button>
+                </Link>
+              )}
+            </div>
           </div>
         </div>
       )}
