@@ -35,8 +35,16 @@ export function unwrapNoContent(
   }
 }
 
-export function getErrorMessage(err: unknown): string {
-  if (err instanceof ApiError) return err.message;
-  if (err instanceof Error) return err.message;
-  return "알 수 없는 오류가 발생했습니다.";
+export function getErrorMessage(error: unknown): string {
+  const err = error as any;
+
+  if (err?.response?.data?.errorMsg) {
+    return err.response.data.errorMsg;
+  }
+
+  if (typeof err?.response?.data === "string") {
+    return err.response.data;
+  }
+
+  return err?.message || "알 수 없는 오류가 발생했습니다.";
 }

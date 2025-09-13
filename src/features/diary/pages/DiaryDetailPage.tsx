@@ -1,7 +1,7 @@
 import FadeInOnView from "../components/FadeInOnView";
 import Paragraph from "../../../components/paragraph/Paragraph";
 import classes from "./DiaryDetailPage.module.css";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { useDiary } from "../hooks/useDiary";
 import { useParams, Navigate } from "react-router-dom";
 import { formatDiaryTime } from "../../../lib/diary/formatDiaryTime";
@@ -67,18 +67,33 @@ function DetailContent({
 
 export default function DiaryDetailPage() {
   const { id } = useParams<{ id: string }>();
-  const { data, isLoading, isError, error, refetch, isFetching } = useDiary(id);
+  const { data, isLoading, isError, error, refetch } = useDiary(id);
+
+  const [retrying, setRetrying] = useState(false);
 
   if (!id) return <Navigate to={PATHS.DIARY_LIST} replace />;
 
-  if (isError)
+  if (isError) {
+    const message =
+      error && typeof (error as any).message === "string"
+        ? (error as any).message
+        : "문제가 발생했어요. 잠시 후 다시 시도해주세요.";
+
     return (
       <InlineError
-        isFetching={isFetching}
-        onRetry={() => void refetch()}
-        message={error.message}
+        isLoading={retrying}
+        onRetry={async () => {
+          try {
+            setRetrying(true);
+            await refetch();
+          } finally {
+            setRetrying(false);
+          }
+        }}
+        message={message}
       />
     );
+  }
 
   const createdLabel =
     data?.createdAt && !isLoading ? formatDiaryTime(data.createdAt) : undefined;
@@ -86,7 +101,7 @@ export default function DiaryDetailPage() {
   return (
     <DetailContent
       content={data?.content}
-      isLoading={isLoading || isFetching}
+      isLoading={isLoading}
       createdLabel={createdLabel}
     />
   );

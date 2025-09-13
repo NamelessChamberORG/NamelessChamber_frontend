@@ -1,6 +1,6 @@
 import { useRef, useState, type ChangeEvent } from "react";
 import Form, { type FormHandle } from "../../../components/form/Form";
-import TextArea from "../components/text/TextArea";
+import TextArea from "../../../components/textarea/TextArea";
 import TextCount from "../components/text/TextCount";
 import classes from "./DiaryWritePage.module.css";
 import Button from "../../../components/button/Button";
@@ -26,7 +26,7 @@ const isContentValid = (s: string, minLength: number) =>
 
 function DiaryWritePage() {
   const formRef = useRef<FormHandle>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLElement>(null);
 
   const [content, setContent] = useState("");
   const [count, setCount] = useState(0);
@@ -42,6 +42,14 @@ function DiaryWritePage() {
     type && UI_TO_API[type] ? UI_TO_API[type] : "SHORT";
 
   const MIN_LENGTH = diaryType === "SHORT" ? SHORT_MIN_LENGTH : LONG_MIN_LENGTH;
+  const TITLE =
+    diaryType === "SHORT"
+      ? "짧은 기록 순간의 생각을 가볍게 남겨요."
+      : "마음 깊은 곳의 이야기를 꺼내보아요.";
+  const PLACEHOLDER_MESSAGE =
+    diaryType === "SHORT"
+      ? "지금 떠오른 생각이나, 단 하나의 문장으로도 괜찮습니다."
+      : "이곳 무명소는 고해성사를 담는 장소입니다. 말하지 못한 속마음을 조용히 흘려보내세요.";
 
   const { mutateAsync } = useCreateDiary(diaryType, {
     onSuccess: () => {
@@ -62,10 +70,12 @@ function DiaryWritePage() {
     },
   });
 
+  const canSubmit = isContentValid(content, MIN_LENGTH);
+
   async function handleSave() {
     if (submitting) return;
 
-    if (!isContentValid(content, MIN_LENGTH)) {
+    if (!canSubmit) {
       showToast(`${MIN_LENGTH}자 이상 입력해주세요.`, "info");
       return;
     }
@@ -80,7 +90,7 @@ function DiaryWritePage() {
   }
 
   function handleOpenConfirm() {
-    if (!isContentValid(content, MIN_LENGTH)) {
+    if (!canSubmit) {
       showToast(`${MIN_LENGTH}자 이상 입력해주세요.`, "info");
       return;
     }
@@ -94,13 +104,15 @@ function DiaryWritePage() {
   }
 
   return (
-    <div className={classes.diaryForm} ref={containerRef}>
-      <div>
+    <section className={classes.write} ref={containerRef}>
+      <div className={classes.topActions}>
         <FullscreenToggleButton
           targetRef={containerRef}
           disabled={submitting}
         />
       </div>
+
+      <h2 className={classes.title}>{TITLE}</h2>
 
       <Form id={FORM_ID} onSave={handleSave} ref={formRef}>
         <TextArea
@@ -109,28 +121,34 @@ function DiaryWritePage() {
           disabled={submitting}
           required
           aria-describedby="submit-title"
+          placeholder={PLACEHOLDER_MESSAGE}
         />
 
-        <div>
-          {count > 0 && (
+        <div className={classes.footer}>
+          <div
+            className={classes.revealWrap}
+            data-ready={canSubmit}
+            aria-hidden={!canSubmit && count === 0}
+          >
             <Button
               type="button"
               onClick={handleOpenConfirm}
-              disabled={submitting}
+              disabled={submitting || !canSubmit}
             >
-              {submitting ? "보관 중..." : "무명소에 흘러보내기"}
+              {submitting ? "보관 중..." : "무명소에 흘려보내기"}
             </Button>
-          )}
+          </div>
+
+          <div className={classes.countWrap}>
+            <TextCount count={count} />
+          </div>
         </div>
       </Form>
 
-      <TextCount count={count} minLength={MIN_LENGTH} />
-
       <Modal isOpen={showConfirm} onClose={() => setShowConfirm(false)}>
         <Modal.Title id="submit-title">
-          작성하신 일기를 한마디로 표현해주세요
+          작성하신 글을 한마디로 표현해주세요
         </Modal.Title>
-
         <Modal.Textarea
           name="title"
           form={FORM_ID}
@@ -141,21 +159,29 @@ function DiaryWritePage() {
           }
           disabled={submitting}
         />
-
         <Modal.Actions>
-          <button type="button" onClick={() => setShowConfirm(false)}>
+          <Button
+            type="button"
+            alwaysHoverStyle
+            variant="main"
+            state="default"
+            onClick={() => setShowConfirm(false)}
+          >
             닫기
-          </button>
-          <button
+          </Button>
+          <Button
             type="submit"
             form={FORM_ID}
+            alwaysHoverStyle
+            variant="main"
+            state="default"
             disabled={submitting || !title.trim()}
           >
             완료하기
-          </button>
+          </Button>
         </Modal.Actions>
       </Modal>
-    </div>
+    </section>
   );
 }
 

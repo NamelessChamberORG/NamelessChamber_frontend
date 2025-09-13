@@ -1,4 +1,4 @@
-.write {
+.feedback {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -16,7 +16,7 @@
   padding-right: 2rem;
 }
 
-.title {
+.feedback h2 {
   font-family: var(--p1-font-family);
   font-weight: var(--p1-font-weight);
   font-size: var(--p1-font-size);
@@ -24,7 +24,7 @@
   letter-spacing: var(--p1-font-letter-spacing);
 }
 
-.write form {
+.feedback form {
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -33,41 +33,13 @@
   max-width: 50%;
 }
 
-.write form:focus-within {
+.feedback form:focus-within {
   outline: none;
 }
 
-.footer {
-  width: 100%;
+.actions {
   display: flex;
-  align-items: center;
   justify-content: flex-start;
-  gap: 1rem;
-}
-
-.countWrap {
-  margin-left: auto;
-}
-
-.revealWrap {
-  display: inline-flex;
-  align-items: center;
-  opacity: 0;
-  filter: blur(6px);
-  pointer-events: none;
-  transition: opacity 320ms ease 80ms, filter 360ms ease 200ms;
-}
-
-.revealWrap[data-ready="true"] {
-  opacity: 1;
-  filter: none;
-  pointer-events: auto;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .revealWrap {
-    transition: none;
-  }
 }
 
 @media (max-width: 768px) {
@@ -75,7 +47,7 @@
     padding-right: 1rem;
   }
 
-  .write form {
+  .feedback form {
     max-width: 92%;
     height: auto;
   }

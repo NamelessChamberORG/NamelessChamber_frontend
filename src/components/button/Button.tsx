@@ -7,6 +7,9 @@ import {
 } from "react";
 import classes from "./Button.module.css";
 
+type ButtonVariant = "main" | "sub" | "ghost" | "solid";
+type ButtonState = "default" | "active";
+
 type ButtonProps = ComponentPropsWithoutRef<"button"> & {
   children: ReactNode;
   alwaysHoverStyle?: boolean;
@@ -14,6 +17,8 @@ type ButtonProps = ComponentPropsWithoutRef<"button"> & {
   revealDelay?: number;
   revealDurationMs?: number;
   revealEasing?: string;
+  variant?: ButtonVariant;
+  state?: ButtonState;
 };
 
 const Button = ({
@@ -21,9 +26,11 @@ const Button = ({
   alwaysHoverStyle,
   className = "",
   revealOnMount = false,
-  revealDelay = 0,
-  revealDurationMs = 800,
+  revealDelay = 600,
+  revealDurationMs = 1000,
   revealEasing = "ease-in",
+  variant = "main",
+  state = "default",
   ...props
 }: ButtonProps) => {
   // revealOnMount=false면 초기에 바로 보이도록
@@ -37,6 +44,8 @@ const Button = ({
 
   const combinedClassName = [
     classes.button,
+    classes[variant],
+    classes[state],
     alwaysHoverStyle && classes["hover-style"],
     revealed ? classes.revealed : classes.hidden,
     className,

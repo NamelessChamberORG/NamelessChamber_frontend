@@ -6,6 +6,7 @@ import CardList from "./CardList";
 import type { DiaryPreview } from "../../types/types";
 import Modal from "../../../../components/modal/Modal";
 import { PATHS } from "../../../../constants/path";
+import Button from "../../../../components/button/Button";
 
 type InteractionMode = "modal" | "direct";
 
@@ -95,15 +96,24 @@ const CardListContainer = ({
               </>
             </Modal.Title>
             <Modal.Actions>
-              <button type="button" onClick={() => setCoinEmptyOpen(false)}>
-                닫기
-              </button>
-              <button
+              <Button
                 type="button"
+                alwaysHoverStyle
+                variant="main"
+                state="default"
+                onClick={() => setCoinEmptyOpen(false)}
+              >
+                취소하기
+              </Button>
+              <Button
+                type="button"
+                alwaysHoverStyle
+                variant="main"
+                state="default"
                 onClick={() => navigate(PATHS.DIARY_NEW_TYPE(type))}
               >
                 글 쓰러 가기
-              </button>
+              </Button>
             </Modal.Actions>
           </Modal>
 
@@ -117,22 +127,24 @@ const CardListContainer = ({
           >
             <Modal.Title id="preview-title">
               <>
-                일기를 작성하면 다른 사람의 고백을 하나 볼 수 있습니다.
-                <br />
-                선택하신 고백으로 읽어보시겠어요?
+                열람권 1개를 이 글을 여는 데 사용합니다.
+                <br />한 번 열린 기록은 언제든 다시 읽을 수 있습니다.
               </>
             </Modal.Title>
             <Modal.Actions>
-              <button
+              <Button
                 type="button"
+                alwaysHoverStyle
+                variant="main"
+                state="default"
                 onClick={() => {
                   setConfirmOpen(false);
                   setPendingId(null);
                 }}
               >
-                닫기
-              </button>
-              <button
+                취소하기
+              </Button>
+              <Button
                 type="button"
                 onClick={() => {
                   if (!pendingId) return;
@@ -141,8 +153,8 @@ const CardListContainer = ({
                   setPendingId(null);
                 }}
               >
-                선택하기
-              </button>
+                열람하기
+              </Button>
             </Modal.Actions>
           </Modal>
         </>
