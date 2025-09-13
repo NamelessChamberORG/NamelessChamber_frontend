@@ -11,7 +11,7 @@
   font-size: var(--p1-font-size);
   line-height: var(--p1-font-line-height);
   letter-spacing: var(--p1-font-letter-spacing);
-  caret-color: #f2d899;
+  caret-color: var(--color-caret);
 
   color-scheme: dark;
   scrollbar-color: rgba(255, 255, 255, 0.35) var(--color-gray-4);

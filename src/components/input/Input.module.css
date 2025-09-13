@@ -5,7 +5,7 @@
   color: var(--color-gray-2);
   border-radius: 8px;
   padding: 1.2rem 1.6rem;
-  caret-color: #f2d899;
+  caret-color: var(--color-caret);
 
   font-family: var(--c1-font-family);
   font-weight: var(--c1-font-weight);
