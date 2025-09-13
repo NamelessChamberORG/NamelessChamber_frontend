@@ -18,3 +18,12 @@
   flex-direction: column;
   gap: 1.2rem;
 }
+
+.authButtons a {
+  text-decoration: none;
+}
+
+.fullWidth {
+  display: block;
+  width: 100%;
+}

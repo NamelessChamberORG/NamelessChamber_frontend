@@ -2,22 +2,20 @@ import { useEffect, useMemo, useState } from "react";
 import Form from "../../../components/form/Form";
 import Input from "../../../components/input/Input";
 import Paragraph from "../../../components/paragraph/Paragraph";
-import AuthButton from "../../auth/components/AuthButton";
 import classes from "./SetNicknamePage.module.css";
 import { useCreateNickname } from "../hooks/useCreateNickname";
 import { useNavigate } from "react-router";
 import { PATHS } from "../../../constants/path";
-import { useToast } from "../../../contexts/ToastContext";
 import InputMessage from "../../../components/input/InputMessage";
 import { validateNickname } from "../../auth/validation/validators";
 import { firstError, hasError } from "../../auth/validation/validationHelpers";
+import Button from "../../../components/button/Button";
 
 function SetNicknamePage() {
   const [nickname, setNickname] = useState("");
   const [serverError, setServerError] = useState<string>("");
 
   const navigate = useNavigate();
-  const { showToast } = useToast();
 
   const nicknameIssues = useMemo(
     () => validateNickname(nickname.trim()),
@@ -32,7 +30,6 @@ function SetNicknamePage() {
     },
     onError: (err) => {
       setServerError(err.message);
-      showToast(err.message, "cancel");
     },
   });
 
@@ -62,13 +59,22 @@ function SetNicknamePage() {
         </p>
       </div>
 
-      <Form onSave={handleSubmit}>
+      <Form
+        onSave={handleSubmit}
+        onKeyDown={(e) => {
+          if (e.key === "Enter") {
+            e.preventDefault();
+            handleSubmit();
+          }
+        }}
+      >
         <Input
           type="text"
           placeholder="닉네임을 입력해주세요"
           value={nickname}
+          name="nickname"
           onChange={(e) => setNickname(e.target.value)}
-          aria-invalid={clientInvalid || !!serverError}
+          aria-invalid={showClientError || showServerError}
         />
 
         {showClientError ? (
@@ -87,9 +93,14 @@ function SetNicknamePage() {
           <InputMessage></InputMessage>
         )}
 
-        <AuthButton type="submit" disabled={disabled}>
+        <Button
+          type="submit"
+          disabled={disabled}
+          variant={!disabled ? "main" : "sub"}
+          state={!disabled ? "active" : "default"}
+        >
           {isPending ? "설정 중..." : "설정하기"}
-        </AuthButton>
+        </Button>
       </Form>
     </section>
   );

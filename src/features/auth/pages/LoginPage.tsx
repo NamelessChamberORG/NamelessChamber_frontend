@@ -1,5 +1,5 @@
-import { Link, useNavigate } from "react-router";
-import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useRef, useState, useEffect } from "react";
 import Button from "../../../components/button/Button";
 import Form from "../../../components/form/Form";
 import Input from "../../../components/input/Input";
@@ -9,7 +9,6 @@ import { PATHS } from "../../../constants/path";
 import { useLogin } from "../hooks/useAuth";
 import { useToast } from "../../../contexts/ToastContext";
 import { getErrorMessage } from "../../../api/helpers";
-import AuthButton from "../components/AuthButton";
 import InputMessage from "../../../components/input/InputMessage";
 
 function LoginPage() {
@@ -19,6 +18,9 @@ function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [serverError, setServerError] = useState<string>("");
+
+  const [step, setStep] = useState<"email" | "password">("email");
+  const passwordRef = useRef<HTMLInputElement>(null);
 
   const { mutate: login, isPending } = useLogin({
     onSuccess: () => {
@@ -42,9 +44,25 @@ function LoginPage() {
     login({ email: id, password: pw });
   }
 
+  function handleEmailKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
+    if (e.key === "Enter" && email.trim()) {
+      e.preventDefault();
+      setStep("password");
+    }
+  }
+
+  useEffect(() => {
+    if (step === "password") {
+      passwordRef.current?.focus();
+    }
+  }, [step]);
+
+  const showSignUp = step === "email" && email.trim().length === 0;
+
   return (
     <section className={classes.login}>
       <Paragraph>로그인</Paragraph>
+
       <Form onSave={handleLogin}>
         <Input
           type="text"
@@ -54,43 +72,65 @@ function LoginPage() {
             if (serverError) setServerError("");
             setEmail(e.target.value);
           }}
+          onKeyDown={handleEmailKeyDown}
           autoComplete="username"
         />
         <InputMessage />
-        <Input
-          type="password"
-          placeholder="비밀번호"
-          value={password}
-          onChange={(e) => {
-            if (serverError) setServerError("");
-            setPassword(e.target.value);
-          }}
-          autoComplete="current-password"
-        />
 
-        {serverError ? (
-          <InputMessage type="error" aria-live="polite">
-            {serverError}
-          </InputMessage>
-        ) : (
-          <InputMessage />
+        {step === "password" && (
+          <>
+            <Input
+              ref={passwordRef}
+              type="password"
+              placeholder="비밀번호"
+              value={password}
+              onChange={(e) => {
+                if (serverError) setServerError("");
+                setPassword(e.target.value);
+              }}
+              autoComplete="current-password"
+            />
+
+            {serverError ? (
+              <InputMessage type="error" aria-live="polite">
+                {serverError}
+              </InputMessage>
+            ) : (
+              <InputMessage />
+            )}
+
+            <Button
+              type="submit"
+              disabled={isPending}
+              variant={password.trim() ? "main" : "sub"}
+              state={password.trim() ? "active" : "default"}
+            >
+              {isPending ? "로그인 중..." : "로그인 하기"}
+            </Button>
+          </>
         )}
-
-        <Button type="submit" disabled={isPending}>
-          {isPending ? "로그인 중..." : "로그인 하기"}
-        </Button>
       </Form>
 
-      <div>
-        <p>하루에 한번의 기록,</p>
-        <p>무명소</p>
-      </div>
+      {showSignUp && (
+        <>
+          <div>
+            <Paragraph>하루에</Paragraph>
+            <Paragraph>한 번의 기록, 무명소</Paragraph>
+          </div>
 
-      <div className={classes.authButtons}>
-        <Link to={PATHS.SIGN_UP}>
-          <AuthButton>무명소에 합류하기</AuthButton>
-        </Link>
-      </div>
+          <div className={classes.authButtons}>
+            <Link to={PATHS.SIGN_UP} className={classes.fullWidth}>
+              <Button
+                variant="sub"
+                state="active"
+                className={classes.fullWidth}
+              >
+                무명소에 합류하기
+              </Button>
+            </Link>
+          </div>
+        </>
+      )}
     </section>
   );
 }
