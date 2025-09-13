@@ -120,7 +120,7 @@ function DiaryWritePage() {
           placeholder={PLACEHOLDER_MESSAGE}
         />
 
-        <div>
+        <div className={classes.footer}>
           {count > 0 && (
             <Button
               type="button"
@@ -130,10 +130,9 @@ function DiaryWritePage() {
               {submitting ? "보관 중..." : "무명소에 흘려보내기"}
             </Button>
           )}
+          <TextCount count={count} />
         </div>
       </Form>
-
-      <TextCount count={count} minLength={MIN_LENGTH} />
 
       <Modal isOpen={showConfirm} onClose={() => setShowConfirm(false)}>
         <Modal.Title id="submit-title">

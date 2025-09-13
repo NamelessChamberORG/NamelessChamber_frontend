@@ -25,8 +25,8 @@
 
 .diaryForm form {
   width: 100%;
-  max-width: 80%;
-  height: 50%;
+  max-width: 50%;
+  height: 60%;
 }
 
 .diaryForm form:focus-within {
@@ -34,7 +34,18 @@
 }
 
 .diaryForm form > div {
-  padding-left: 1rem;
   display: flex;
-  justify-content: start;
+}
+
+.footer {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+@media (max-width: 768px) {
+  .diary form {
+    max-width: 92%;
+  }
 }
