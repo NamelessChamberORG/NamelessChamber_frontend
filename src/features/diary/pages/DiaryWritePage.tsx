@@ -70,10 +70,12 @@ function DiaryWritePage() {
     },
   });
 
+  const canSubmit = isContentValid(content, MIN_LENGTH);
+
   async function handleSave() {
     if (submitting) return;
 
-    if (!isContentValid(content, MIN_LENGTH)) {
+    if (!canSubmit) {
       showToast(`${MIN_LENGTH}자 이상 입력해주세요.`, "info");
       return;
     }
@@ -88,7 +90,7 @@ function DiaryWritePage() {
   }
 
   function handleOpenConfirm() {
-    if (!isContentValid(content, MIN_LENGTH)) {
+    if (!canSubmit) {
       showToast(`${MIN_LENGTH}자 이상 입력해주세요.`, "info");
       return;
     }
@@ -123,15 +125,19 @@ function DiaryWritePage() {
         />
 
         <div className={classes.footer}>
-          {count > 0 && (
+          <div
+            className={classes.revealWrap}
+            data-ready={canSubmit}
+            aria-hidden={!canSubmit && count === 0}
+          >
             <Button
               type="button"
               onClick={handleOpenConfirm}
-              disabled={submitting}
+              disabled={submitting || !canSubmit}
             >
               {submitting ? "보관 중..." : "무명소에 흘려보내기"}
             </Button>
-          )}
+          </div>
 
           <div className={classes.countWrap}>
             <TextCount count={count} />

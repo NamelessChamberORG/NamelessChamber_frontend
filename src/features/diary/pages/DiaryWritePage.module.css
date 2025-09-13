@@ -49,6 +49,27 @@
   margin-left: auto;
 }
 
+.revealWrap {
+  display: inline-flex;
+  align-items: center;
+  opacity: 0;
+  filter: blur(6px);
+  pointer-events: none;
+  transition: opacity 320ms ease 80ms, filter 360ms ease 200ms;
+}
+
+.revealWrap[data-ready="true"] {
+  opacity: 1;
+  filter: none;
+  pointer-events: auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .revealWrap {
+    transition: none;
+  }
+}
+
 @media (max-width: 768px) {
   .topActions {
     padding-right: 1rem;
