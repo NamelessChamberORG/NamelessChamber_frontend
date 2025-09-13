@@ -50,10 +50,10 @@ function LandingPage() {
       {step > 0 && (
         <div className={classes.content}>
           <div className={classes.guide}>
-            <Text className={classes.guideText}>
-              기록의 깊이를 선택해주세요.
+            <div className={classes.guideText}>
+              <Text variant="t1">기록의 깊이를 선택해주세요.</Text>
               <Paragraph>당신의 말은 짧아도, 길어도 좋습니다.</Paragraph>
-            </Text>
+            </div>
           </div>
 
           <div className={classes.textGroup}>
@@ -77,6 +77,8 @@ function LandingPage() {
                   revealDelay={200}
                   alwaysHoverStyle
                   className={classes.centerText}
+                  variant="c1"
+                  color="gray-3"
                 >
                   아니면
                 </Text>
