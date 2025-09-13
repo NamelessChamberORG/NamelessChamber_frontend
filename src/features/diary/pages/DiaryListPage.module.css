@@ -8,6 +8,7 @@
 }
 
 .guide {
+  margin-top: 4rem;
   font-family: var(--p1-font-family);
   font-weight: var(--p1-font-weight);
   font-size: var(--p1-font-size);
