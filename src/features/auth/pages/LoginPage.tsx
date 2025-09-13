@@ -99,7 +99,12 @@ function LoginPage() {
               <InputMessage />
             )}
 
-            <Button type="submit" disabled={isPending}>
+            <Button
+              type="submit"
+              disabled={isPending}
+              variant={password.trim() ? "main" : "sub"}
+              state={password.trim() ? "active" : "default"}
+            >
               {isPending ? "로그인 중..." : "로그인 하기"}
             </Button>
           </>
