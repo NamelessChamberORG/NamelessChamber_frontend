@@ -15,6 +15,14 @@
   padding-right: 2rem;
 }
 
+.title {
+  font-family: var(--p1-font-family);
+  font-weight: var(--p1-font-weight);
+  font-size: var(--p1-font-size);
+  line-height: var(--p1-font-line-height);
+  letter-spacing: var(--p1-font-letter-spacing);
+}
+
 .diaryForm form {
   width: 100%;
   max-width: 80%;
