@@ -26,6 +26,10 @@ export const authApi = {
     const res = await client.post<ApiResponse<AuthResponse>>("/auth/anonymous");
     return unwrap<AuthResponse>(res);
   },
+  async logout(): Promise<void> {
+    const res = await client.post<ApiResponse<null>>("/auth/logout");
+    unwrap<null>(res);
+  },
 };
 
 export async function reissueTokens(): Promise<string> {
