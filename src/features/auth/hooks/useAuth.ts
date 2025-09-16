@@ -7,6 +7,7 @@ import {
   getAccessToken,
   getEmail,
 } from "../api/tokenStore";
+import { queryClient } from "../../../lib/query";
 
 type CommonOpts = {
   onSuccess?: (data: AuthResponse) => void;
@@ -55,6 +56,16 @@ export function useAnonymousLogin(opts: CommonOpts = {}) {
       opts.onSuccess?.(data);
     },
     onError: (err) => opts.onError?.(err),
+  });
+}
+
+export function useLogout(): UseMutationResult<void, unknown, void> {
+  return useMutation({
+    mutationFn: () => authApi.logout(),
+    onSettled: () => {
+      clearAuthStore();
+      queryClient.clear();
+    },
   });
 }
 

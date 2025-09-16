@@ -2,6 +2,7 @@ import type { ApiResponse } from "../../../api/types";
 import type { AuthResponse } from "../types/types";
 import client from "../../../api/client";
 import { unwrap } from "../../../api/helpers";
+import { getAccessToken, getRefreshToken, persistAuth } from "./tokenStore";
 
 export const authApi = {
   async login(email: string, password: string): Promise<AuthResponse> {
@@ -25,4 +26,29 @@ export const authApi = {
     const res = await client.post<ApiResponse<AuthResponse>>("/auth/anonymous");
     return unwrap<AuthResponse>(res);
   },
+  async logout(): Promise<void> {
+    const res = await client.post("/auth/logout", null, {
+      headers: { "x-skip-reissue": true },
+    });
+    unwrap<null>(res);
+  },
 };
+
+export async function reissueTokens(): Promise<string> {
+  const accessToken = getAccessToken();
+  const refreshToken = getRefreshToken();
+  if (!refreshToken) throw new Error("No refresh token");
+
+  const res = await client.post<ApiResponse<AuthResponse>>("/auth/reissue", {
+    accessToken,
+    refreshToken,
+  });
+  const data = unwrap<AuthResponse>(res);
+
+  persistAuth({
+    accessToken: data.accessToken,
+    refreshToken: data.refreshToken,
+  });
+
+  return data.accessToken as string;
+}

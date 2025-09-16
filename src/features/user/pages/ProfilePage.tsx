@@ -6,13 +6,13 @@ import UserInfo from "../components/UserInfo";
 import { useUserMe } from "../hooks/useUser";
 import classes from "./ProfilePage.module.css";
 import { PATHS } from "../../../constants/path";
-import { clearAuth } from "../../auth/api/tokenStore";
 import DiaryTabs from "../components/DiaryTabs";
 import { useReadDiaries } from "../hooks/useReadDiaries";
 import { useMemo, useState } from "react";
 import CardListContainer from "../../diary/components/card/CardListContainer";
 import { useWrittenDiaries } from "../hooks/useWrittenDiaries";
 import ProfileSkeleton from "../components/ProfileSkeleton";
+import { useLogout } from "../../auth/hooks/useAuth";
 
 function ProfilePage() {
   const [currentTab, setCurrentTab] = useState<"written" | "read">("written");
@@ -22,7 +22,6 @@ function ProfilePage() {
   const { data: readData, isLoading: isReadLoading } = useReadDiaries(
     currentTab === "read"
   );
-
   const { data: writtenData, isLoading: isWrittenLoading } =
     useWrittenDiaries();
 
@@ -36,9 +35,14 @@ function ProfilePage() {
 
   const isEmpty = !isListLoading && (diaries?.length ?? 0) === 0;
 
+  const { mutate: logout, isPending: isLoggingOut } = useLogout();
+
   function handleLogout() {
-    clearAuth();
-    navigate(PATHS.HOME);
+    logout(undefined, {
+      onSettled: () => {
+        navigate(PATHS.HOME);
+      },
+    });
   }
 
   return (
@@ -52,8 +56,13 @@ function ProfilePage() {
             <CoinInfo coin={me?.coin ?? 0} />
             <Button alwaysHoverStyle={true}>프로필 편집</Button>
             <FeedbackCard />
-            <button className={classes.logout} onClick={handleLogout}>
-              로그아웃
+            <button
+              className={classes.logout}
+              onClick={handleLogout}
+              disabled={isLoggingOut}
+              aria-busy={isLoggingOut}
+            >
+              {isLoggingOut ? "로그아웃 중..." : "로그아웃"}
             </button>
           </>
         )}
