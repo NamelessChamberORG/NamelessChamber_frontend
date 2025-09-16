@@ -136,6 +136,11 @@ client.interceptors.response.use(
 
     if (status !== 401) return Promise.reject(error);
 
+    const originalRequest = error.config as AxiosRequestConfig;
+    const skipReissue =
+      typeof originalRequest?.headers === "object" &&
+      (originalRequest.headers as any)["x-skip-reissue"] === true;
+
     if (codeNum === 1012) {
       console.log("잘못된 접근 (1012)");
       handleAuthExpired("invalid_token", "/");
@@ -150,7 +155,11 @@ client.interceptors.response.use(
 
     if (codeNum === 1016) {
       console.log("토큰 만료 (1016)");
-      const originalRequest = error.config as AxiosRequestConfig;
+
+      if (skipReissue) {
+        handleAuthExpired("expired_skip_reissue", "/");
+        return Promise.reject(error);
+      }
 
       if (isRefreshing) {
         return new Promise((resolve, reject) =>

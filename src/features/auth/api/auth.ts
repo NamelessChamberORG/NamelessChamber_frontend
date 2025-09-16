@@ -27,7 +27,9 @@ export const authApi = {
     return unwrap<AuthResponse>(res);
   },
   async logout(): Promise<void> {
-    const res = await client.post<ApiResponse<null>>("/auth/logout");
+    const res = await client.post("/auth/logout", null, {
+      headers: { "x-skip-reissue": true },
+    });
     unwrap<null>(res);
   },
 };
