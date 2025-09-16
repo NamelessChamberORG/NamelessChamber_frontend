@@ -37,8 +37,11 @@ export async function reissueTokens(): Promise<string> {
   const refreshToken = getRefreshToken();
   if (!refreshToken) throw new Error("No refresh token");
 
-  const res = await client.post("/auth/reissue", { accessToken, refreshToken });
-  const data: any = res.data && res.data.data ? res.data.data : res.data;
+  const res = await client.post<ApiResponse<AuthResponse>>("/auth/reissue", {
+    accessToken,
+    refreshToken,
+  });
+  const data = unwrap<AuthResponse>(res);
 
   persistAuth({
     accessToken: data.accessToken,
