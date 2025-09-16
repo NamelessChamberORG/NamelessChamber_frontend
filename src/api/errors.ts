@@ -1,9 +1,10 @@
 export type AppErrorCode =
   | "INVALID_ACCESS"
+  | "TOKEN_EXPIRED"
+  | "UNAUTHORIZED"
   | "NO_COIN"
   | "FORBIDDEN"
   | "NOT_FOUND"
-  | "UNAUTHORIZED"
   | "SERVER_ERROR"
   | "NETWORK"
   | "UNKNOWN";
@@ -21,6 +22,10 @@ const mapErrorCode = (n?: number): AppErrorCode => {
       return "NO_COIN";
     case 1012:
       return "INVALID_ACCESS";
+    case 1016:
+      return "TOKEN_EXPIRED";
+    case 1017:
+      return "UNAUTHORIZED";
     default:
       return "UNKNOWN";
   }
