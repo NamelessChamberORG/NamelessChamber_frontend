@@ -17,8 +17,13 @@
   color: var(--color-gray-3);
 }
 
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
 .header {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
 }

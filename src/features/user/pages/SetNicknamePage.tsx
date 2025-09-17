@@ -67,6 +67,7 @@ function SetNicknamePage() {
             handleSubmit();
           }
         }}
+        className={classes.form}
       >
         <Input
           type="text"
