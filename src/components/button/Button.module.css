@@ -10,6 +10,13 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
+  --btn-pad-y: 0.8rem;
+  --btn-font-size: var(--p1-font-size);
+  --btn-line: var(--p1-font-line-height);
+
+  min-height: calc(
+    (var(--btn-font-size) * var(--btn-line)) + (var(--btn-pad-y) * 2)
+  );
 
   --reveal-delay: 0ms;
   --reveal-duration: 800ms;
