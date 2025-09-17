@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState, useEffect, useMemo } from "react";
 import Button from "../../../components/button/Button";
 import Form from "../../../components/form/Form";
 import Input from "../../../components/input/Input";
@@ -11,8 +11,8 @@ import { useToast } from "../../../contexts/ToastContext";
 import { getErrorMessage } from "../../../api/helpers";
 import InputMessage from "../../../components/input/InputMessage";
 import LoadingDots from "../../../components/loading/LoadingDots";
-
-const isValidEmail = (v: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim());
+import { validateEmail } from "../validation/validators";
+import { firstError, hasError } from "../validation/validationHelpers";
 
 function LoginPage() {
   const navigate = useNavigate();
@@ -38,7 +38,13 @@ function LoginPage() {
 
   const trimmedEmail = email.trim();
   const hasTypedEmail = trimmedEmail.length > 0;
-  const emailValid = isValidEmail(trimmedEmail);
+
+  const emailIssues = useMemo(
+    () => validateEmail(trimmedEmail),
+    [trimmedEmail]
+  );
+  const emailValid = !hasError(emailIssues);
+  const emailError = firstError(emailIssues);
 
   const canSubmit =
     step === "password" && emailValid && password.trim().length > 0;
@@ -127,7 +133,7 @@ function LoginPage() {
           />
           {hasTypedEmail && !emailValid ? (
             <InputMessage type="error" aria-live="polite">
-              올바른 이메일 형식을 입력해주세요
+              {emailError ?? "올바른 이메일 형식을 입력해주세요"}
             </InputMessage>
           ) : (
             <InputMessage />
