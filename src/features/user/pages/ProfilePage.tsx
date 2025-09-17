@@ -13,6 +13,7 @@ import CardListContainer from "../../diary/components/card/CardListContainer";
 import { useWrittenDiaries } from "../hooks/useWrittenDiaries";
 import ProfileSkeleton from "../components/ProfileSkeleton";
 import { useLogout } from "../../auth/hooks/useAuth";
+import LoadingDots from "../../../components/loading/LoadingDots";
 
 function ProfilePage() {
   const [currentTab, setCurrentTab] = useState<"written" | "read">("written");
@@ -62,7 +63,7 @@ function ProfilePage() {
               disabled={isLoggingOut}
               aria-busy={isLoggingOut}
             >
-              {isLoggingOut ? "로그아웃 중..." : "로그아웃"}
+              {isLoggingOut ? <LoadingDots /> : "로그아웃"}
             </button>
           </>
         )}

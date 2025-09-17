@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState, useEffect, useMemo } from "react";
 import Button from "../../../components/button/Button";
 import Form from "../../../components/form/Form";
 import Input from "../../../components/input/Input";
@@ -10,8 +10,9 @@ import { useLogin } from "../hooks/useAuth";
 import { useToast } from "../../../contexts/ToastContext";
 import { getErrorMessage } from "../../../api/helpers";
 import InputMessage from "../../../components/input/InputMessage";
-
-const isValidEmail = (v: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim());
+import LoadingDots from "../../../components/loading/LoadingDots";
+import { validateEmail } from "../validation/validators";
+import { firstError, hasError } from "../validation/validationHelpers";
 
 function LoginPage() {
   const navigate = useNavigate();
@@ -35,16 +36,22 @@ function LoginPage() {
     },
   });
 
-  const canGoNext = isValidEmail(email);
+  const trimmedEmail = email.trim();
+  const hasTypedEmail = trimmedEmail.length > 0;
+
+  const emailIssues = useMemo(
+    () => validateEmail(trimmedEmail),
+    [trimmedEmail]
+  );
+  const emailValid = !hasError(emailIssues);
+  const emailError = firstError(emailIssues);
+
   const canSubmit =
-    step === "password" && canGoNext && password.trim().length > 0;
+    step === "password" && emailValid && password.trim().length > 0;
 
   function goNextOrSubmit() {
     if (step === "email") {
-      if (!canGoNext) {
-        setServerError("올바른 이메일 형식을 입력해주세요");
-        return;
-      }
+      if (!emailValid) return;
       setServerError("");
       setStep("password");
       return;
@@ -55,8 +62,13 @@ function LoginPage() {
       return;
     }
 
+    if (!emailValid) {
+      setServerError("올바른 이메일 형식을 입력해주세요");
+      return;
+    }
+
     setServerError("");
-    login({ email: email.trim(), password: password.trim() });
+    login({ email: trimmedEmail, password: password.trim() });
   }
 
   function handleEmailKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
@@ -77,11 +89,25 @@ function LoginPage() {
   }, [step]);
 
   useEffect(() => {
-    if (step === "password" && !isValidEmail(email)) {
+    if (step === "password" && !emailValid) {
       setStep("email");
       setPassword("");
     }
-  }, [email, step]);
+  }, [emailValid, step]);
+
+  const buttonLabel = isPending ? (
+    <LoadingDots />
+  ) : step === "email" ? (
+    hasTypedEmail ? (
+      "다음"
+    ) : (
+      "로그인하기"
+    )
+  ) : (
+    "로그인하기"
+  );
+
+  const isButtonEnabled = step === "email" ? emailValid : canSubmit;
 
   return (
     <section className={classes.login}>
@@ -103,10 +129,11 @@ function LoginPage() {
             }}
             onKeyDown={handleEmailKeyDown}
             autoComplete="username"
+            aria-invalid={hasTypedEmail && !emailValid}
           />
-          {serverError && step === "email" ? (
+          {hasTypedEmail && !emailValid ? (
             <InputMessage type="error" aria-live="polite">
-              {serverError}
+              {emailError ?? "올바른 이메일 형식을 입력해주세요"}
             </InputMessage>
           ) : (
             <InputMessage />
@@ -143,24 +170,20 @@ function LoginPage() {
         <div className={classes.btn}>
           <Button
             type="submit"
-            disabled={isPending || !canSubmit}
-            variant={canSubmit ? "main" : "sub"}
-            state={canSubmit ? "active" : "default"}
+            disabled={isPending || !isButtonEnabled}
+            variant={isButtonEnabled ? "main" : "sub"}
+            state={isButtonEnabled ? "active" : "default"}
             className={classes.submit}
           >
-            {step === "email"
-              ? "로그인하기"
-              : isPending
-              ? "로그인 중..."
-              : "로그인 하기"}
+            {buttonLabel}
           </Button>
         </div>
 
         <div
           className={`${classes.signUpArea} ${
-            step === "email" ? classes.show : ""
+            step === "email" && !hasTypedEmail ? classes.show : ""
           }`}
-          aria-hidden={step !== "email"}
+          aria-hidden={step !== "email" || hasTypedEmail}
         >
           <Link to={PATHS.SIGN_UP} className={classes.fullWidth}>
             <Button variant="sub" state="active" className={classes.fullWidth}>

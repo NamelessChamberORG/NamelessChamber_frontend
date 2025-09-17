@@ -16,6 +16,7 @@ import {
 } from "../validation/validators";
 import { firstError, hasError } from "../validation/validationHelpers";
 import Button from "../../../components/button/Button";
+import LoadingDots from "../../../components/loading/LoadingDots";
 
 type Step = "email" | "pw";
 
@@ -211,9 +212,16 @@ function SignupPage() {
             type="submit"
             disabled={isPending || !isEnabled}
             variant="sub"
-            state={isEnabled ? "active" : "default"}
+            state={isPending || isEnabled ? "active" : "default"}
+            data-busy={isPending ? "true" : "false"}
           >
-            {step === "email" ? "다음" : isPending ? "가입 중..." : "가입하기"}
+            {step === "email" ? (
+              "다음"
+            ) : isPending ? (
+              <LoadingDots />
+            ) : (
+              "가입하기"
+            )}
           </Button>
         </div>
       </Form>

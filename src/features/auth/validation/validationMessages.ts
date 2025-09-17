@@ -8,7 +8,7 @@ export type MsgKey =
   | "nickname.pattern";
 
 const MESSAGES: Record<MsgKey, string> = {
-  "email.pattern": "올바른 이메일 형식이 아닙니다.",
+  "email.pattern": "이메일 양식이 아닙니다.",
   "pw.length": "최소 8자 이상 입력",
   "pw.chars": "영문 / 숫자(공백 제외)만 허용",
   "pw.mixed": "영문과 숫자를 2개 이상 조합",
