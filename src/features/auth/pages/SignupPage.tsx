@@ -10,27 +10,28 @@ import { useToast } from "../../../contexts/ToastContext";
 import { getErrorMessage } from "../../../api/helpers";
 import InputMessage from "../../../components/input/InputMessage";
 import {
-  validateId,
+  validateEmail,
   validatePassword,
   validatePasswordConfirm,
 } from "../validation/validators";
 import { firstError, hasError } from "../validation/validationHelpers";
 import Button from "../../../components/button/Button";
+import LoadingDots from "../../../components/loading/LoadingDots";
 
-type Step = "id" | "pw" | "pwc";
+type Step = "email" | "pw";
 
 function SignupPage() {
   const navigate = useNavigate();
   const { showToast } = useToast();
 
   // ====== states ======
-  const [step, setStep] = useState<Step>("id");
+  const [step, setStep] = useState<Step>("email");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordConfirm, setPasswordConfirm] = useState("");
 
   // refs for auto focus
-  const idRef = useRef<HTMLInputElement>(null);
+  const emailRef = useRef<HTMLInputElement>(null);
   const pwRef = useRef<HTMLInputElement>(null);
   const pwcRef = useRef<HTMLInputElement>(null);
 
@@ -45,99 +46,108 @@ function SignupPage() {
   });
 
   // ====== validators (derive) ======
-  const trimmedId = email.trim();
-  const idIssues = useMemo(() => validateId(trimmedId), [trimmedId]);
+  const trimmedEmail = email.trim();
+
+  const emailIssues = useMemo(
+    () => validateEmail(trimmedEmail),
+    [trimmedEmail]
+  );
   const pwIssues = useMemo(() => validatePassword(password), [password]);
   const pwcIssues = useMemo(
     () => validatePasswordConfirm(password, passwordConfirm),
     [password, passwordConfirm]
   );
 
-  const idError = firstError(idIssues);
+  const emailError = firstError(emailIssues);
   const pwError = firstError(pwIssues);
   const pwcError = firstError(pwcIssues);
 
-  const hasId = trimmedId.length > 0;
+  const hasEmail = trimmedEmail.length > 0;
   const hasPw = password.length > 0;
   const hasPwc = passwordConfirm.length > 0;
 
-  const showIdError = hasId && hasError(idIssues);
+  const showEmailError = hasEmail && hasError(emailIssues);
   const showPwError = hasPw && hasError(pwIssues);
   const showPwcError = hasPwc && hasError(pwcIssues);
 
-  const showIdSuccess = hasId && !hasError(idIssues);
+  const showEmailSuccess = hasEmail && !hasError(emailIssues);
   const showPwSuccess = hasPw && !hasError(pwIssues);
   const showPwcSuccess = hasPwc && !hasError(pwcIssues);
 
-  const disabled =
-    isPending ||
-    hasError(idIssues) ||
-    hasError(pwIssues) ||
-    hasError(pwcIssues);
+  const canGoNextEmail = showEmailSuccess;
+  const canSubmitPw = showPwSuccess && showPwcSuccess && !isPending;
 
   // ====== handlers ======
-  function handleSignup() {
-    if (disabled) return;
-    signup({ email: trimmedId, password });
+  function goNextOrSubmit() {
+    if (step === "email") {
+      if (!canGoNextEmail) return;
+      setStep("pw");
+      return;
+    }
+    if (!canSubmitPw) return;
+    signup({ email: trimmedEmail, password });
   }
 
-  function handleIdKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
+  function handleEmailKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
     if (e.key !== "Enter") return;
-    if (!hasError(idIssues) && hasId) {
-      setStep("pw");
-    }
+    e.preventDefault();
+    goNextOrSubmit();
   }
 
   function handlePwKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
     if (e.key !== "Enter") return;
+    e.preventDefault();
     if (!hasError(pwIssues) && hasPw) {
-      setStep("pwc");
+      pwcRef.current?.focus();
     }
   }
 
   function handlePwcKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
     if (e.key !== "Enter") return;
-    if (
-      !hasError(pwcIssues) &&
-      hasPwc &&
-      !hasError(pwIssues) &&
-      !hasError(idIssues)
-    ) {
-      handleSignup();
-    }
+    e.preventDefault();
+    goNextOrSubmit();
   }
 
   useEffect(() => {
-    if (step === "id") idRef.current?.focus();
+    if (step === "email") emailRef.current?.focus();
     if (step === "pw") pwRef.current?.focus();
-    if (step === "pwc") pwcRef.current?.focus();
   }, [step]);
+
+  useEffect(() => {
+    if (step === "pw" && hasError(emailIssues)) {
+      setStep("email");
+      setPassword("");
+      setPasswordConfirm("");
+    }
+  }, [emailIssues, step]);
+
+  const isEnabled = step === "email" ? canGoNextEmail : canSubmitPw;
 
   return (
     <section className={classes.signup}>
-      <Paragraph>환영합니다</Paragraph>
+      <Paragraph>회원가입</Paragraph>
 
       <Form
-        onSave={handleSignup}
+        onSave={goNextOrSubmit}
         className={`${classes.form} ${classes.controlWidth}`}
       >
         <div className={classes.fieldGroup}>
           <Input
-            ref={idRef}
-            type="text"
-            placeholder="아이디"
+            ref={emailRef}
+            type="email"
+            placeholder="이메일"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            onKeyDown={handleIdKeyDown}
+            onKeyDown={handleEmailKeyDown}
             autoComplete="username"
-            aria-invalid={showIdError}
-            aria-describedby="signup-id-help"
+            aria-invalid={showEmailError}
+            enterKeyHint="next"
           />
-          {showIdError ? (
+          {showEmailError ? (
             <InputMessage type="error" aria-live="polite">
-              {idError}
+              {emailError}
             </InputMessage>
-          ) : showIdSuccess ? (
+          ) : showEmailSuccess ? (
             <InputMessage type="success" aria-live="polite">
               사용 가능합니다.
             </InputMessage>
@@ -147,8 +157,8 @@ function SignupPage() {
         </div>
 
         <div
-          className={`${classes.pwArea} ${step !== "id" ? classes.show : ""}`}
-          aria-hidden={step === "id"}
+          className={`${classes.pwBlock} ${step === "pw" ? classes.show : ""}`}
+          aria-hidden={step !== "pw"}
         >
           <Input
             ref={pwRef}
@@ -159,7 +169,7 @@ function SignupPage() {
             onKeyDown={handlePwKeyDown}
             autoComplete="new-password"
             aria-invalid={showPwError}
-            aria-describedby="signup-pw-help"
+            enterKeyHint="next"
           />
           {showPwError ? (
             <InputMessage type="error" aria-live="polite">
@@ -172,12 +182,7 @@ function SignupPage() {
           ) : (
             <InputMessage />
           )}
-        </div>
 
-        <div
-          className={`${classes.pwcArea} ${step === "pwc" ? classes.show : ""}`}
-          aria-hidden={step !== "pwc"}
-        >
           <Input
             ref={pwcRef}
             type="password"
@@ -187,7 +192,7 @@ function SignupPage() {
             onKeyDown={handlePwcKeyDown}
             autoComplete="new-password"
             aria-invalid={showPwcError}
-            aria-describedby="signup-pwc-help"
+            enterKeyHint="done"
           />
           {showPwcError ? (
             <InputMessage type="error" aria-live="polite">
@@ -200,14 +205,23 @@ function SignupPage() {
           ) : (
             <InputMessage />
           )}
+        </div>
 
+        <div className={classes.btn}>
           <Button
             type="submit"
-            disabled={disabled}
-            variant={!disabled ? "sub" : "sub"}
-            state={!disabled ? "active" : "default"}
+            disabled={isPending || !isEnabled}
+            variant="sub"
+            state={isPending || isEnabled ? "active" : "default"}
+            data-busy={isPending ? "true" : "false"}
           >
-            {isPending ? "가입 중..." : "가입하기"}
+            {step === "email" ? (
+              "다음"
+            ) : isPending ? (
+              <LoadingDots />
+            ) : (
+              "가입하기"
+            )}
           </Button>
         </div>
       </Form>

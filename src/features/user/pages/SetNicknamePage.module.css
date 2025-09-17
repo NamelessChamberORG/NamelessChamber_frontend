@@ -17,8 +17,22 @@
   color: var(--color-gray-3);
 }
 
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
 .header {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+}
+
+.btn {
+  display: grid;
+  margin-top: 2rem;
+}
+
+.btn > * {
+  min-width: 0;
 }

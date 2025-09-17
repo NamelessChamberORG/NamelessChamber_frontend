@@ -10,6 +10,7 @@ import InputMessage from "../../../components/input/InputMessage";
 import { validateNickname } from "../../auth/validation/validators";
 import { firstError, hasError } from "../../auth/validation/validationHelpers";
 import Button from "../../../components/button/Button";
+import LoadingDots from "../../../components/loading/LoadingDots";
 
 function SetNicknamePage() {
   const [nickname, setNickname] = useState("");
@@ -67,6 +68,7 @@ function SetNicknamePage() {
             handleSubmit();
           }
         }}
+        className={classes.form}
       >
         <Input
           type="text"
@@ -93,14 +95,16 @@ function SetNicknamePage() {
           <InputMessage></InputMessage>
         )}
 
-        <Button
-          type="submit"
-          disabled={disabled}
-          variant={!disabled ? "main" : "sub"}
-          state={!disabled ? "active" : "default"}
-        >
-          {isPending ? "설정 중..." : "설정하기"}
-        </Button>
+        <div className={classes.btn}>
+          <Button
+            type="submit"
+            disabled={isPending || clientInvalid}
+            variant="main"
+            state={isPending || !disabled ? "active" : "default"}
+          >
+            {isPending ? <LoadingDots /> : "설정하기"}
+          </Button>
+        </div>
       </Form>
     </section>
   );

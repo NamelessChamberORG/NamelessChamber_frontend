@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState, useEffect, useMemo } from "react";
 import Button from "../../../components/button/Button";
 import Form from "../../../components/form/Form";
 import Input from "../../../components/input/Input";
@@ -10,6 +10,9 @@ import { useLogin } from "../hooks/useAuth";
 import { useToast } from "../../../contexts/ToastContext";
 import { getErrorMessage } from "../../../api/helpers";
 import InputMessage from "../../../components/input/InputMessage";
+import LoadingDots from "../../../components/loading/LoadingDots";
+import { validateEmail } from "../validation/validators";
+import { firstError, hasError } from "../validation/validationHelpers";
 
 function LoginPage() {
   const navigate = useNavigate();
@@ -33,42 +36,92 @@ function LoginPage() {
     },
   });
 
-  function handleLogin() {
-    const id = email.trim();
-    const pw = password.trim();
-    if (!id || !pw) {
-      setServerError("아이디와 비밀번호를 모두 입력해주세요");
+  const trimmedEmail = email.trim();
+  const hasTypedEmail = trimmedEmail.length > 0;
+
+  const emailIssues = useMemo(
+    () => validateEmail(trimmedEmail),
+    [trimmedEmail]
+  );
+  const emailValid = !hasError(emailIssues);
+  const emailError = firstError(emailIssues);
+
+  const canSubmit =
+    step === "password" && emailValid && password.trim().length > 0;
+
+  function goNextOrSubmit() {
+    if (step === "email") {
+      if (!emailValid) return;
+      setServerError("");
+      setStep("password");
       return;
     }
+
+    if (!password.trim()) {
+      setServerError("비밀번호를 입력해주세요");
+      return;
+    }
+
+    if (!emailValid) {
+      setServerError("올바른 이메일 형식을 입력해주세요");
+      return;
+    }
+
     setServerError("");
-    login({ email: id, password: pw });
+    login({ email: trimmedEmail, password: password.trim() });
   }
 
   function handleEmailKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
-    if (e.key === "Enter" && email.trim()) {
+    if (e.key === "Enter") {
       e.preventDefault();
-      setStep("password");
+      goNextOrSubmit();
     }
   }
+
+  const emailRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    emailRef.current?.focus();
+  }, []);
 
   useEffect(() => {
     if (step === "password") passwordRef.current?.focus();
   }, [step]);
 
-  const showSignUp = step === "email" && email.trim().length === 0;
+  useEffect(() => {
+    if (step === "password" && !emailValid) {
+      setStep("email");
+      setPassword("");
+    }
+  }, [emailValid, step]);
+
+  const buttonLabel = isPending ? (
+    <LoadingDots />
+  ) : step === "email" ? (
+    hasTypedEmail ? (
+      "다음"
+    ) : (
+      "로그인하기"
+    )
+  ) : (
+    "로그인하기"
+  );
+
+  const isButtonEnabled = step === "email" ? emailValid : canSubmit;
 
   return (
     <section className={classes.login}>
       <Paragraph>로그인</Paragraph>
 
       <Form
-        onSave={handleLogin}
+        onSave={goNextOrSubmit}
         className={`${classes.form} ${classes.controlWidth}`}
       >
         <div className={classes.fieldGroup}>
           <Input
-            type="text"
-            placeholder="아이디"
+            ref={emailRef}
+            type="email"
+            placeholder="이메일"
             value={email}
             onChange={(e) => {
               if (serverError) setServerError("");
@@ -76,8 +129,15 @@ function LoginPage() {
             }}
             onKeyDown={handleEmailKeyDown}
             autoComplete="username"
+            aria-invalid={hasTypedEmail && !emailValid}
           />
-          <InputMessage />
+          {hasTypedEmail && !emailValid ? (
+            <InputMessage type="error" aria-live="polite">
+              {emailError ?? "올바른 이메일 형식을 입력해주세요"}
+            </InputMessage>
+          ) : (
+            <InputMessage />
+          )}
         </div>
 
         <div
@@ -89,7 +149,7 @@ function LoginPage() {
           <Input
             ref={passwordRef}
             type="password"
-            placeholder="비밀번호"
+            placeholder="비밀번호 (영문, 숫자 포함 8-15자)"
             value={password}
             onChange={(e) => {
               if (serverError) setServerError("");
@@ -98,43 +158,40 @@ function LoginPage() {
             autoComplete="current-password"
           />
 
-          {serverError ? (
+          {serverError && step === "password" ? (
             <InputMessage type="error" aria-live="polite">
               {serverError}
             </InputMessage>
           ) : (
             <InputMessage />
           )}
+        </div>
 
+        <div className={classes.btn}>
           <Button
             type="submit"
-            disabled={isPending}
-            variant={password.trim() ? "main" : "sub"}
-            state={password.trim() ? "active" : "default"}
+            disabled={isPending || !isButtonEnabled}
+            variant={isButtonEnabled ? "main" : "sub"}
+            state={isButtonEnabled ? "active" : "default"}
             className={classes.submit}
           >
-            {isPending ? "로그인 중..." : "로그인 하기"}
+            {buttonLabel}
           </Button>
         </div>
-      </Form>
 
-      <div
-        className={`${classes.signUpArea} ${showSignUp ? classes.show : ""}`}
-        aria-hidden={!showSignUp}
-      >
-        <div>
-          <Paragraph>하루에</Paragraph>
-          <Paragraph>한 번의 기록, 무명소</Paragraph>
-        </div>
-
-        <div className={`${classes.authButtons} ${classes.controlWidth}`}>
+        <div
+          className={`${classes.signUpArea} ${
+            step === "email" && !hasTypedEmail ? classes.show : ""
+          }`}
+          aria-hidden={step !== "email" || hasTypedEmail}
+        >
           <Link to={PATHS.SIGN_UP} className={classes.fullWidth}>
             <Button variant="sub" state="active" className={classes.fullWidth}>
-              무명소에 합류하기
+              회원가입
             </Button>
           </Link>
         </div>
-      </div>
+      </Form>
     </section>
   );
 }
