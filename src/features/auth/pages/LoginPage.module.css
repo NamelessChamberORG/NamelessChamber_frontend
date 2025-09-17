@@ -22,7 +22,7 @@
 .form {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 1.2rem;
 }
 
 .fieldGroup {
@@ -31,72 +31,49 @@
   gap: 0.6rem;
 }
 
-.passwordArea {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-
-  min-height: clamp(140px, 18vh, 200px);
-
-  opacity: 0;
-  transform: translateY(-4px);
-  visibility: hidden;
-  pointer-events: none;
-
-  transition: opacity 200ms ease, transform 200ms ease,
-    visibility 0s linear 200ms;
-}
-
-.passwordArea.show {
-  opacity: 1;
-  transform: translateY(0);
-  visibility: visible;
-  pointer-events: auto;
-  transition: opacity 200ms ease, transform 200ms ease;
-}
-
-.signUpArea {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 1.2rem;
-  align-items: center;
-  text-align: center;
-
-  min-height: clamp(120px, 14vh, 180px);
-
-  opacity: 0;
-  transform: translateY(-4px);
-  visibility: hidden;
-  pointer-events: none;
-
-  transition: opacity 200ms ease, transform 200ms ease,
-    visibility 0s linear 200ms;
-}
-
-.signUpArea.show {
-  opacity: 1;
-  transform: translateY(0);
-  visibility: visible;
-  pointer-events: auto;
-  transition: opacity 200ms ease, transform 200ms ease;
-}
-
 .submit {
   width: 100%;
-}
-
-.authButtons {
-  display: flex;
-  flex-direction: column;
-  gap: 1.2rem;
-}
-
-.authButtons a {
-  text-decoration: none;
 }
 
 .fullWidth {
   display: block;
   width: 100%;
+}
+
+.passwordArea,
+.signUpArea {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+
+  max-height: 0;
+  opacity: 0;
+  transform: translateY(-4px);
+  overflow: hidden;
+  visibility: hidden;
+  pointer-events: none;
+
+  transition: opacity 200ms ease, transform 200ms ease, max-height 200ms ease,
+    visibility 0s linear 200ms;
+}
+
+.passwordArea.show,
+.signUpArea.show {
+  max-height: 200px; /* 적당히 큰 값 */
+  opacity: 1;
+  transform: translateY(0);
+  visibility: visible;
+  pointer-events: auto;
+  transition: opacity 200ms ease, transform 200ms ease, max-height 200ms ease;
+}
+
+.signUpArea {
+  margin-top: 1.6rem;
+  align-items: center;
+  text-align: center;
+}
+
+.signUpArea a {
+  text-decoration: none;
+  color: inherit;
 }
