@@ -5,10 +5,24 @@
   line-height: normal;
   letter-spacing: 0;
   text-align: left;
-  min-height: 1.5rem;
+
+  min-height: 1.5em;
+  min-height: 1lh;
+
+  margin-top: 0.5rem;
+  margin-bottom: 1.6rem;
+
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  transition: opacity 120ms ease;
 }
 
 .hidden {
+  opacity: 0;
   visibility: hidden;
 }
 
