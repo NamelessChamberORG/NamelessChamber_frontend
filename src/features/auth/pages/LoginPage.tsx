@@ -10,6 +10,7 @@ import { useLogin } from "../hooks/useAuth";
 import { useToast } from "../../../contexts/ToastContext";
 import { getErrorMessage } from "../../../api/helpers";
 import InputMessage from "../../../components/input/InputMessage";
+import LoadingDots from "../../../components/loading/LoadingDots";
 
 const isValidEmail = (v: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim());
 
@@ -148,11 +149,13 @@ function LoginPage() {
             state={canSubmit ? "active" : "default"}
             className={classes.submit}
           >
-            {step === "email"
-              ? "로그인하기"
-              : isPending
-              ? "로그인 중..."
-              : "로그인 하기"}
+            {step === "email" ? (
+              "로그인하기"
+            ) : isPending ? (
+              <LoadingDots />
+            ) : (
+              "로그인 하기"
+            )}
           </Button>
         </div>
 
