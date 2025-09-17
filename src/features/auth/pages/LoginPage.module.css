@@ -22,13 +22,11 @@
 .form {
   display: flex;
   flex-direction: column;
-  gap: 1.2rem;
 }
 
 .fieldGroup {
   display: flex;
   flex-direction: column;
-  gap: 0.6rem;
 }
 
 .submit {
@@ -44,7 +42,6 @@
 .signUpArea {
   display: flex;
   flex-direction: column;
-  gap: 1.2rem;
 
   max-height: 0;
   opacity: 0;
@@ -59,7 +56,7 @@
 
 .passwordArea.show,
 .signUpArea.show {
-  max-height: 200px; /* 적당히 큰 값 */
+  max-height: 200px;
   opacity: 1;
   transform: translateY(0);
   visibility: visible;
