@@ -50,6 +50,10 @@
 }
 
 .btn {
-  width: 100%;
+  display: grid;
   margin-top: 2rem;
+}
+
+.btn > * {
+  min-width: 0;
 }
