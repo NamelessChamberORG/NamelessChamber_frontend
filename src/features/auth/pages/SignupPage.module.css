@@ -17,19 +17,16 @@
 .form {
   display: flex;
   flex-direction: column;
-  gap: 1.2rem;
 }
 
 .fieldGroup {
   display: flex;
   flex-direction: column;
-  gap: 1.2rem;
 }
 
 .pwBlock {
   display: flex;
   flex-direction: column;
-  gap: 1.2rem;
 
   max-height: 0;
   opacity: 0;
