@@ -29,5 +29,10 @@
 }
 
 .btn {
+  display: grid;
   margin-top: 2rem;
+}
+
+.btn > * {
+  min-width: 0;
 }
