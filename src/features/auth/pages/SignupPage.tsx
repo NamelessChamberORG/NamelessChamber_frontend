@@ -10,27 +10,27 @@ import { useToast } from "../../../contexts/ToastContext";
 import { getErrorMessage } from "../../../api/helpers";
 import InputMessage from "../../../components/input/InputMessage";
 import {
-  validateId,
+  validateEmail,
   validatePassword,
   validatePasswordConfirm,
 } from "../validation/validators";
 import { firstError, hasError } from "../validation/validationHelpers";
 import Button from "../../../components/button/Button";
 
-type Step = "id" | "pw" | "pwc";
+type Step = "email" | "pw" | "pwc";
 
 function SignupPage() {
   const navigate = useNavigate();
   const { showToast } = useToast();
 
   // ====== states ======
-  const [step, setStep] = useState<Step>("id");
+  const [step, setStep] = useState<Step>("email");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordConfirm, setPasswordConfirm] = useState("");
 
   // refs for auto focus
-  const idRef = useRef<HTMLInputElement>(null);
+  const emailRef = useRef<HTMLInputElement>(null);
   const pwRef = useRef<HTMLInputElement>(null);
   const pwcRef = useRef<HTMLInputElement>(null);
 
@@ -45,45 +45,48 @@ function SignupPage() {
   });
 
   // ====== validators (derive) ======
-  const trimmedId = email.trim();
-  const idIssues = useMemo(() => validateId(trimmedId), [trimmedId]);
+  const trimmedEmail = email.trim();
+  const emailIssues = useMemo(
+    () => validateEmail(trimmedEmail),
+    [trimmedEmail]
+  );
   const pwIssues = useMemo(() => validatePassword(password), [password]);
   const pwcIssues = useMemo(
     () => validatePasswordConfirm(password, passwordConfirm),
     [password, passwordConfirm]
   );
 
-  const idError = firstError(idIssues);
+  const emailError = firstError(emailIssues);
   const pwError = firstError(pwIssues);
   const pwcError = firstError(pwcIssues);
 
-  const hasId = trimmedId.length > 0;
+  const hasEmail = trimmedEmail.length > 0;
   const hasPw = password.length > 0;
   const hasPwc = passwordConfirm.length > 0;
 
-  const showIdError = hasId && hasError(idIssues);
+  const showEmailError = hasEmail && hasError(emailIssues);
   const showPwError = hasPw && hasError(pwIssues);
   const showPwcError = hasPwc && hasError(pwcIssues);
 
-  const showIdSuccess = hasId && !hasError(idIssues);
+  const showEmailSuccess = hasEmail && !hasError(emailIssues);
   const showPwSuccess = hasPw && !hasError(pwIssues);
   const showPwcSuccess = hasPwc && !hasError(pwcIssues);
 
   const disabled =
     isPending ||
-    hasError(idIssues) ||
+    hasError(emailIssues) ||
     hasError(pwIssues) ||
     hasError(pwcIssues);
 
   // ====== handlers ======
   function handleSignup() {
     if (disabled) return;
-    signup({ email: trimmedId, password });
+    signup({ email: trimmedEmail, password });
   }
 
   function handleIdKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
     if (e.key !== "Enter") return;
-    if (!hasError(idIssues) && hasId) {
+    if (!hasError(emailIssues) && hasEmail) {
       setStep("pw");
     }
   }
@@ -101,21 +104,21 @@ function SignupPage() {
       !hasError(pwcIssues) &&
       hasPwc &&
       !hasError(pwIssues) &&
-      !hasError(idIssues)
+      !hasError(emailIssues)
     ) {
       handleSignup();
     }
   }
 
   useEffect(() => {
-    if (step === "id") idRef.current?.focus();
+    if (step === "email") emailRef.current?.focus();
     if (step === "pw") pwRef.current?.focus();
     if (step === "pwc") pwcRef.current?.focus();
   }, [step]);
 
   return (
     <section className={classes.signup}>
-      <Paragraph>환영합니다</Paragraph>
+      <Paragraph>이메일로 가입하기</Paragraph>
 
       <Form
         onSave={handleSignup}
@@ -123,21 +126,21 @@ function SignupPage() {
       >
         <div className={classes.fieldGroup}>
           <Input
-            ref={idRef}
-            type="text"
-            placeholder="아이디"
+            ref={emailRef}
+            type="email"
+            placeholder="이메일"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             onKeyDown={handleIdKeyDown}
             autoComplete="username"
-            aria-invalid={showIdError}
+            aria-invalid={showEmailError}
             aria-describedby="signup-id-help"
           />
-          {showIdError ? (
+          {showEmailError ? (
             <InputMessage type="error" aria-live="polite">
-              {idError}
+              {emailError}
             </InputMessage>
-          ) : showIdSuccess ? (
+          ) : showEmailSuccess ? (
             <InputMessage type="success" aria-live="polite">
               사용 가능합니다.
             </InputMessage>
@@ -147,8 +150,10 @@ function SignupPage() {
         </div>
 
         <div
-          className={`${classes.pwArea} ${step !== "id" ? classes.show : ""}`}
-          aria-hidden={step === "id"}
+          className={`${classes.pwArea} ${
+            step !== "email" ? classes.show : ""
+          }`}
+          aria-hidden={step === "email"}
         >
           <Input
             ref={pwRef}
