@@ -140,19 +140,21 @@ function LoginPage() {
           )}
         </div>
 
-        <Button
-          type="submit"
-          disabled={isPending || !canSubmit}
-          variant={canSubmit ? "main" : "sub"}
-          state={canSubmit ? "active" : "default"}
-          className={classes.submit}
-        >
-          {step === "email"
-            ? "로그인하기"
-            : isPending
-            ? "로그인 중..."
-            : "로그인 하기"}
-        </Button>
+        <div className={classes.btn}>
+          <Button
+            type="submit"
+            disabled={isPending || !canSubmit}
+            variant={canSubmit ? "main" : "sub"}
+            state={canSubmit ? "active" : "default"}
+            className={classes.submit}
+          >
+            {step === "email"
+              ? "로그인하기"
+              : isPending
+              ? "로그인 중..."
+              : "로그인 하기"}
+          </Button>
+        </div>
 
         <div
           className={`${classes.signUpArea} ${

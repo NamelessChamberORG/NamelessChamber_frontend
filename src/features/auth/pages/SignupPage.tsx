@@ -206,14 +206,16 @@ function SignupPage() {
           )}
         </div>
 
-        <Button
-          type="submit"
-          disabled={isPending || !isEnabled}
-          variant="sub"
-          state={isEnabled ? "active" : "default"}
-        >
-          {step === "email" ? "다음" : isPending ? "가입 중..." : "가입하기"}
-        </Button>
+        <div className={classes.btn}>
+          <Button
+            type="submit"
+            disabled={isPending || !isEnabled}
+            variant="sub"
+            state={isEnabled ? "active" : "default"}
+          >
+            {step === "email" ? "다음" : isPending ? "가입 중..." : "가입하기"}
+          </Button>
+        </div>
       </Form>
     </section>
   );

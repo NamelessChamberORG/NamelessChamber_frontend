@@ -48,3 +48,8 @@
 
   transition: opacity 200ms ease, transform 200ms ease, max-height 200ms ease;
 }
+
+.btn {
+  width: 100%;
+  margin-top: 2rem;
+}
