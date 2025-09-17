@@ -3,11 +3,24 @@ import { getMsg, type MsgKey } from "./validationMessages";
 export type ValidationIssue = { key: MsgKey; message: string };
 export type ValidationResult = ValidationIssue[];
 
-export function validateId(id: string): ValidationResult {
+export function validateEmail(email: string): ValidationResult {
   const issues: ValidationResult = [];
-  // 8~16, 영문만 또는 영문+숫자
-  const ok = /^(?=.{8,16}$)(?:[A-Za-z]+|[A-Za-z][A-Za-z\d]+)$/.test(id);
-  if (!ok) issues.push({ key: "id.pattern", message: getMsg("id.pattern") });
+
+  const BASIC_EMAIL_RE = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+
+  const hasExactlyOneAt = (email.match(/@/g) || []).length === 1;
+  const noConsecutiveDots = !/\.\./.test(email);
+
+  let ok = false;
+  if (BASIC_EMAIL_RE.test(email) && hasExactlyOneAt && noConsecutiveDots) {
+    const [local, domain] = email.split("@");
+    const badEdge = (s: string) => /^[.-]/.test(s) || /[.-]$/.test(s);
+    ok = !!local && !!domain && !badEdge(local) && !badEdge(domain);
+  }
+
+  if (!ok) {
+    issues.push({ key: "email.pattern", message: getMsg("email.pattern") });
+  }
   return issues;
 }
 

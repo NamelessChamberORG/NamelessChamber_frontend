@@ -67,6 +67,7 @@ function SetNicknamePage() {
             handleSubmit();
           }
         }}
+        className={classes.form}
       >
         <Input
           type="text"
@@ -93,14 +94,16 @@ function SetNicknamePage() {
           <InputMessage></InputMessage>
         )}
 
-        <Button
-          type="submit"
-          disabled={disabled}
-          variant={!disabled ? "main" : "sub"}
-          state={!disabled ? "active" : "default"}
-        >
-          {isPending ? "설정 중..." : "설정하기"}
-        </Button>
+        <div className={classes.btn}>
+          <Button
+            type="submit"
+            disabled={disabled}
+            variant={!disabled ? "main" : "sub"}
+            state={!disabled ? "active" : "default"}
+          >
+            {isPending ? "설정 중..." : "설정하기"}
+          </Button>
+        </div>
       </Form>
     </section>
   );

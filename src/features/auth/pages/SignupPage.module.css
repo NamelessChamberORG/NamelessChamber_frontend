@@ -17,59 +17,43 @@
 .form {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
 }
 
 .fieldGroup {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
 }
 
-.pwArea {
+.pwBlock {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
 
-  min-height: clamp(84px, 12vh, 140px);
-
+  max-height: 0;
   opacity: 0;
   transform: translateY(-4px);
+  overflow: hidden;
   visibility: hidden;
   pointer-events: none;
 
-  transition: opacity 200ms ease, transform 200ms ease,
+  transition: opacity 200ms ease, transform 200ms ease, max-height 200ms ease,
     visibility 0s linear 200ms;
 }
 
-.pwArea.show {
+.pwBlock.show {
+  max-height: 320px;
   opacity: 1;
   transform: translateY(0);
   visibility: visible;
   pointer-events: auto;
-  transition: opacity 200ms ease, transform 200ms ease;
+
+  transition: opacity 200ms ease, transform 200ms ease, max-height 200ms ease;
 }
 
-.pwcArea {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-
-  min-height: clamp(140px, 18vh, 200px);
-
-  opacity: 0;
-  transform: translateY(-4px);
-  visibility: hidden;
-  pointer-events: none;
-
-  transition: opacity 200ms ease, transform 200ms ease,
-    visibility 0s linear 200ms;
+.btn {
+  display: grid;
+  margin-top: 2rem;
 }
 
-.pwcArea.show {
-  opacity: 1;
-  transform: translateY(0);
-  visibility: visible;
-  pointer-events: auto;
-  transition: opacity 200ms ease, transform 200ms ease;
+.btn > * {
+  min-width: 0;
 }
