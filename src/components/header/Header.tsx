@@ -4,20 +4,15 @@ import Button from "../button/Button";
 import Logo from "../logo/Logo";
 import classes from "./Header.module.css";
 import { PATHS } from "../../constants/path";
-import {
-  getCurrentIdentity,
-  isAuthenticatedUser,
-} from "../../features/auth/api/tokenStore";
+import { isAuthenticatedUser } from "../../features/auth/api/tokenStore";
 
 const Header = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const [role, setRole] = useState<string | null>(
-    getCurrentIdentity()?.role ?? null
-  );
+  const [loggedIn, setLoggedIn] = useState<boolean>(isAuthenticatedUser());
 
   useEffect(() => {
-    const update = () => setRole(getCurrentIdentity()?.role ?? null);
+    const update = () => setLoggedIn(isAuthenticatedUser());
     window.addEventListener("auth:update", update);
     return () => window.removeEventListener("auth:update", update);
   }, []);
@@ -32,7 +27,6 @@ const Header = () => {
     PATHS.NICKNAME,
     PATHS.PROFILE,
   ] as const;
-
   const shouldHideButton = hiddenPaths.some((p) => p === location.pathname);
 
   return (
@@ -41,21 +35,18 @@ const Header = () => {
         <Logo />
       </Link>
 
-      {!shouldHideButton && (
-        <>
-          {isAuthenticatedUser() ? (
-            <div className={classes.userArea}>
-              <Button alwaysHoverStyle onClick={handleProfile}>
-                마이페이지
-              </Button>
-            </div>
-          ) : (
-            <Link to={PATHS.LOGIN}>
-              <Button alwaysHoverStyle>로그인하기</Button>
-            </Link>
-          )}
-        </>
-      )}
+      {!shouldHideButton &&
+        (loggedIn ? (
+          <div className={classes.userArea}>
+            <Button alwaysHoverStyle onClick={handleProfile}>
+              마이페이지
+            </Button>
+          </div>
+        ) : (
+          <Link to={PATHS.LOGIN}>
+            <Button alwaysHoverStyle>로그인하기</Button>
+          </Link>
+        ))}
     </header>
   );
 };
