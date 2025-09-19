@@ -101,10 +101,10 @@ function LoginPage() {
     hasTypedEmail ? (
       "다음"
     ) : (
-      "로그인하기"
+      "로그인 하기"
     )
   ) : (
-    "로그인하기"
+    "로그인 하기"
   );
 
   const isButtonEnabled = step === "email" ? emailValid : canSubmit;
