@@ -6,7 +6,6 @@ import classes from "./SignupPage.module.css";
 import { useSignup } from "../hooks/useAuth";
 import { PATHS } from "../../../constants/path";
 import { useNavigate } from "react-router";
-import { useToast } from "../../../contexts/ToastContext";
 import { getErrorMessage } from "../../../api/helpers";
 import InputMessage from "../../../components/input/InputMessage";
 import {
@@ -22,13 +21,13 @@ type Step = "email" | "pw";
 
 function SignupPage() {
   const navigate = useNavigate();
-  const { showToast } = useToast();
 
   // ====== states ======
   const [step, setStep] = useState<Step>("email");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordConfirm, setPasswordConfirm] = useState("");
+  const [serverError, setServerError] = useState<string>("");
 
   // refs for auto focus
   const emailRef = useRef<HTMLInputElement>(null);
@@ -38,10 +37,12 @@ function SignupPage() {
   // ====== signup mutation ======
   const { mutate: signup, isPending } = useSignup({
     onSuccess: () => {
+      setServerError("");
       navigate(PATHS.NICKNAME);
     },
     onError: (err) => {
-      showToast(getErrorMessage(err), "cancel");
+      const msg = getErrorMessage(err);
+      setServerError(msg);
     },
   });
 
@@ -81,10 +82,12 @@ function SignupPage() {
   function goNextOrSubmit() {
     if (step === "email") {
       if (!canGoNextEmail) return;
+      setServerError("");
       setStep("pw");
       return;
     }
     if (!canSubmitPw) return;
+    setServerError("");
     signup({ email: trimmedEmail, password });
   }
 
@@ -118,6 +121,7 @@ function SignupPage() {
       setStep("email");
       setPassword("");
       setPasswordConfirm("");
+      setServerError("");
     }
   }, [emailIssues, step]);
 
@@ -131,13 +135,17 @@ function SignupPage() {
         onSave={goNextOrSubmit}
         className={`${classes.form} ${classes.controlWidth}`}
       >
+        {/* 이메일 */}
         <div className={classes.fieldGroup}>
           <Input
             ref={emailRef}
             type="email"
             placeholder="이메일"
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={(e) => {
+              if (serverError) setServerError("");
+              setEmail(e.target.value);
+            }}
             onKeyDown={handleEmailKeyDown}
             autoComplete="username"
             aria-invalid={showEmailError}
@@ -165,7 +173,10 @@ function SignupPage() {
             type="password"
             placeholder="비밀번호 (숫자, 영문 포함 8-15자)"
             value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={(e) => {
+              if (serverError) setServerError("");
+              setPassword(e.target.value);
+            }}
             onKeyDown={handlePwKeyDown}
             autoComplete="new-password"
             aria-invalid={showPwError}
@@ -188,7 +199,10 @@ function SignupPage() {
             type="password"
             placeholder="비밀번호 확인"
             value={passwordConfirm}
-            onChange={(e) => setPasswordConfirm(e.target.value)}
+            onChange={(e) => {
+              if (serverError) setServerError("");
+              setPasswordConfirm(e.target.value);
+            }}
             onKeyDown={handlePwcKeyDown}
             autoComplete="new-password"
             aria-invalid={showPwcError}
@@ -206,6 +220,14 @@ function SignupPage() {
             <InputMessage />
           )}
         </div>
+
+        {serverError ? (
+          <InputMessage type="error" aria-live="polite">
+            {serverError}
+          </InputMessage>
+        ) : (
+          <InputMessage />
+        )}
 
         <div className={classes.btn}>
           <Button
