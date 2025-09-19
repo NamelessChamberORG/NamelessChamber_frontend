@@ -4,15 +4,15 @@ import Button from "../button/Button";
 import Logo from "../logo/Logo";
 import classes from "./Header.module.css";
 import { PATHS } from "../../constants/path";
-import { getEmail } from "../../features/auth/hooks/useAuth";
+import { isAuthenticatedUser } from "../../features/auth/api/tokenStore";
 
 const Header = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const [email, setEmail] = useState<string | null>(getEmail());
+  const [loggedIn, setLoggedIn] = useState<boolean>(isAuthenticatedUser());
 
   useEffect(() => {
-    const update = () => setEmail(getEmail());
+    const update = () => setLoggedIn(isAuthenticatedUser());
     window.addEventListener("auth:update", update);
     return () => window.removeEventListener("auth:update", update);
   }, []);
@@ -27,7 +27,6 @@ const Header = () => {
     PATHS.NICKNAME,
     PATHS.PROFILE,
   ] as const;
-
   const shouldHideButton = hiddenPaths.some((p) => p === location.pathname);
 
   return (
@@ -37,7 +36,7 @@ const Header = () => {
       </Link>
 
       {!shouldHideButton &&
-        (email && email !== "anonymous" ? (
+        (loggedIn ? (
           <div className={classes.userArea}>
             <Button alwaysHoverStyle onClick={handleProfile}>
               마이페이지

@@ -23,6 +23,10 @@ function LoginPage() {
   const [serverError, setServerError] = useState<string>("");
 
   const [step, setStep] = useState<"email" | "password">("email");
+  const [emailTried, setEmailTried] = useState(false);
+  const [pwTried, setPwTried] = useState(false);
+
+  const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
 
   const { mutate: login, isPending } = useLogin({
@@ -46,24 +50,40 @@ function LoginPage() {
   const emailValid = !hasError(emailIssues);
   const emailError = firstError(emailIssues);
 
+  const showEmailError = emailTried && !emailValid;
+  const showPwError = pwTried && password.trim().length === 0;
+
   const canSubmit =
     step === "password" && emailValid && password.trim().length > 0;
 
   function goNextOrSubmit() {
+    if (isPending) return;
+
     if (step === "email") {
-      if (!emailValid) return;
+      setEmailTried(true);
+      if (!emailValid) {
+        emailRef.current?.focus();
+        return;
+      }
       setServerError("");
       setStep("password");
+      setPwTried(false);
       return;
     }
 
+    // step === "password"
+    setPwTried(true);
+
     if (!password.trim()) {
       setServerError("비밀번호를 입력해주세요");
+      passwordRef.current?.focus();
       return;
     }
 
     if (!emailValid) {
       setServerError("올바른 이메일 형식을 입력해주세요");
+      setStep("email");
+      emailRef.current?.focus();
       return;
     }
 
@@ -72,13 +92,18 @@ function LoginPage() {
   }
 
   function handleEmailKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
-    if (e.key === "Enter") {
-      e.preventDefault();
-      goNextOrSubmit();
-    }
+    if (e.key !== "Enter") return;
+    e.preventDefault();
+    setEmailTried(true);
+    goNextOrSubmit();
   }
 
-  const emailRef = useRef<HTMLInputElement>(null);
+  function handlePwKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
+    if (e.key !== "Enter") return;
+    e.preventDefault();
+    setPwTried(true);
+    goNextOrSubmit();
+  }
 
   useEffect(() => {
     emailRef.current?.focus();
@@ -92,6 +117,7 @@ function LoginPage() {
     if (step === "password" && !emailValid) {
       setStep("email");
       setPassword("");
+      setPwTried(false);
     }
   }, [emailValid, step]);
 
@@ -101,10 +127,10 @@ function LoginPage() {
     hasTypedEmail ? (
       "다음"
     ) : (
-      "로그인하기"
+      "로그인 하기"
     )
   ) : (
-    "로그인하기"
+    "로그인 하기"
   );
 
   const isButtonEnabled = step === "email" ? emailValid : canSubmit;
@@ -126,12 +152,13 @@ function LoginPage() {
             onChange={(e) => {
               if (serverError) setServerError("");
               setEmail(e.target.value);
+              setEmailTried(false);
             }}
             onKeyDown={handleEmailKeyDown}
             autoComplete="username"
-            aria-invalid={hasTypedEmail && !emailValid}
+            aria-invalid={!!showEmailError}
           />
-          {hasTypedEmail && !emailValid ? (
+          {showEmailError ? (
             <InputMessage type="error" aria-live="polite">
               {emailError ?? "올바른 이메일 형식을 입력해주세요"}
             </InputMessage>
@@ -154,11 +181,17 @@ function LoginPage() {
             onChange={(e) => {
               if (serverError) setServerError("");
               setPassword(e.target.value);
+              setPwTried(false); // 입력 재시작 시 에러 숨김
             }}
+            onKeyDown={handlePwKeyDown}
             autoComplete="current-password"
+            aria-invalid={!!showPwError}
           />
-
-          {serverError && step === "password" ? (
+          {showPwError ? (
+            <InputMessage type="error" aria-live="polite">
+              비밀번호를 입력해주세요
+            </InputMessage>
+          ) : serverError && step === "password" ? (
             <InputMessage type="error" aria-live="polite">
               {serverError}
             </InputMessage>
@@ -169,8 +202,10 @@ function LoginPage() {
 
         <div className={classes.btn}>
           <Button
-            type="submit"
-            disabled={isPending || !isButtonEnabled}
+            type="button"
+            onClick={goNextOrSubmit}
+            disabled={isPending}
+            aria-disabled={!isButtonEnabled}
             variant={isButtonEnabled ? "main" : "sub"}
             state={isButtonEnabled ? "active" : "default"}
             className={classes.submit}
