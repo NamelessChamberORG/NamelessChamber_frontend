@@ -4,15 +4,20 @@ import Button from "../button/Button";
 import Logo from "../logo/Logo";
 import classes from "./Header.module.css";
 import { PATHS } from "../../constants/path";
-import { getEmail } from "../../features/auth/hooks/useAuth";
+import {
+  getCurrentIdentity,
+  isAuthenticatedUser,
+} from "../../features/auth/api/tokenStore";
 
 const Header = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const [email, setEmail] = useState<string | null>(getEmail());
+  const [role, setRole] = useState<string | null>(
+    getCurrentIdentity()?.role ?? null
+  );
 
   useEffect(() => {
-    const update = () => setEmail(getEmail());
+    const update = () => setRole(getCurrentIdentity()?.role ?? null);
     window.addEventListener("auth:update", update);
     return () => window.removeEventListener("auth:update", update);
   }, []);
@@ -36,18 +41,21 @@ const Header = () => {
         <Logo />
       </Link>
 
-      {!shouldHideButton &&
-        (email && email !== "anonymous" ? (
-          <div className={classes.userArea}>
-            <Button alwaysHoverStyle onClick={handleProfile}>
-              마이페이지
-            </Button>
-          </div>
-        ) : (
-          <Link to={PATHS.LOGIN}>
-            <Button alwaysHoverStyle>로그인하기</Button>
-          </Link>
-        ))}
+      {!shouldHideButton && (
+        <>
+          {isAuthenticatedUser() ? (
+            <div className={classes.userArea}>
+              <Button alwaysHoverStyle onClick={handleProfile}>
+                마이페이지
+              </Button>
+            </div>
+          ) : (
+            <Link to={PATHS.LOGIN}>
+              <Button alwaysHoverStyle>로그인하기</Button>
+            </Link>
+          )}
+        </>
+      )}
     </header>
   );
 };
