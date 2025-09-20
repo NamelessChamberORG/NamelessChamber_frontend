@@ -13,3 +13,9 @@
   line-height: var(--p1-font-line-height);
   letter-spacing: var(--p1-font-letter-spacing);
 }
+
+@media (max-width: 767px) {
+  .feedbackCard {
+    padding: 1.4rem;
+  }
+}
