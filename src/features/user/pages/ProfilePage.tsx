@@ -14,6 +14,7 @@ import { useWrittenDiaries } from "../hooks/useWrittenDiaries";
 import ProfileSkeleton from "../components/ProfileSkeleton";
 import { useLogout } from "../../auth/hooks/useAuth";
 import LoadingDots from "../../../components/loading/LoadingDots";
+import { useToast } from "../../../contexts/ToastContext";
 
 function ProfilePage() {
   const [currentTab, setCurrentTab] = useState<"written" | "read">("written");
@@ -46,6 +47,12 @@ function ProfilePage() {
     });
   }
 
+  const { showToast } = useToast();
+
+  function handleProfileEditClick() {
+    showToast("준비 중인 기능입니다.", "info");
+  }
+
   return (
     <section className={classes.profile}>
       <div className={classes.profileSection}>
@@ -55,7 +62,9 @@ function ProfilePage() {
           <>
             <UserInfo nickname={me?.nickname ?? ""} />
             <CoinInfo coin={me?.coin ?? 0} />
-            <Button alwaysHoverStyle={true}>프로필 편집</Button>
+            <Button alwaysHoverStyle={true} onClick={handleProfileEditClick}>
+              프로필 편집
+            </Button>
             <FeedbackCard />
             <button
               className={classes.logout}
