@@ -25,14 +25,7 @@ function ProfilePage() {
 
   useEffect(() => {
     if (!isError) return;
-    const e = error as any;
-    const code =
-      (e instanceof ApiError ? e.code : undefined) ??
-      e?.code ??
-      e?.response?.data?.errorCode ??
-      e?.errorCode;
-
-    if (code === 1018) {
+    if (error instanceof ApiError && error.code === 1018) {
       navigate(PATHS.NICKNAME, {
         replace: true,
         state: { from: location.pathname },
