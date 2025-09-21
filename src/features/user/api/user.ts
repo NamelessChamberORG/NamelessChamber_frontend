@@ -14,7 +14,9 @@ export const userApi = {
     unwrapNoContent(res);
   },
   async getMe(): Promise<UserMe> {
-    const res = await client.get<ApiResponse<UserMe>>("/users/me");
+    const res = await client.get<ApiResponse<UserMe>>("/users/me", {
+      validateStatus: () => true,
+    });
 
     return unwrap(res);
   },

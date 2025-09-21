@@ -1,22 +1,31 @@
 import { useEffect, useMemo, useState } from "react";
+import { useLocation, useNavigate } from "react-router";
+import { useQueryClient } from "@tanstack/react-query";
 import Form from "../../../components/form/Form";
 import Input from "../../../components/input/Input";
 import Paragraph from "../../../components/paragraph/Paragraph";
 import classes from "./SetNicknamePage.module.css";
 import { useCreateNickname } from "../hooks/useCreateNickname";
-import { useNavigate } from "react-router";
 import { PATHS } from "../../../constants/path";
 import InputMessage from "../../../components/input/InputMessage";
 import { validateNickname } from "../../auth/validation/validators";
 import { firstError, hasError } from "../../auth/validation/validationHelpers";
 import Button from "../../../components/button/Button";
 import LoadingDots from "../../../components/loading/LoadingDots";
+import type { UserMe } from "../type/types";
+
+type LocationState = { from?: string } | null;
 
 function SetNicknamePage() {
   const [nickname, setNickname] = useState("");
   const [serverError, setServerError] = useState<string>("");
 
   const navigate = useNavigate();
+  const location = useLocation();
+  const queryClient = useQueryClient();
+
+  const from = ((location.state as LocationState)?.from ??
+    PATHS.PROFILE) as string;
 
   const nicknameIssues = useMemo(
     () => validateNickname(nickname.trim()),
@@ -27,7 +36,20 @@ function SetNicknamePage() {
 
   const { mutate: createNickname, isPending } = useCreateNickname({
     onSuccess: () => {
-      navigate(PATHS.HOME);
+      const trimmed = nickname.trim();
+
+      queryClient.setQueryData<UserMe | undefined>(["user", "me"], (prev) => {
+        if (!prev) {
+          return undefined;
+        }
+        return {
+          ...prev,
+          nickname: trimmed,
+        };
+      });
+      queryClient.invalidateQueries({ queryKey: ["user", "me"] });
+
+      navigate(from, { replace: true });
     },
     onError: (err) => {
       setServerError(err.message);
@@ -41,7 +63,7 @@ function SetNicknamePage() {
 
   function handleSubmit() {
     const value = nickname.trim();
-    if (clientInvalid) return;
+    if (clientInvalid || !value) return;
     createNickname(value);
   }
 
@@ -98,7 +120,7 @@ function SetNicknamePage() {
         <div className={classes.btn}>
           <Button
             type="submit"
-            disabled={isPending || clientInvalid}
+            disabled={disabled}
             variant="main"
             state={isPending || !disabled ? "active" : "default"}
           >
