@@ -12,6 +12,7 @@ import { validateNickname } from "../../auth/validation/validators";
 import { firstError, hasError } from "../../auth/validation/validationHelpers";
 import Button from "../../../components/button/Button";
 import LoadingDots from "../../../components/loading/LoadingDots";
+import type { UserMe } from "../type/types";
 
 type LocationState = { from?: string } | null;
 
@@ -37,10 +38,15 @@ function SetNicknamePage() {
     onSuccess: () => {
       const trimmed = nickname.trim();
 
-      queryClient.setQueryData(["user", "me"], (prev: any) => ({
-        ...(prev ?? {}),
-        nickname: trimmed,
-      }));
+      queryClient.setQueryData<UserMe | undefined>(["user", "me"], (prev) => {
+        if (!prev) {
+          return undefined;
+        }
+        return {
+          ...prev,
+          nickname: trimmed,
+        };
+      });
       queryClient.invalidateQueries({ queryKey: ["user", "me"] });
 
       navigate(from, { replace: true });
