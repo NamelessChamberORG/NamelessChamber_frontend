@@ -6,7 +6,7 @@ export type ValidationResult = ValidationIssue[];
 export function validateEmail(email: string): ValidationResult {
   const issues: ValidationResult = [];
 
-  const BASIC_EMAIL_RE = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+  const BASIC_EMAIL_RE = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{1,}$/i;
 
   const hasExactlyOneAt = (email.match(/@/g) || []).length === 1;
   const noConsecutiveDots = !/\.\./.test(email);
