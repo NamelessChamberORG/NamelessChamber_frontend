@@ -55,7 +55,23 @@ export function validatePasswordConfirm(
 }
 
 export function validateNickname(nickname: string): ValidationResult {
-  return nickname.trim().length > 0
-    ? []
-    : [{ key: "nickname.pattern", message: getMsg("nickname.pattern") }];
+  const issues: ValidationResult = [];
+  const trimmed = nickname.trim();
+
+  if (trimmed.length === 0) {
+    issues.push({
+      key: "nickname.required",
+      message: getMsg("nickname.required"),
+    });
+    return issues;
+  }
+
+  if (trimmed.length > 16) {
+    issues.push({
+      key: "nickname.maxLength",
+      message: getMsg("nickname.maxLength"),
+    });
+  }
+
+  return issues;
 }
