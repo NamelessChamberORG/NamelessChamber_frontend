@@ -1,4 +1,4 @@
-import { useLocation, useNavigate } from "react-router";
+import { useNavigate } from "react-router";
 import Button from "../../../components/button/Button";
 import CoinInfo from "../components/CoinInfo";
 import FeedbackCard from "../components/FeedbackCard";
@@ -21,17 +21,16 @@ function ProfilePage() {
   const [currentTab, setCurrentTab] = useState<"written" | "read">("written");
   const { data: me, isLoading: isMeLoading, error, isError } = useUserMe();
   const navigate = useNavigate();
-  const location = useLocation();
 
   useEffect(() => {
     if (!isError) return;
     if (error instanceof ApiError && error.code === 1018) {
       navigate(PATHS.NICKNAME, {
         replace: true,
-        state: { from: location.pathname },
+        state: { from: PATHS.PROFILE },
       });
     }
-  }, [isError, error, navigate, location.pathname]);
+  }, [isError, error, navigate]);
 
   const { data: readData, isLoading: isReadLoading } = useReadDiaries(
     currentTab === "read"
