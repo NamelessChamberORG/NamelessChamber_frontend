@@ -38,35 +38,37 @@ html {
   --color-caret: #f2d899;
 
   /* Typography tokens */
+  --letter-spacing-default: 0.04em;
+
   --p1-font-family: Pretendard, sans-serif;
   --p1-font-weight: 700;
   --p1-font-size: 18px;
   --p1-font-line-height: 1.8;
-  --p1-font-letter-spacing: 0.04em;
+  --p1-font-letter-spacing: var(--letter-spacing-default);
 
   --t1-font-family: Pretendard, sans-serif;
   --t1-font-weight: 500;
   --t1-font-size: 24px;
   --t1-line-height: 1.5;
-  --t1-letter-spacing: 0.04em;
+  --t1-letter-spacing: var(--letter-spacing-default);
 
   --c1-font-family: Pretendard, sans-serif;
   --c1-font-weight: 500;
   --c1-font-size: 16px;
   --c1-line-height: normal;
-  --c1-letter-spacing: 0.04em;
+  --c1-letter-spacing: var(--letter-spacing-default);
 
   --body1-font-family: Pretendard, sans-serif;
   --body1-font-weight: 700;
   --body1-font-size: 16px;
   --body1-line-height: 140%;
-  --body1-letter-spacing: 0.04em;
+  --body1-letter-spacing: var(--letter-spacing-default);
 
   --btn-font-family: Pretendard, sans-serif;
   --btn-font-weight: 700;
   --btn-font-size: 18px;
   --btn-line-height: 1.8;
-  --btn-letter-spacing: 0.04em;
+  --btn-letter-spacing: var(--letter-spacing-default);
   --btn-padding-x: 1.2rem;
   --btn-padding-y: 0.8rem;
 
