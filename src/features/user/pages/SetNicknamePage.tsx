@@ -25,7 +25,7 @@ function SetNicknamePage() {
   const queryClient = useQueryClient();
 
   const from = ((location.state as LocationState)?.from ??
-    PATHS.PROFILE) as string;
+    PATHS.HOME) as string;
 
   const nicknameIssues = useMemo(
     () => validateNickname(nickname.trim()),

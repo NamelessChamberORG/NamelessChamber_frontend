@@ -5,7 +5,8 @@ export type MsgKey =
   | "pw.mixed"
   | "pw.repeat3"
   | "pw.confirm.mismatch"
-  | "nickname.pattern";
+  | "nickname.required"
+  | "nickname.maxLength";
 
 const MESSAGES: Record<MsgKey, string> = {
   "email.pattern": "이메일 양식이 아닙니다.",
@@ -14,7 +15,8 @@ const MESSAGES: Record<MsgKey, string> = {
   "pw.mixed": "영문과 숫자를 2개 이상 조합",
   "pw.repeat3": "동일한 숫자 3개 이상 연속 사용 불가",
   "pw.confirm.mismatch": "동일한 비밀번호를 입력",
-  "nickname.pattern": "8~16자의 영문 또는 영문+숫자 조합",
+  "nickname.required": "닉네임을 입력해주세요.",
+  "nickname.maxLength": "닉네임은 최대 16자까지 가능합니다.",
 };
 
 export function getMsg(key: MsgKey) {
