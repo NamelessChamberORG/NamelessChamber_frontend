@@ -23,7 +23,7 @@ export const diaryApi = {
     const res = await client.post<ApiResponse<unknown> | undefined | null>(
       "/posts",
       body,
-      { validateStatus: () => true }
+      { validateStatus: (status) => status !== 401 }
     );
     unwrapNoContent(res);
   },
