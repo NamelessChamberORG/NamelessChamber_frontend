@@ -113,7 +113,6 @@ function DiaryWritePage() {
     try {
       setSubmitting(true);
       await mutateAsync({ title: title.trim(), content: content.trim() });
-      setShowConfirm(false);
     } finally {
       setSubmitting(false);
     }
