@@ -77,11 +77,15 @@ function DiaryWritePage() {
     try {
       const raw = localStorage.getItem(DRAFT_KEY);
       if (raw) {
-        const parsed = JSON.parse(raw) as { title?: string; content?: string };
-        if (typeof parsed?.title === "string") setTitle(parsed.title);
-        if (typeof parsed?.content === "string") {
-          setContent(parsed.content);
-          setCount(parsed.content.length);
+        const parsed = JSON.parse(raw);
+        if (parsed && typeof parsed === "object") {
+          if ("title" in parsed && typeof parsed.title === "string") {
+            setTitle(parsed.title);
+          }
+          if ("content" in parsed && typeof parsed.content === "string") {
+            setContent(parsed.content);
+            setCount(parsed.content.length);
+          }
         }
       }
     } catch {
