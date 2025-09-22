@@ -55,13 +55,7 @@ export function validatePasswordConfirm(
 }
 
 export function validateNickname(nickname: string): ValidationResult {
-  const issues: ValidationResult = [];
-  const ok = /^(?=.{8,16}$)[A-Za-z\d]+$/.test(nickname);
-  if (!ok) {
-    issues.push({
-      key: "nickname.pattern",
-      message: getMsg("nickname.pattern"),
-    });
-  }
-  return issues;
+  return nickname.trim().length > 0
+    ? []
+    : [{ key: "nickname.pattern", message: getMsg("nickname.pattern") }];
 }
