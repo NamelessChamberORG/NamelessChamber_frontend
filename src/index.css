@@ -46,11 +46,11 @@ html {
   --p1-font-line-height: 1.8;
   --p1-font-letter-spacing: var(--letter-spacing-default);
 
-  --t1-font-family: Pretendard, sans-serif;
-  --t1-font-weight: 500;
-  --t1-font-size: 24px;
-  --t1-line-height: 1.5;
-  --t1-letter-spacing: var(--letter-spacing-default);
+  --t2-font-family: Pretendard, sans-serif;
+  --t2-font-weight: 500;
+  --t2-font-size: 24px;
+  --t2-line-height: 1.5;
+  --t2-letter-spacing: var(--letter-spacing-default);
 
   --c1-font-family: Pretendard, sans-serif;
   --c1-font-weight: 500;

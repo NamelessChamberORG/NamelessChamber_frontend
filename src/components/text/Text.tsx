@@ -6,7 +6,7 @@ import {
 } from "react";
 import classes from "./Text.module.css";
 
-type TextVariant = "t1" | "p1" | "c1";
+type TextVariant = "t2" | "p1" | "c1";
 type TextColor = "default" | "gray-2" | "gray-3" | "gray-4";
 
 type TextProps = ComponentPropsWithoutRef<"span"> & {

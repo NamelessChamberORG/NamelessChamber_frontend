@@ -51,7 +51,7 @@ function LandingPage() {
         <div className={classes.content}>
           <div className={classes.guide}>
             <div className={classes.guideText}>
-              <Text variant="t1">기록의 깊이를 선택해주세요.</Text>
+              <Text variant="t2">기록의 깊이를 선택해주세요.</Text>
               <Paragraph>당신의 말은 짧아도, 길어도 좋습니다.</Paragraph>
             </div>
           </div>
