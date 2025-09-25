@@ -37,14 +37,20 @@ function LandingPage() {
   return (
     <div className={classes.landing}>
       {step === 0 && (
-        <Button
-          revealOnMount
-          revealDelay={400}
-          onClick={handleClick}
-          disabled={ensuring}
-        >
-          익명의 기록을 시작합니다
-        </Button>
+        <div className={classes.content}>
+          <div className={classes.title}>
+            <Text variant="t1">어디에도 하지 못한 말을</Text>
+            <Text variant="t1">이곳 무명소에 흘려보내세요.</Text>
+          </div>
+          <Button
+            revealOnMount
+            revealDelay={400}
+            onClick={handleClick}
+            disabled={ensuring}
+          >
+            익명의 기록을 시작합니다
+          </Button>
+        </div>
       )}
 
       {step > 0 && (
