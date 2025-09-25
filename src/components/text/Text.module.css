@@ -18,6 +18,14 @@
   letter-spacing: var(--p1-font-letter-spacing);
 }
 
+.t1 {
+  font-family: var(--t1-font-family);
+  font-weight: var(--t1-font-weight);
+  font-size: var(--t1-font-size);
+  line-height: var(--t1-font-line-height);
+  letter-spacing: var(--t1-font-letter-spacing);
+}
+
 .t2 {
   font-family: var(--t2-font-family);
   font-weight: var(--t2-font-weight);
