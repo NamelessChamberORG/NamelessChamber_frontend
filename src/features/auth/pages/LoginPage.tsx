@@ -31,7 +31,7 @@ function LoginPage() {
 
   const { mutate: login, isPending } = useLogin({
     onSuccess: () => {
-      showToast("로그인에 성공했습니다", "check");
+      showToast("로그인에 성공했습니다.", "check");
       navigate(PATHS.HOME);
     },
     onError: (err) => {
