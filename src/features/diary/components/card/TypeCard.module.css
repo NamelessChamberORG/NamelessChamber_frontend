@@ -9,7 +9,38 @@
   border-radius: 8px;
   background-color: var(--color-gray-4);
   cursor: pointer;
-  transition: box-shadow 0.3s ease;
+
+  --reveal-delay: 0ms;
+  --reveal-duration: 800ms;
+  --reveal-easing: ease-in;
+
+  transition: opacity var(--reveal-duration) var(--reveal-easing)
+      var(--reveal-delay),
+    transform var(--reveal-duration) var(--reveal-easing) var(--reveal-delay),
+    box-shadow 0.3s ease;
+  will-change: opacity, transform;
+}
+
+/* reveal */
+.content {
+  filter: blur(var(--blur-radius, 4px));
+  transition: filter var(--reveal-duration) var(--reveal-easing)
+    var(--reveal-delay);
+  will-change: filter;
+}
+
+.hidden {
+  opacity: 0;
+  transform: translateY(8px) scale(0.98);
+}
+
+.revealed {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.revealed .content {
+  filter: none;
 }
 
 .title {
@@ -26,4 +57,21 @@
   font-size: var(--p1-font-size);
   line-height: var(--p1-font-line-height);
   letter-spacing: var(--p1-font-letter-spacing);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .typeCard {
+    transition: box-shadow 0.3s ease;
+  }
+  .hidden {
+    opacity: 0;
+    transform: none;
+  }
+  .revealed {
+    opacity: 1;
+  }
+  .content {
+    transition: none;
+    filter: none;
+  }
 }
