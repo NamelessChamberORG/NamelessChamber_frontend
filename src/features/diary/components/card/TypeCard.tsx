@@ -31,11 +31,10 @@ const TypeCard = ({
     return () => clearTimeout(t);
   }, [revealOnMount, revealDelay]);
 
-  const style: CSSProperties = {
-    // Button과 동일한 커스텀 속성
-    ["--reveal-delay" as any]: `${revealDelay}ms`,
-    ["--reveal-duration" as any]: `${revealDurationMs}ms`,
-    ["--reveal-easing" as any]: revealEasing,
+  const style: CSSProperties & Record<string, string | number> = {
+    "--reveal-delay": `${revealDelay}ms`,
+    "--reveal-duration": `${revealDurationMs}ms`,
+    "--reveal-easing": revealEasing,
   };
 
   const rootClassName = [
