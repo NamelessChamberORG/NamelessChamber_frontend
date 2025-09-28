@@ -8,17 +8,29 @@ import classes from "./ProfilePage.module.css";
 import { PATHS } from "../../../constants/path";
 import DiaryTabs from "../components/DiaryTabs";
 import { useReadDiaries } from "../hooks/useReadDiaries";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import CardListContainer from "../../diary/components/card/CardListContainer";
 import { useWrittenDiaries } from "../hooks/useWrittenDiaries";
 import ProfileSkeleton from "../components/ProfileSkeleton";
 import { useLogout } from "../../auth/hooks/useAuth";
 import LoadingDots from "../../../components/loading/LoadingDots";
+import { useToast } from "../../../contexts/ToastContext";
+import { ApiError } from "../../../api/types";
 
 function ProfilePage() {
   const [currentTab, setCurrentTab] = useState<"written" | "read">("written");
-  const { data: me, isLoading: isMeLoading } = useUserMe();
+  const { data: me, isLoading: isMeLoading, error, isError } = useUserMe();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!isError) return;
+    if (error instanceof ApiError && error.code === 1018) {
+      navigate(PATHS.NICKNAME, {
+        replace: true,
+        state: { from: PATHS.PROFILE },
+      });
+    }
+  }, [isError, error, navigate]);
 
   const { data: readData, isLoading: isReadLoading } = useReadDiaries(
     currentTab === "read"
@@ -46,6 +58,12 @@ function ProfilePage() {
     });
   }
 
+  const { showToast } = useToast();
+
+  function handleProfileEditClick() {
+    showToast("준비 중인 기능입니다.", "info");
+  }
+
   return (
     <section className={classes.profile}>
       <div className={classes.profileSection}>
@@ -55,7 +73,9 @@ function ProfilePage() {
           <>
             <UserInfo nickname={me?.nickname ?? ""} />
             <CoinInfo coin={me?.coin ?? 0} />
-            <Button alwaysHoverStyle={true}>프로필 편집</Button>
+            <Button alwaysHoverStyle={true} onClick={handleProfileEditClick}>
+              프로필 편집
+            </Button>
             <FeedbackCard />
             <button
               className={classes.logout}

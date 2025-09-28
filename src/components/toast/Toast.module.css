@@ -1,6 +1,8 @@
 .toast {
   position: relative;
-  width: 44rem;
+  inline-size: max-content;
+  max-inline-size: 36rem;
+  inline-size: min(max-content, calc(100dvw - 32px));
   background: linear-gradient(
     90deg,
     #262524e6 0%,
@@ -18,25 +20,30 @@
   align-items: center;
   gap: 1rem;
   padding: 1.6rem 1.2rem;
-  animation: fadeIn 0.3s ease;
   border-radius: 0.8rem;
-  overflow: hidden; /* hide the glow effect */
-  white-space: nowrap;
+  overflow: hidden;
   /* p1 style */
   font-family: var(--p1-font-family);
   font-weight: var(--p1-font-weight);
   font-size: var(--p1-font-size);
   line-height: var(--font-p1-line-height);
   letter-spacing: var(--p1-font-letter-spacing);
+}
 
-  inline-size: min(44rem, calc(100dvw - 32px));
+.msg {
+  white-space: normal;
+  word-break: keep-all;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
 }
 
 /* glow effect */
 .toast::before {
   content: "";
   position: absolute;
-  left: var(--glow-left, 0.8rem); /* ← 여기로 좌우 위치 조정 */
+  left: var(--glow-left, 0.8rem);
   top: var(--glow-top, 50%);
   transform: translateY(-50%);
   width: var(--glow-size, 212px);
@@ -70,18 +77,6 @@
   );
 }
 
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* put icon on top of glow */
 .toast img {
   position: relative;
   z-index: 1;
@@ -89,15 +84,7 @@
 
 @media (max-width: 640px) {
   .toast {
-    inline-size: calc(100dvw - 32px);
     padding: 1.2rem 1rem;
-  }
-  .msg {
-    white-space: normal;
-    word-break: keep-all; /* 한국어 단어 단위 유지 */
-    overflow: hidden;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
+    max-inline-size: calc(100dvw - 32px);
   }
 }

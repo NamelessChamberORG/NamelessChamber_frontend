@@ -1,4 +1,4 @@
-import { useRef, useState, type ChangeEvent } from "react";
+import { useRef, useState, useEffect, type ChangeEvent } from "react";
 import Form, { type FormHandle } from "../../../components/form/Form";
 import TextArea from "../../../components/textarea/TextArea";
 import TextCount from "../components/text/TextCount";
@@ -20,6 +20,8 @@ import {
 const FORM_ID = "diary-form";
 const SHORT_MIN_LENGTH = 30;
 const LONG_MIN_LENGTH = 100;
+
+const DRAFT_KEY = "draft:diary-write";
 
 const isContentValid = (s: string, minLength: number) =>
   s.length >= minLength && s.trim().length > 0;
@@ -57,8 +59,9 @@ function DiaryWritePage() {
       setTitle("");
       setContent("");
       setCount(0);
-      const typeLower = API_TO_UI[diaryType];
+      localStorage.removeItem(DRAFT_KEY);
 
+      const typeLower = API_TO_UI[diaryType];
       navigate(PATHS.DIARY_SUBMIT_TYPE(typeLower), {
         replace: true,
         state: {
@@ -69,6 +72,37 @@ function DiaryWritePage() {
       });
     },
   });
+
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem(DRAFT_KEY);
+      if (raw) {
+        const parsed = JSON.parse(raw);
+        if (parsed && typeof parsed === "object") {
+          if ("title" in parsed && typeof parsed.title === "string") {
+            setTitle(parsed.title);
+          }
+          if ("content" in parsed && typeof parsed.content === "string") {
+            setContent(parsed.content);
+            setCount(parsed.content.length);
+          }
+        }
+      }
+    } catch {
+      // 무시
+    }
+  }, []);
+
+  useEffect(() => {
+    const id = setTimeout(() => {
+      try {
+        localStorage.setItem(DRAFT_KEY, JSON.stringify({ title, content }));
+      } catch {
+        // 무시
+      }
+    }, 350);
+    return () => clearTimeout(id);
+  }, [title, content]);
 
   const canSubmit = isContentValid(content, MIN_LENGTH);
 
@@ -85,7 +119,6 @@ function DiaryWritePage() {
       await mutateAsync({ title: title.trim(), content: content.trim() });
     } finally {
       setSubmitting(false);
-      setShowConfirm(false);
     }
   }
 
@@ -117,6 +150,7 @@ function DiaryWritePage() {
       <Form id={FORM_ID} onSave={handleSave} ref={formRef}>
         <TextArea
           name="content"
+          value={content}
           onChange={handleTextChange}
           disabled={submitting}
           required

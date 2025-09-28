@@ -6,6 +6,7 @@ import classes from "./LandingPage.module.css";
 import { PATHS } from "../../../constants/path";
 import { useEnsureSession } from "../../auth/hooks/useEnsureSession";
 import Paragraph from "../../../components/paragraph/Paragraph";
+import TypeCard from "../components/card/TypeCard";
 
 function LandingPage() {
   const [step, setStep] = useState(0);
@@ -24,11 +25,11 @@ function LandingPage() {
 
   useEffect(() => {
     let timer: ReturnType<typeof setTimeout> | undefined;
+
     if (step === 2) {
       timer = setTimeout(() => setStep(3), 1000);
-    } else if (step === 3) {
-      timer = setTimeout(() => setStep(4), 1000);
     }
+
     return () => {
       if (timer) clearTimeout(timer);
     };
@@ -37,21 +38,27 @@ function LandingPage() {
   return (
     <div className={classes.landing}>
       {step === 0 && (
-        <Button
-          revealOnMount
-          revealDelay={400}
-          onClick={handleClick}
-          disabled={ensuring}
-        >
-          익명의 기록을 시작합니다
-        </Button>
+        <div className={classes.content}>
+          <div className={classes.title}>
+            <Text variant="t1">어디에도 하지 못한 말을</Text>
+            <Text variant="t1">이곳 무명소에 흘려보내세요.</Text>
+          </div>
+          <Button
+            revealOnMount
+            revealDelay={400}
+            onClick={handleClick}
+            disabled={ensuring}
+          >
+            익명의 기록을 시작합니다
+          </Button>
+        </div>
       )}
 
       {step > 0 && (
         <div className={classes.content}>
           <div className={classes.guide}>
             <div className={classes.guideText}>
-              <Text variant="t1">기록의 깊이를 선택해주세요.</Text>
+              <Text variant="t2">기록의 깊이를 선택해주세요.</Text>
               <Paragraph>당신의 말은 짧아도, 길어도 좋습니다.</Paragraph>
             </div>
           </div>
@@ -67,9 +74,15 @@ function LandingPage() {
                   to={PATHS.DIARY_NEW_TYPE("daily")}
                   className={classes.link}
                 >
-                  <Button revealOnMount revealDelay={200} disabled={ensuring}>
-                    오늘 인상 깊었던 일
-                  </Button>
+                  <TypeCard
+                    title="짧은 기록"
+                    firstLine="순간의 생각을"
+                    secondLine="가볍게 남겨요."
+                    revealOnMount
+                    revealDelay={400}
+                    revealDurationMs={800}
+                    revealEasing="ease-in"
+                  />
                 </Link>
               ) : (
                 <div className={classes.placeholder} aria-hidden="true" />
@@ -79,37 +92,22 @@ function LandingPage() {
             <div
               className={`${classes.slot} ${
                 step >= 3 ? classes["fade-in"] : classes["hidden"]
-              } ${classes.center}`}
-            >
-              {step >= 3 ? (
-                <Text
-                  revealOnMount
-                  revealDelay={200}
-                  alwaysHoverStyle
-                  className={classes.centerText}
-                  variant="c1"
-                  color="gray-3"
-                >
-                  아니면
-                </Text>
-              ) : (
-                <div className={classes.placeholder} aria-hidden="true" />
-              )}
-            </div>
-
-            <div
-              className={`${classes.slot} ${
-                step >= 4 ? classes["fade-in"] : classes["hidden"]
               } ${classes.right}`}
             >
-              {step >= 4 ? (
+              {step >= 3 ? (
                 <Link
                   to={PATHS.DIARY_NEW_TYPE("mind")}
                   className={classes.link}
                 >
-                  <Button revealOnMount revealDelay={200} disabled={ensuring}>
-                    마음 속 큰 고민
-                  </Button>
+                  <TypeCard
+                    title="깊은 고백"
+                    firstLine="마음 속 깊은 곳의"
+                    secondLine="이야기를 꺼내보아요."
+                    revealOnMount
+                    revealDelay={400}
+                    revealDurationMs={800}
+                    revealEasing="ease-in"
+                  />
                 </Link>
               ) : (
                 <div className={classes.placeholder} aria-hidden="true" />

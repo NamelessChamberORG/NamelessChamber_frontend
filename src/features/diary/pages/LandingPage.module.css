@@ -15,7 +15,12 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 3rem;
+  gap: 4rem;
+}
+
+.content .title {
+  display: flex;
+  flex-direction: column;
 }
 
 .guide {
@@ -24,10 +29,10 @@
 
 .textGroup {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr;
   width: 100%;
   max-width: 800px;
-  gap: 2rem;
+  gap: 8rem;
   text-align: center;
 }
 

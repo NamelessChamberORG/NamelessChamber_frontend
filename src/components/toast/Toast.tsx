@@ -27,8 +27,8 @@ const Toast = ({ message, type }: ToastProps) => {
         } as React.CSSProperties
       }
     >
-      <img src={logo[type]}></img>
-      {message}
+      <img src={logo[type]} alt="" />
+      <span className={classes.msg}>{message}</span>
     </div>
   );
 };

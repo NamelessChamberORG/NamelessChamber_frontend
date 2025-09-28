@@ -6,7 +6,7 @@ export type ValidationResult = ValidationIssue[];
 export function validateEmail(email: string): ValidationResult {
   const issues: ValidationResult = [];
 
-  const BASIC_EMAIL_RE = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+  const BASIC_EMAIL_RE = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{1,}$/i;
 
   const hasExactlyOneAt = (email.match(/@/g) || []).length === 1;
   const noConsecutiveDots = !/\.\./.test(email);
@@ -56,12 +56,22 @@ export function validatePasswordConfirm(
 
 export function validateNickname(nickname: string): ValidationResult {
   const issues: ValidationResult = [];
-  const ok = /^(?=.{8,16}$)[A-Za-z\d]+$/.test(nickname);
-  if (!ok) {
+  const trimmed = nickname.trim();
+
+  if (trimmed.length === 0) {
     issues.push({
-      key: "nickname.pattern",
-      message: getMsg("nickname.pattern"),
+      key: "nickname.required",
+      message: getMsg("nickname.required"),
+    });
+    return issues;
+  }
+
+  if (trimmed.length > 16) {
+    issues.push({
+      key: "nickname.maxLength",
+      message: getMsg("nickname.maxLength"),
     });
   }
+
   return issues;
 }
