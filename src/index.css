@@ -41,7 +41,7 @@ html {
   --letter-spacing-default: 0.04em;
 
   --p1-font-family: Pretendard, sans-serif;
-  --p1-font-weight: 700;
+  --p1-font-weight: 400;
   --p1-font-size: 18px;
   --p1-font-line-height: 1.8;
   --p1-font-letter-spacing: var(--letter-spacing-default);
