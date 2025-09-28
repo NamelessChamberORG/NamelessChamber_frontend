@@ -1,0 +1,29 @@
+.typeCard {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  align-items: center;
+  justify-content: center;
+  min-width: 260px;
+  padding: 24px;
+  border-radius: 8px;
+  background-color: var(--color-gray-4);
+  cursor: pointer;
+  transition: box-shadow 0.3s ease;
+}
+
+.title {
+  font-family: var(--t2-font-family);
+  font-weight: var(--t2-font-weight);
+  font-size: var(--t2-font-size);
+  line-height: var(--t2-font-line-height);
+  letter-spacing: var(--t2-font-letter-spacing);
+}
+
+.guide {
+  font-family: var(--p1-font-family);
+  font-weight: var(--p1-font-weight);
+  font-size: var(--p1-font-size);
+  line-height: var(--p1-font-line-height);
+  letter-spacing: var(--p1-font-letter-spacing);
+}
