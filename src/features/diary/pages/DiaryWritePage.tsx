@@ -174,7 +174,7 @@ function DiaryWritePage() {
           </div>
 
           <div className={classes.countWrap}>
-            <TextCount count={count} />
+            <TextCount count={count} reqLength={MIN_LENGTH} />
           </div>
         </div>
       </Form>
