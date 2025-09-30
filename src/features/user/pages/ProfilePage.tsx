@@ -65,7 +65,7 @@ function ProfilePage() {
   }
 
   function handleCoinClick() {
-    if (me?.coin === 0) {
+    if (!me?.coin) {
       showToast("열람권이 없어요! 글을 작성하고 열람권을 받아보세요.", "info");
     } else {
       navigate(PATHS.DIARY_ALL);
