@@ -7,7 +7,6 @@ export function useUserMe() {
   return useQuery<UserMe, ApiError>({
     queryKey: ["user", "me"],
     queryFn: userApi.getMe,
-    staleTime: 60 * 1000,
     retry: false,
   });
 }
