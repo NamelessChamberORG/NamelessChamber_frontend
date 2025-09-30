@@ -9,9 +9,9 @@ import type {
 } from "../types/types";
 
 export const diaryApi = {
-  async getAll(type: "SHORT" | "LONG"): Promise<PostsPayload> {
+  async getAll(type?: "SHORT" | "LONG"): Promise<PostsPayload> {
     const res = await client.get<ApiResponse<PostsPayload>>("/posts", {
-      params: { type },
+      params: type ? { type } : undefined,
     });
     return unwrap(res);
   },
