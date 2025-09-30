@@ -8,13 +8,17 @@ import { InlineError } from "../../../components/status/InlineStates";
 import Paragraph from "../../../components/paragraph/Paragraph";
 
 function DiaryListPage() {
-  const { type } = useParams<{ type: UiType }>();
-  const lower = type?.toLowerCase();
+  const { type } = useParams<{ type?: UiType }>();
 
-  const listType: "SHORT" | "LONG" = lower === "daily" ? "SHORT" : "LONG";
+  const apiType: "SHORT" | "LONG" | undefined =
+    type == null
+      ? undefined
+      : type.toLowerCase() === "daily"
+      ? "SHORT"
+      : "LONG";
 
   const { data, isLoading, isError, error, refetch } = useDiaries({
-    type: listType,
+    type: apiType,
   });
 
   const [retrying, setRetrying] = useState(false);
@@ -51,12 +55,13 @@ function DiaryListPage() {
         <Paragraph>하나의 글을 작성하면,</Paragraph>
         <Paragraph>누군가 남긴 하나의 글을 읽을 수 있습니다.</Paragraph>
       </div>
+
       <CardListContainer
         diaries={diaries}
         coin={coin}
         isLoading={isLoading}
         isEmpty={isEmpty}
-        type={(type as UiType) ?? "daily"}
+        type={type}
         emptyMessage="아직 등록된 글이 없어요"
       />
     </div>
