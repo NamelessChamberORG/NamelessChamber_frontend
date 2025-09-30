@@ -6,6 +6,7 @@
   line-height: var(--c1-font-line-height);
   letter-spacing: var(--c1-font-letter-spacing);
   text-align: left;
+  cursor: pointer;
 }
 
 .coin p:first-of-type {
