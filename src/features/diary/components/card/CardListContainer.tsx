@@ -15,7 +15,7 @@ type Props = {
   coin: number;
   isLoading: boolean;
   isEmpty: boolean;
-  type: "daily" | "mind";
+  type?: "daily" | "mind";
   emptyMessage: string;
   interactionMode?: InteractionMode;
 };
@@ -110,7 +110,13 @@ const CardListContainer = ({
                 alwaysHoverStyle
                 variant="main"
                 state="default"
-                onClick={() => navigate(PATHS.DIARY_NEW_TYPE(type))}
+                onClick={() => {
+                  if (type) {
+                    navigate(PATHS.DIARY_NEW_TYPE(type));
+                  } else {
+                    navigate(PATHS.HOME);
+                  }
+                }}
               >
                 글 쓰러 가기
               </Button>

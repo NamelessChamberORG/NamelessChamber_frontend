@@ -22,6 +22,7 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage />,
     children: [
       { path: PATHS.HOME, element: <LandingPage /> },
+      { path: PATHS.DIARY_ALL, element: <DiaryListPage /> },
       { path: PATHS.DIARY_LIST, element: <DiaryListPage /> },
       { path: PATHS.DIARY_DETAIL, element: <DiaryDetailPage /> },
       { path: PATHS.LOGIN, element: <LoginPage /> },

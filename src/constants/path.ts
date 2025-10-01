@@ -1,5 +1,6 @@
 export const PATHS = {
   HOME: "/",
+  DIARY_ALL: "/diary",
   DIARY_LIST: "/diary/:type",
   DIARY_SUBMIT: "/diary/submit/:type",
   DIARY_NEW: "/diary/new/:type",
