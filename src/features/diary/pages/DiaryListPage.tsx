@@ -10,9 +10,15 @@ import Paragraph from "../../../components/paragraph/Paragraph";
 function DiaryListPage() {
   const { type } = useParams<{ type?: UiType }>();
 
-  let apiType: "SHORT" | "LONG" | undefined;
-  if (type) {
-    apiType = type.toLowerCase() === "daily" ? "SHORT" : "LONG";
+  let apiType: "SHORT" | "LONG" | "TODAY" | undefined;
+  if (type === "daily") {
+    apiType = "SHORT";
+  } else if (type === "mind") {
+    apiType = "LONG";
+  } else if (type === "today") {
+    apiType = "TODAY";
+  } else {
+    apiType = undefined;
   }
 
   const { data, isLoading, isError, error, refetch } = useDiaries({
