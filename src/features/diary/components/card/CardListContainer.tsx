@@ -15,7 +15,7 @@ type Props = {
   coin: number;
   isLoading: boolean;
   isEmpty: boolean;
-  type?: "daily" | "mind";
+  type?: "daily" | "mind" | "today";
   emptyMessage: string;
   interactionMode?: InteractionMode;
 };
