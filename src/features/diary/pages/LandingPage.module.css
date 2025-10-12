@@ -29,10 +29,10 @@
 
 .textGroup {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(3, 1fr);
   width: 100%;
-  max-width: 800px;
-  gap: 8rem;
+  max-width: 1100px;
+  gap: 6rem;
   text-align: center;
 }
 
@@ -71,6 +71,7 @@
   transition: opacity 0.3s ease;
 }
 
+/* ✅ 모바일: 1열로 변경 */
 @media (max-width: 640px) {
   .landing {
     align-items: flex-start;
@@ -78,7 +79,7 @@
   }
 
   .textGroup {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr; /* 세로 1열 */
     gap: 4rem;
     justify-items: center;
   }

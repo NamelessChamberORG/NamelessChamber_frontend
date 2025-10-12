@@ -1,6 +1,6 @@
 import type { ApiResponse } from "../../../api/types";
 
-export type DiaryType = "SHORT" | "LONG";
+export type DiaryType = "SHORT" | "LONG" | "TODAY";
 
 export type CreateDiaryRequest = {
   title: string;
@@ -31,6 +31,12 @@ export type DiaryDetail = {
   likes: number;
   views: number;
   createdAt: string;
+};
+
+export type Topic = {
+  title: string;
+  status: string;
+  publishedDate: string;
 };
 
 export type GetDiariesResponse = ApiResponse<DiaryPreview[]>;

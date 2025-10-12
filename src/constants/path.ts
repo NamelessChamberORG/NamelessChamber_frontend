@@ -12,8 +12,9 @@ export const PATHS = {
   PROFILE: "/profile",
   FEEDBACK: "/feedback",
 
-  DIARY_LIST_TYPE: (type: "daily" | "mind") => `/diary/${type}`,
-  DIARY_SUBMIT_TYPE: (type: "daily" | "mind") => `/diary/submit/${type}`,
+  DIARY_LIST_TYPE: (type: "today" | "daily" | "mind") => `/diary/${type}`,
+  DIARY_SUBMIT_TYPE: (type: "today" | "daily" | "mind") =>
+    `/diary/submit/${type}`,
   DIARY_DETAIL_ID: (id: string) => `/diary/v/${id}`,
-  DIARY_NEW_TYPE: (type: "daily" | "mind") => `/diary/new/${type}`,
+  DIARY_NEW_TYPE: (type: "today" | "daily" | "mind") => `/diary/new/${type}`,
 } as const;

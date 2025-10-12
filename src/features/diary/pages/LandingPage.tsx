@@ -67,9 +67,34 @@ function LandingPage() {
             <div
               className={`${classes.slot} ${
                 step >= 2 ? classes["fade-in"] : classes["hidden"]
-              } ${classes.left}`}
+              } ${classes.center}`}
             >
               {step >= 2 ? (
+                <Link
+                  to={PATHS.DIARY_NEW_TYPE("today")}
+                  className={classes.link}
+                >
+                  <TypeCard
+                    title="오늘의 주제"
+                    firstLine="매일 달라지는"
+                    secondLine="가벼운 주제에요."
+                    revealOnMount
+                    revealDelay={600}
+                    revealDurationMs={900}
+                    revealEasing="ease-in"
+                  />
+                </Link>
+              ) : (
+                <div className={classes.placeholder} aria-hidden="true" />
+              )}
+            </div>
+
+            <div
+              className={`${classes.slot} ${
+                step >= 3 ? classes["fade-in"] : classes["hidden"]
+              } ${classes.left}`}
+            >
+              {step >= 3 ? (
                 <Link
                   to={PATHS.DIARY_NEW_TYPE("daily")}
                   className={classes.link}
@@ -104,7 +129,7 @@ function LandingPage() {
                     firstLine="마음 속 깊은 곳의"
                     secondLine="이야기를 꺼내보아요."
                     revealOnMount
-                    revealDelay={400}
+                    revealDelay={800}
                     revealDurationMs={800}
                     revealEasing="ease-in"
                   />
@@ -119,4 +144,5 @@ function LandingPage() {
     </div>
   );
 }
+
 export default LandingPage;
