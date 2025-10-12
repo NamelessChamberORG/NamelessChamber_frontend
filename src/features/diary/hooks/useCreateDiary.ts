@@ -21,7 +21,7 @@ function getErrorMessage(err: unknown) {
 }
 
 export function useCreateDiary(
-  defaultType: "SHORT" | "LONG" = "SHORT",
+  defaultType: "SHORT" | "LONG" | "TODAY" = "SHORT",
   options?: UseMutationOptions<Res, unknown, Vars>
 ) {
   const queryClient = useQueryClient();

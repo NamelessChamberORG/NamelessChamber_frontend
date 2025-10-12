@@ -16,6 +16,7 @@ import {
   type ApiType,
   type UiType,
 } from "../types/typeMap";
+import { useTopic } from "../hooks/useTopic";
 
 const FORM_ID = "diary-form";
 const SHORT_MIN_LENGTH = 30;
@@ -43,15 +44,25 @@ function DiaryWritePage() {
   const diaryType: ApiType =
     type && UI_TO_API[type] ? UI_TO_API[type] : "SHORT";
 
-  const MIN_LENGTH = diaryType === "SHORT" ? SHORT_MIN_LENGTH : LONG_MIN_LENGTH;
-  const TITLE =
-    diaryType === "SHORT"
-      ? "짧은 기록 순간의 생각을 가볍게 남겨요."
-      : "마음 깊은 곳의 이야기를 꺼내보아요.";
-  const PLACEHOLDER_MESSAGE =
-    diaryType === "SHORT"
-      ? "지금 떠오른 생각이나, 단 하나의 문장으로도 괜찮습니다."
-      : "이곳 무명소는 고해성사를 담는 장소입니다. 말하지 못한 속마음을 조용히 흘려보내세요.";
+  const isToday = type === "today";
+
+  const { data: topic, isLoading: topicLoading } = useTopic(isToday);
+
+  const MIN_LENGTH = diaryType === "LONG" ? LONG_MIN_LENGTH : SHORT_MIN_LENGTH;
+
+  const TITLE = isToday
+    ? topicLoading
+      ? "오늘의 주제를 불러오는 중…"
+      : topic?.title ?? "오늘의 주제를 불러오지 못했어요"
+    : diaryType === "SHORT"
+    ? "짧은 기록 순간의 생각을 가볍게 남겨요."
+    : "마음 깊은 곳의 이야기를 꺼내보아요.";
+
+  const PLACEHOLDER_MESSAGE = isToday
+    ? "주제에 대해서 자유롭게 작성해보세요."
+    : diaryType === "SHORT"
+    ? "지금 떠오른 생각이나, 단 하나의 문장으로도 괜찮습니다."
+    : "이곳 무명소는 고해성사를 담는 장소입니다. 말하지 못한 속마음을 조용히 흘려보내세요.";
 
   const { mutateAsync } = useCreateDiary(diaryType, {
     onSuccess: () => {
@@ -89,7 +100,7 @@ function DiaryWritePage() {
         }
       }
     } catch {
-      // 무시
+      // ignore
     }
   }, []);
 
@@ -98,7 +109,7 @@ function DiaryWritePage() {
       try {
         localStorage.setItem(DRAFT_KEY, JSON.stringify({ title, content }));
       } catch {
-        // 무시
+        // ignore
       }
     }, 350);
     return () => clearTimeout(id);
