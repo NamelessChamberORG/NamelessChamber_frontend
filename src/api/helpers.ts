@@ -1,16 +1,23 @@
 import type { AxiosResponse } from "axios";
 import { ApiError, type ApiResponse } from "./types.ts";
 
-export function unwrap<T>(res: AxiosResponse<ApiResponse<T>>): T {
-  const body = res.data;
-  if (body.success !== true) {
-    throw new ApiError(
-      body.errorMsg || "Request failed",
-      body.errorCode,
-      res.status
-    );
+export function unwrap<T>(res: AxiosResponse<ApiResponse<T> | T>): T {
+  const body: any = res.data;
+
+  // ApiResponse<T> 형태인 경우
+  if (body && typeof body === "object" && "success" in body) {
+    if (body.success !== true) {
+      throw new ApiError(
+        body.errorMsg || "Request failed",
+        body.errorCode,
+        res.status
+      );
+    }
+    return body.data as T;
   }
-  return body.data;
+
+  // 바로 T가 온 경우
+  return body as T;
 }
 
 export function unwrapNoContent(
