@@ -21,18 +21,25 @@ function ProfilePage() {
   const [currentTab, setCurrentTab] = useState<"written" | "read">("written");
   const { data: me, isLoading: isMeLoading, error, isError } = useUserMe();
   const navigate = useNavigate();
+  const { showToast } = useToast();
 
-  const showUserSkeleton = isMeLoading || isError || !me;
+  const showUserSkeleton = isMeLoading || !me;
 
   useEffect(() => {
     if (!isError) return;
+
     if (error instanceof ApiError && error.code === 1018) {
       navigate(PATHS.NICKNAME, {
         replace: true,
         state: { from: PATHS.PROFILE },
       });
+    } else {
+      showToast(
+        "프로필 정보를 불러오지 못했습니다. 잠시 후 다시 시도해주세요.",
+        "cancel"
+      );
     }
-  }, [isError, error, navigate]);
+  }, [isError, error, navigate, showToast]);
 
   const { data: readData, isLoading: isReadLoading } = useReadDiaries(
     currentTab === "read"
@@ -59,8 +66,6 @@ function ProfilePage() {
       },
     });
   }
-
-  const { showToast } = useToast();
 
   function handleProfileEditClick() {
     showToast("준비 중인 기능입니다.", "info");
