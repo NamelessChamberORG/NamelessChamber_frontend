@@ -21,16 +21,25 @@ function ProfilePage() {
   const [currentTab, setCurrentTab] = useState<"written" | "read">("written");
   const { data: me, isLoading: isMeLoading, error, isError } = useUserMe();
   const navigate = useNavigate();
+  const { showToast } = useToast();
+
+  const showUserSkeleton = isMeLoading || !me;
 
   useEffect(() => {
     if (!isError) return;
+
     if (error instanceof ApiError && error.code === 1018) {
       navigate(PATHS.NICKNAME, {
         replace: true,
         state: { from: PATHS.PROFILE },
       });
+    } else {
+      showToast(
+        "프로필 정보를 불러오지 못했습니다. 잠시 후 다시 시도해주세요.",
+        "cancel"
+      );
     }
-  }, [isError, error, navigate]);
+  }, [isError, error, navigate, showToast]);
 
   const { data: readData, isLoading: isReadLoading } = useReadDiaries(
     currentTab === "read"
@@ -58,8 +67,6 @@ function ProfilePage() {
     });
   }
 
-  const { showToast } = useToast();
-
   function handleProfileEditClick() {
     showToast("준비 중인 기능입니다.", "info");
   }
@@ -75,13 +82,13 @@ function ProfilePage() {
   return (
     <section className={classes.profile}>
       <div className={classes.profileSection}>
-        {isMeLoading ? (
+        {showUserSkeleton ? (
           <ProfileSkeleton />
         ) : (
           <>
-            <UserInfo nickname={me?.nickname ?? ""} />
-            <CoinInfo coin={me?.coin ?? 0} onClick={handleCoinClick} />
-            <Button alwaysHoverStyle={true} onClick={handleProfileEditClick}>
+            <UserInfo nickname={me.nickname} />
+            <CoinInfo coin={me.coin} onClick={handleCoinClick} />
+            <Button alwaysHoverStyle onClick={handleProfileEditClick}>
               프로필 편집
             </Button>
             <FeedbackCard />
