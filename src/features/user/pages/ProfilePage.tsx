@@ -22,6 +22,8 @@ function ProfilePage() {
   const { data: me, isLoading: isMeLoading, error, isError } = useUserMe();
   const navigate = useNavigate();
 
+  const showUserSkeleton = isMeLoading || isError || !me;
+
   useEffect(() => {
     if (!isError) return;
     if (error instanceof ApiError && error.code === 1018) {
@@ -75,13 +77,13 @@ function ProfilePage() {
   return (
     <section className={classes.profile}>
       <div className={classes.profileSection}>
-        {isMeLoading ? (
+        {showUserSkeleton ? (
           <ProfileSkeleton />
         ) : (
           <>
-            <UserInfo nickname={me?.nickname ?? ""} />
-            <CoinInfo coin={me?.coin ?? 0} onClick={handleCoinClick} />
-            <Button alwaysHoverStyle={true} onClick={handleProfileEditClick}>
+            <UserInfo nickname={me.nickname} />
+            <CoinInfo coin={me.coin} onClick={handleCoinClick} />
+            <Button alwaysHoverStyle onClick={handleProfileEditClick}>
               프로필 편집
             </Button>
             <FeedbackCard />
