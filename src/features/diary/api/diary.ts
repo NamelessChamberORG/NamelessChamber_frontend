@@ -1,11 +1,12 @@
 import client from "../../../api/client";
-import { unwrap, unwrapNoContent } from "../../../api/helpers";
+import { unwrap } from "../../../api/helpers";
 import type { ApiResponse } from "../../../api/types";
 import type {
   CreateDiaryRequest,
   DiaryPreview,
   DiaryDetail,
   PostsPayload,
+  CreateDiaryResponse,
 } from "../types/types";
 
 export const diaryApi = {
@@ -19,13 +20,13 @@ export const diaryApi = {
     const res = await client.get<ApiResponse<DiaryDetail>>(`/posts/${id}`);
     return unwrap(res);
   },
-  async create(body: CreateDiaryRequest): Promise<void> {
-    const res = await client.post<ApiResponse<unknown> | undefined | null>(
+  async create(body: CreateDiaryRequest): Promise<CreateDiaryResponse> {
+    const res = await client.post<ApiResponse<CreateDiaryResponse>>(
       "/posts",
       body,
       { validateStatus: (status) => status !== 401 }
     );
-    unwrapNoContent(res);
+    return unwrap(res);
   },
 
   getAllRaw() {
