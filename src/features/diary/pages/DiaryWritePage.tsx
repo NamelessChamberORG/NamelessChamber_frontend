@@ -17,6 +17,7 @@ import {
   type UiType,
 } from "../types/typeMap";
 import { useTopic } from "../hooks/useTopic";
+import { SUBMIT_LOADING_MESSAGE } from "../../../constants/messages";
 
 const FORM_ID = "diary-form";
 const SHORT_MIN_LENGTH = 30;
@@ -65,7 +66,7 @@ function DiaryWritePage() {
     : "이곳 무명소는 고해성사를 담는 장소입니다. 말하지 못한 속마음을 조용히 흘려보내세요.";
 
   const { mutateAsync } = useCreateDiary(diaryType, {
-    onSuccess: () => {
+    onSuccess: (data) => {
       formRef.current?.clear();
       setTitle("");
       setContent("");
@@ -73,12 +74,19 @@ function DiaryWritePage() {
       localStorage.removeItem(DRAFT_KEY);
 
       const typeLower = API_TO_UI[diaryType];
+
       navigate(PATHS.DIARY_SUBMIT_TYPE(typeLower), {
         replace: true,
         state: {
-          next: PATHS.DIARY_LIST_TYPE(typeLower),
+          type: typeLower,
+          streakState: {
+            calendar: data.calendar,
+            coin: data.coin,
+            totalPosts: data.totalPosts,
+            postId: data.postId,
+          },
           stayMs: 1600,
-          message: "작성해주신 소중한 마음은 소중히 보관할게요",
+          message: SUBMIT_LOADING_MESSAGE,
         },
       });
     },
