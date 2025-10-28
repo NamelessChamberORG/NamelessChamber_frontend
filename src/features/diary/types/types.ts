@@ -8,6 +8,18 @@ export type CreateDiaryRequest = {
   type: DiaryType;
 };
 
+export type CreateDiaryResponse = {
+  postId: string;
+  totalPosts: number;
+  coin: number;
+  showCalendar: boolean;
+  calendar: {
+    weekStart: string;
+    days: boolean[];
+    counts: number[];
+  };
+};
+
 export type DiaryPreview = {
   postId: string;
   userId: string;
