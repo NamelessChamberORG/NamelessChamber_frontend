@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import classes from "./CardList.module.css";
+import classes from "./CardListContainer.module.css";
 import CardSkeleton from "./CardSkeleton";
 import CardList from "./CardList";
 import type { DiaryPreview } from "../../types/types";
