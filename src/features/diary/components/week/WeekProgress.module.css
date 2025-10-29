@@ -8,12 +8,18 @@
   grid-template-columns: repeat(7, 1fr);
   gap: 8px;
   margin-bottom: 8px;
-  color: var(--color-gray-4-1);
   font-size: 14px;
 }
 
 .weekLabel {
   text-align: center;
+  color: var(--color-gray-4-1);
+  transition: color 0.25s ease;
+}
+
+.activeLabel {
+  color: var(--color-yellow);
+  font-weight: 500;
 }
 
 .weekDots {

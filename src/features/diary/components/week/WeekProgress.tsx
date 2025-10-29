@@ -12,8 +12,13 @@ function WeekProgress({ days }: WeekProgressProps) {
   return (
     <div className={classes.weekContainer}>
       <div className={classes.weekLabels}>
-        {KOR_DAYS.map((d) => (
-          <span key={d} className={classes.weekLabel}>
+        {KOR_DAYS.map((d, i) => (
+          <span
+            key={d}
+            className={`${classes.weekLabel} ${
+              days[i] ? classes.activeLabel : ""
+            }`}
+          >
             {d}
           </span>
         ))}
