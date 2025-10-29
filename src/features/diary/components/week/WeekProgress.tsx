@@ -1,3 +1,4 @@
+import Text from "../../../../components/text/Text";
 import WeekDot from "./WeekDot";
 import classes from "./WeekProgress.module.css";
 
@@ -13,14 +14,9 @@ function WeekProgress({ days }: WeekProgressProps) {
     <div className={classes.weekContainer}>
       <div className={classes.weekLabels}>
         {KOR_DAYS.map((d, i) => (
-          <span
-            key={d}
-            className={`${classes.weekLabel} ${
-              days[i] ? classes.activeLabel : ""
-            }`}
-          >
+          <Text variant="p1" color={days[i] ? "yellow" : "gray-4-1"} key={d}>
             {d}
-          </span>
+          </Text>
         ))}
       </div>
 
