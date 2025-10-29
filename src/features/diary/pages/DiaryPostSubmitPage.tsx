@@ -10,6 +10,7 @@ type State = {
   type?: UiType;
   stayMs?: number;
   message?: string;
+  showCalendar?: boolean;
   streakState?: {
     calendar: { weekStart: string; days: boolean[]; counts: number[] };
     coin: number;
@@ -33,13 +34,17 @@ function DiaryPostSubmitPage() {
 
   useEffect(() => {
     const t = setTimeout(() => {
-      nav(PATHS.DIARY_STREAK_TYPE(routeType), {
-        replace: true,
-        state: state.streakState,
-      });
+      if (state.showCalendar) {
+        nav(PATHS.DIARY_STREAK_TYPE(routeType), {
+          replace: true,
+          state: state.streakState,
+        });
+      } else {
+        nav(PATHS.DIARY_LIST_TYPE(routeType), { replace: true });
+      }
     }, stayMs);
     return () => clearTimeout(t);
-  }, [nav, routeType, stayMs, state.streakState]);
+  }, [nav, routeType, stayMs, state.showCalendar, state.streakState]);
 
   return (
     <main

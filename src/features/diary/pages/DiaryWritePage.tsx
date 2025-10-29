@@ -79,12 +79,15 @@ function DiaryWritePage() {
         replace: true,
         state: {
           type: typeLower,
-          streakState: {
-            calendar: data.calendar,
-            coin: data.coin,
-            totalPosts: data.totalPosts,
-            postId: data.postId,
-          },
+          showCalendar: data.showCalendar,
+          streakState: data.showCalendar
+            ? {
+                calendar: data.calendar,
+                coin: data.coin,
+                totalPosts: data.totalPosts,
+                postId: data.postId,
+              }
+            : undefined,
           stayMs: 1600,
           message: SUBMIT_LOADING_MESSAGE,
         },
