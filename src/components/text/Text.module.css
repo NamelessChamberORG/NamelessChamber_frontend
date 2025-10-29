@@ -58,6 +58,10 @@
   color: var(--color-gray-4);
 }
 
+.gray-4-1 {
+  color: var(--color-gray-4-1);
+}
+
 .yellow {
   color: var(--color-yellow);
 }

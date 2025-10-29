@@ -7,7 +7,13 @@ import {
 import classes from "./Text.module.css";
 
 type TextVariant = "t1" | "t2" | "p1" | "c1";
-type TextColor = "default" | "gray-2" | "gray-3" | "gray-4" | "yellow";
+type TextColor =
+  | "default"
+  | "gray-2"
+  | "gray-3"
+  | "gray-4"
+  | "gray-4-1"
+  | "yellow";
 
 type TextProps = ComponentPropsWithoutRef<"span"> & {
   children: React.ReactNode;
