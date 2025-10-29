@@ -1,3 +1,4 @@
+import Check from "../../../../assets/icons/Check";
 import classes from "./WeekDot.module.css";
 
 type WeekDotProps = {
@@ -11,7 +12,13 @@ function WeekDot({ active, label }: WeekDotProps) {
       role="listitem"
       className={`${classes.dot} ${active ? classes.active : ""}`}
       title={`${label}요일 ${active ? "작성함" : "미작성"}`}
-    ></div>
+    >
+      {active && (
+        <span className={classes.checkMark}>
+          <Check />
+        </span>
+      )}
+    </div>
   );
 }
 
