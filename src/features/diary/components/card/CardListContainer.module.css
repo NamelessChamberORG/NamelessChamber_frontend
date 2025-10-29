@@ -1,10 +1,17 @@
 .cardList {
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
   gap: 3rem;
   width: 100%;
   list-style: none;
   padding: 0;
+}
+
+.cardList > li {
+  min-width: 0;
+}
+.cardList > li > * {
+  min-width: 0;
 }
 
 .empty {
