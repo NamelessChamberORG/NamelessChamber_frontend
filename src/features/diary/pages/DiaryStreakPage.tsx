@@ -6,6 +6,7 @@ import classes from "./DiaryStreakPage.module.css";
 import { isAuthenticatedUser } from "../../auth/api/tokenStore";
 import Button from "../../../components/button/Button";
 import Text from "../../../components/text/Text";
+import WeekProgress from "../components/week/WeekProgress";
 
 type StreakState = {
   calendar: { weekStart: string; days: boolean[]; counts: number[] };
@@ -15,7 +16,6 @@ type StreakState = {
   totalStreakDays?: number;
 };
 
-const KOR_DAYS = ["일", "월", "화", "수", "목", "금", "토"] as const;
 const isWeekArr = (a?: unknown[]) => Array.isArray(a) && a.length === 7;
 
 function DiaryStreakPage() {
@@ -65,30 +65,7 @@ function DiaryStreakPage() {
           </Text>
         </div>
 
-        <div className={classes.weekContainer}>
-          <div className={classes.weekLabels} aria-hidden="true">
-            {KOR_DAYS.map((d) => (
-              <span key={d} className={classes.weekLabel}>
-                {d}
-              </span>
-            ))}
-          </div>
-
-          <div
-            className={classes.weekDots}
-            role="list"
-            aria-label="이번 주 작성 현황"
-          >
-            {days.map((done, i) => (
-              <div
-                key={i}
-                role="listitem"
-                className={`${classes.dot} ${done ? classes.active : ""}`}
-                title={`${KOR_DAYS[i]}요일 ${done ? "작성함" : "미작성"}`}
-              ></div>
-            ))}
-          </div>
-        </div>
+        <WeekProgress days={days} counts={state.calendar.counts} />
 
         <div className={classes.messageContainer}>
           {isLoggedIn ? (
