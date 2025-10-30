@@ -5,6 +5,7 @@ export const PATHS = {
   DIARY_SUBMIT: "/diary/submit/:type",
   DIARY_NEW: "/diary/new/:type",
   DIARY_DETAIL: "/diary/v/:id",
+  DIARY_STREAK: "/diary/streak/:type",
   LOGIN: "/login",
   SIGN_UP: "/signup",
   NICKNAME: "/signup/nickname",
@@ -17,4 +18,6 @@ export const PATHS = {
     `/diary/submit/${type}`,
   DIARY_DETAIL_ID: (id: string) => `/diary/v/${id}`,
   DIARY_NEW_TYPE: (type: "today" | "daily" | "mind") => `/diary/new/${type}`,
+  DIARY_STREAK_TYPE: (type: "today" | "daily" | "mind") =>
+    `/diary/streak/${type}`,
 } as const;

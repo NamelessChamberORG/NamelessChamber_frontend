@@ -4,11 +4,11 @@ import {
   type UseMutationOptions,
 } from "@tanstack/react-query";
 import { diaryApi } from "../api/diary";
-import type { CreateDiaryRequest } from "../types/types";
+import type { CreateDiaryRequest, CreateDiaryResponse } from "../types/types";
 import { AxiosError } from "axios";
 import { useToast } from "../../../contexts/ToastContext";
 
-type Res = Awaited<ReturnType<typeof diaryApi.create>>;
+type Res = CreateDiaryResponse;
 type Vars = Omit<CreateDiaryRequest, "type">;
 
 function getErrorMessage(err: unknown) {
@@ -22,21 +22,24 @@ function getErrorMessage(err: unknown) {
 
 export function useCreateDiary(
   defaultType: "SHORT" | "LONG" | "TODAY" = "SHORT",
-  options?: UseMutationOptions<Res, unknown, Vars>
+  options?: UseMutationOptions<Res, AxiosError, Vars, unknown>
 ) {
   const queryClient = useQueryClient();
   const { showToast } = useToast();
 
-  return useMutation<Res, unknown, Vars>({
-    mutationFn: (body) => diaryApi.create({ ...body, type: defaultType }),
+  return useMutation<Res, AxiosError, Vars, unknown>({
+    mutationFn: (body: Vars) => diaryApi.create({ ...body, type: defaultType }),
+
     onSuccess: (data, vars, ctx) => {
       queryClient.invalidateQueries({ queryKey: ["diaries"] });
       options?.onSuccess?.(data, vars, ctx);
     },
+
     onError: (error, vars, ctx) => {
       showToast(getErrorMessage(error), "cancel");
       options?.onError?.(error, vars, ctx);
     },
+
     onSettled: (data, err, vars, ctx) => {
       options?.onSettled?.(data, err, vars, ctx);
     },

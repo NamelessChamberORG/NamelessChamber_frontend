@@ -14,6 +14,7 @@ import NotFoundPage from "../features/error/pages/NotFoundPage";
 import ErrorPage from "../features/error/pages/ErrorPage";
 import ProtectedRoute from "./ProtectedRoute";
 import { PATHS } from "../constants/path";
+import DiaryStreakPage from "../features/diary/pages/DiaryStreakPage";
 
 const router = createBrowserRouter([
   {
@@ -40,7 +41,7 @@ const router = createBrowserRouter([
     element: <ProtectedRoute />,
     children: [{ path: PATHS.FEEDBACK, element: <FeedbackPage /> }],
   },
-
+  { path: PATHS.DIARY_STREAK, element: <DiaryStreakPage /> },
   { path: PATHS.DIARY_SUBMIT, element: <DiaryPostSubmitPage /> },
   { path: PATHS.DIARY_NEW, element: <DiaryWritePage /> },
   { path: PATHS.ERROR, element: <ErrorPage /> },
