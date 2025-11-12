@@ -61,17 +61,22 @@ function removeAuthHeader(config: AxiosRequestConfig) {
 /* -------------------------------------------------------
  * Common Auth-Expired Handler
  * ----------------------------------------------------- */
+let __lastRedirectAt = 0;
 function handleAuthExpired(reason: string, redirectTo?: string) {
   clearAuth();
   window.dispatchEvent(
     new CustomEvent("auth:expired", { detail: { reason, status: 401 } })
   );
   notifyAuthUpdate();
+
   if (redirectTo) {
-    window.location.replace(redirectTo);
+    const now = Date.now();
+    if (now - __lastRedirectAt > 2000) {
+      __lastRedirectAt = now;
+      window.location.replace(redirectTo);
+    }
   }
 }
-
 /* -------------------------------------------------------
  * Refresh Queue (for 1016)
  * ----------------------------------------------------- */
@@ -131,58 +136,88 @@ client.interceptors.response.use(
   (res) => res,
   async (error: AxiosError<any>) => {
     const status = error?.response?.status;
-    const codeNum: number | undefined = (error?.response as any)?.data
-      ?.errorCode;
-
     if (status !== 401) return Promise.reject(error);
 
     const originalRequest = error.config as AxiosRequestConfig;
-    const skipReissue =
-      typeof originalRequest?.headers === "object" &&
-      (originalRequest.headers as any)["x-skip-reissue"] === true;
 
-    if (codeNum === 1012) {
-      console.log("잘못된 접근 (1012)");
-      handleAuthExpired("invalid_token", "/");
+    // 공개 엔드포인트(로그인/회원가입/재발급/익명)는 재시도 금지
+    if (isPublicRequest(originalRequest)) {
       return Promise.reject(error);
     }
 
+    // 무한루프 방지: 요청당 1회만 재시도
+    if ((originalRequest as any)._retry) {
+      return Promise.reject(error);
+    }
+    (originalRequest as any)._retry = true;
+
+    // 헤더로 재발급 스킵 지정 시 바로 만료 처리
+    const skipReissue =
+      typeof originalRequest?.headers === "object" &&
+      (originalRequest.headers as any)["x-skip-reissue"] === true;
+    if (skipReissue) {
+      handleAuthExpired("expired_skip_reissue", "/");
+      return Promise.reject(error);
+    }
+
+    // 서버 에러코드 기반 빠른 종료 분기(선택) — 정책 유지
+    const codeNum: number | undefined =
+      (error?.response as any)?.data?.errorCode;
+
+    if (codeNum === 1012) {
+      // INVALID_TOKEN: 즉시 만료 처리
+      handleAuthExpired("invalid_token", "/");
+      return Promise.reject(error);
+    }
     if (codeNum === 1017) {
-      console.log("인증 필요 (1017)");
+      // UNAUTHORIZED(토큰 없음): 즉시 만료 처리
       handleAuthExpired("no_token", "/");
       return Promise.reject(error);
     }
 
-    if (codeNum === 1016) {
-      console.log("토큰 만료 (1016)");
+    // 동시 재발급 큐 처리
+    type Waiter = {
+      resolve: (v: any) => void;
+      reject: (e: any) => void;
+      originalRequest: AxiosRequestConfig;
+    };
+    let isRefreshing = (client.defaults as any).__isRefreshing === true;
+    (client.defaults as any).__queue = (client.defaults as any).__queue ?? [];
 
-      if (skipReissue) {
-        handleAuthExpired("expired_skip_reissue", "/");
-        return Promise.reject(error);
-      }
+    const enqueue = (w: Waiter) => {
+      (client.defaults as any).__queue.push(w);
+    };
+    const flush = (err: any, newAccess?: string) => {
+      const q: Waiter[] = (client.defaults as any).__queue;
+      (client.defaults as any).__queue = [];
+      q.forEach(({ resolve, reject, originalRequest }) => {
+        if (newAccess) {
+          setAuthHeader(originalRequest, newAccess);
+          resolve(client(originalRequest));
+        } else {
+          reject(err);
+        }
+      });
+    };
 
-      if (isRefreshing) {
-        return new Promise((resolve, reject) =>
-          enqueue({ resolve, reject, originalRequest })
-        );
-      }
-
-      isRefreshing = true;
-      try {
-        const newAccess = await reissueTokens();
-        isRefreshing = false;
-
-        flush(null, newAccess);
-        setAuthHeader(originalRequest, newAccess);
-        return client(originalRequest);
-      } catch (e) {
-        isRefreshing = false;
-        flush(e);
-        handleAuthExpired("refresh_failed", "/");
-        return Promise.reject(e);
-      }
+    if (isRefreshing) {
+      return new Promise((resolve, reject) =>
+        enqueue({ resolve, reject, originalRequest })
+      );
     }
 
-    return Promise.reject(error);
+    (client.defaults as any).__isRefreshing = true;
+    try {
+      const newAccess = await reissueTokens(); // 내부서 tokenStore 갱신
+      (client.defaults as any).__isRefreshing = false;
+      flush(null, newAccess);
+      setAuthHeader(originalRequest, newAccess);
+      return client(originalRequest);
+    } catch (e) {
+      (client.defaults as any).__isRefreshing = false;
+      flush(e);
+      handleAuthExpired("refresh_failed", "/");
+      return Promise.reject(e);
+    }
   }
 );
