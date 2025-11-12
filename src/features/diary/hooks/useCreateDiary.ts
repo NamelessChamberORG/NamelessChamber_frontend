@@ -32,16 +32,16 @@ export function useCreateDiary(
 
     onSuccess: (data, vars, ctx) => {
       queryClient.invalidateQueries({ queryKey: ["diaries"] });
-      options?.onSuccess?.(data, vars, ctx);
+      options?.onSuccess?.(data, vars, undefined, ctx as any);
     },
 
     onError: (error, vars, ctx) => {
       showToast(getErrorMessage(error), "cancel");
-      options?.onError?.(error, vars, ctx);
+      options?.onError?.(error, vars, undefined, ctx as any);
     },
 
     onSettled: (data, err, vars, ctx) => {
-      options?.onSettled?.(data, err, vars, ctx);
+      options?.onSettled?.(data, err, vars, undefined, ctx as any);
     },
   });
 }

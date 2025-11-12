@@ -80,31 +80,31 @@ function handleAuthExpired(reason: string, redirectTo?: string) {
 /* -------------------------------------------------------
  * Refresh Queue (for 1016)
  * ----------------------------------------------------- */
-type Waiter = {
-  resolve: (v: any) => void;
-  reject: (e: any) => void;
-  originalRequest: AxiosRequestConfig;
-};
+// type Waiter = {
+//   resolve: (v: any) => void;
+//   reject: (e: any) => void;
+//   originalRequest: AxiosRequestConfig;
+// };
 
-let isRefreshing = false;
-let queue: Waiter[] = [];
+// let isRefreshing = false;
+// let queue: Waiter[] = [];
 
-function enqueue(w: Waiter) {
-  queue.push(w);
-}
+// function enqueue(w: Waiter) {
+//   queue.push(w);
+// }
 
-function flush(error: any, newAccess?: string) {
-  const q = [...queue];
-  queue = [];
-  q.forEach(({ resolve, reject, originalRequest }) => {
-    if (newAccess) {
-      setAuthHeader(originalRequest, newAccess);
-      resolve(client(originalRequest));
-    } else {
-      reject(error);
-    }
-  });
-}
+// function flush(error: any, newAccess?: string) {
+//   const q = [...queue];
+//   queue = [];
+//   q.forEach(({ resolve, reject, originalRequest }) => {
+//     if (newAccess) {
+//       setAuthHeader(originalRequest, newAccess);
+//       resolve(client(originalRequest));
+//     } else {
+//       reject(error);
+//     }
+//   });
+// }
 
 /* -------------------------------------------------------
  * Request Interceptor
