@@ -1,13 +1,13 @@
 import type { ComponentPropsWithoutRef } from "react";
 import classes from "./CardSkeleton.module.css";
 
-type CardSkeletonProps = ComponentPropsWithoutRef<"li"> & {
+type CardSkeletonProps = ComponentPropsWithoutRef<"div"> & {
   showCount?: boolean;
 };
 
 const CardSkeleton = ({ showCount = true, ...props }: CardSkeletonProps) => {
   return (
-    <li
+    <div
       className={classes.cardSkeleton}
       aria-busy="true"
       aria-label="Loading card"
@@ -22,7 +22,7 @@ const CardSkeleton = ({ showCount = true, ...props }: CardSkeletonProps) => {
           <span className={`${classes.block} ${classes.count}`} aria-hidden />
         )}
       </div>
-    </li>
+    </div>
   );
 };
 
