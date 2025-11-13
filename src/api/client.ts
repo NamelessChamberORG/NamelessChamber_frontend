@@ -3,6 +3,7 @@ import type { AxiosRequestConfig } from "axios";
 
 import {
   getAccessToken,
+  getRefreshToken,
   clearAuth,
   notifyAuthUpdate,
 } from "../features/auth/api/tokenStore";
@@ -164,15 +165,16 @@ client.interceptors.response.use(
     const codeNum: number | undefined =
       (error?.response as any)?.data?.errorCode;
 
-    if (codeNum === 1012) {
-      // INVALID_TOKEN: 즉시 만료 처리
-      handleAuthExpired("invalid_token", "/");
-      return Promise.reject(error);
-    }
-    if (codeNum === 1017) {
-      // UNAUTHORIZED(토큰 없음): 즉시 만료 처리
-      handleAuthExpired("no_token", "/");
-      return Promise.reject(error);
+    const hasRefresh = !!getRefreshToken();
+
+    if (codeNum === 1012 || codeNum === 1017) {
+      if (!hasRefresh) {
+        handleAuthExpired(
+          codeNum === 1012 ? "invalid_token" : "no_token",
+          "/"
+        );
+        return Promise.reject(error);
+      }
     }
 
     // 동시 재발급 큐 처리
