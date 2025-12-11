@@ -1,8 +1,9 @@
-import { Outlet, useLocation, useNavigate } from "react-router";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import Header from "../components/header/Header";
 import { useToast } from "../hooks/useToast";
 import { useEffect, useRef } from "react";
 import { PATHS } from "../constants/path";
+import ToastContainer from "../components/toast/ToastContainer";
 
 function RootLayout() {
   const navigate = useNavigate();
@@ -46,6 +47,7 @@ function RootLayout() {
           <Outlet />
         </div>
       </main>
+      <ToastContainer />
     </div>
   );
 }

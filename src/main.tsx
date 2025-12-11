@@ -12,7 +12,7 @@ createRoot(document.getElementById("root")!).render(
     <QueryClientProvider client={queryClient}>
       <ToastProvider>
         <App />
-        <ToastContainer />
+        {/* <ToastContainer /> */}
       </ToastProvider>
     </QueryClientProvider>
   </StrictMode>
