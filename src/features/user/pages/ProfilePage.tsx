@@ -8,7 +8,7 @@ import classes from "./ProfilePage.module.css";
 import { PATHS } from "../../../constants/path";
 import DiaryTabs from "../components/DiaryTabs";
 import { useReadDiaries } from "../hooks/useReadDiaries";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import CardListContainer from "../../diary/components/card/CardListContainer";
 import { useWrittenDiaries } from "../hooks/useWrittenDiaries";
 import ProfileSkeleton from "../components/ProfileSkeleton";
@@ -23,11 +23,13 @@ function ProfilePage() {
   const navigate = useNavigate();
   const { showToast } = useToast();
 
+  const hasHandledErrorRef = useRef(false);
+
   const showUserSkeleton = isMeLoading || !me;
 
   useEffect(() => {
-    if (!isError) return;
-
+    if (!isError || hasHandledErrorRef.current) return;
+    hasHandledErrorRef.current = true;
     if (error instanceof ApiError && error.code === 1018) {
       navigate(PATHS.NICKNAME, {
         replace: true,
