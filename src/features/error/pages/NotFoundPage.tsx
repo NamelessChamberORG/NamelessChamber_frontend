@@ -1,4 +1,4 @@
-import { Link } from "react-router";
+import { Link } from "react-router-dom";
 import { PATHS } from "../../../constants/path";
 import classes from "./NotFoundPage.module.css";
 import Button from "../../../components/button/Button";

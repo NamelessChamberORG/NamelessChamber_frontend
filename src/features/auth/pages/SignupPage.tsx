@@ -5,7 +5,7 @@ import Paragraph from "../../../components/paragraph/Paragraph";
 import classes from "./SignupPage.module.css";
 import { useSignup } from "../hooks/useAuth";
 import { PATHS } from "../../../constants/path";
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
 import { getErrorMessage } from "../../../api/helpers";
 import InputMessage from "../../../components/input/InputMessage";
 import {
