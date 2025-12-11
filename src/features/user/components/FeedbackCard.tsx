@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
 import RightArrow from "../../../assets/icons/RightArrow";
 import Button from "../../../components/button/Button";
 import classes from "./FeedbackCard.module.css";

@@ -4,7 +4,7 @@ import TextArea from "../../../components/textarea/TextArea";
 import TextCount from "../components/text/TextCount";
 import classes from "./DiaryWritePage.module.css";
 import Button from "../../../components/button/Button";
-import { useNavigate, useParams } from "react-router";
+import { useNavigate, useParams } from "react-router-dom";
 import Modal from "../../../components/modal/Modal";
 import { useToast } from "../../../contexts/ToastContext";
 import FullscreenToggleButton from "../../../components/fullsrceen/FullscreenToggleButton";

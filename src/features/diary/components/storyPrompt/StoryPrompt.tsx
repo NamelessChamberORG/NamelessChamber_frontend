@@ -1,4 +1,4 @@
-import { Link } from "react-router";
+import { Link } from "react-router-dom";
 import Paragraph from "../../../../components/paragraph/Paragraph";
 import Button from "../../../../components/button/Button";
 import classes from "./StoryPrompt.module.css";

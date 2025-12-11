@@ -6,7 +6,7 @@ import TextArea from "../../../components/textarea/TextArea";
 import classes from "./FeedbackPage.module.css";
 import { useToast } from "../../../contexts/ToastContext";
 import { useCreateFeedback } from "../hooks/useCreateFeedback";
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
 import { PATHS } from "../../../constants/path";
 
 const FORM_ID = "feedback-form";

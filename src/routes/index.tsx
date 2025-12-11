@@ -1,4 +1,4 @@
-import { createBrowserRouter } from "react-router";
+import { createBrowserRouter } from "react-router-dom"; 
 import RootLayout from "../layouts/RootLayout";
 import LandingPage from "../features/diary/pages/LandingPage";
 import DiaryListPage from "../features/diary/pages/DiaryListPage";
