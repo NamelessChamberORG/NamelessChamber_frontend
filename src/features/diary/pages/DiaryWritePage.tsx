@@ -31,7 +31,7 @@ const isContentValid = (s: string, minLength: number) =>
 function DiaryWritePage() {
   const formRef = useRef<FormHandle>(null);
   const containerRef = useRef<HTMLElement>(null);
-
+  const [tags, setTags] = useState("");
   const [content, setContent] = useState("");
   const [count, setCount] = useState(0);
   const [showConfirm, setShowConfirm] = useState(false);
@@ -50,6 +50,13 @@ function DiaryWritePage() {
   const { data: topic, isLoading: topicLoading } = useTopic(isToday);
 
   const MIN_LENGTH = diaryType === "LONG" ? LONG_MIN_LENGTH : SHORT_MIN_LENGTH;
+
+  //태그 숫자 제한 및 파싱
+  const parsedTags = tags
+    .split(",")
+    .map((t) => t.trim())
+    .filter(Boolean)
+    .slice(0, 10);
 
   const TITLE = isToday
     ? topicLoading
@@ -70,6 +77,7 @@ function DiaryWritePage() {
       formRef.current?.clear();
       setTitle("");
       setContent("");
+      setTags("");
       setCount(0);
       localStorage.removeItem(DRAFT_KEY);
 
@@ -108,6 +116,9 @@ function DiaryWritePage() {
             setContent(parsed.content);
             setCount(parsed.content.length);
           }
+          if ("tags" in parsed && typeof parsed.tags === "string") {
+            setTags(parsed.tags);
+          }
         }
       }
     } catch {
@@ -118,13 +129,13 @@ function DiaryWritePage() {
   useEffect(() => {
     const id = setTimeout(() => {
       try {
-        localStorage.setItem(DRAFT_KEY, JSON.stringify({ title, content }));
+        localStorage.setItem(DRAFT_KEY, JSON.stringify({ title, content, tags }));
       } catch {
         // ignore
       }
     }, 350);
     return () => clearTimeout(id);
-  }, [title, content]);
+  }, [title, content, tags]);
 
   const canSubmit = isContentValid(content, MIN_LENGTH);
 
@@ -138,7 +149,7 @@ function DiaryWritePage() {
 
     try {
       setSubmitting(true);
-      await mutateAsync({ title: title.trim(), content: content.trim() });
+      await mutateAsync({ title: title.trim(), content: content.trim(), tags: parsedTags});
     } finally {
       setSubmitting(false);
     }
@@ -203,15 +214,24 @@ function DiaryWritePage() {
 
       <Modal isOpen={showConfirm} onClose={() => setShowConfirm(false)}>
         <Modal.Title id="submit-title">
-          작성하신 글을 한마디로 표현해주세요
+          작성하신 글을 정리해볼까요?
         </Modal.Title>
         <Modal.Textarea
           name="title"
           form={FORM_ID}
-          placeholder="제목 작성하기.."
+          placeholder="제목 작성하기"
           value={title}
           onChange={(e: ChangeEvent<HTMLTextAreaElement>) =>
             setTitle(e.target.value)
+          }
+          disabled={submitting}
+        />
+        <Modal.Textarea
+          name="tags"
+          placeholder="태그를 입력해주세요"
+          value={tags}
+          onChange={(e: ChangeEvent<HTMLTextAreaElement>) =>
+            setTags(e.target.value)
           }
           disabled={submitting}
         />

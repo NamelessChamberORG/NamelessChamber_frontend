@@ -6,6 +6,7 @@ export type CreateDiaryRequest = {
   title: string;
   content: string;
   type: DiaryType;
+  tags: string[];
 };
 
 export type CreateDiaryResponse = {
