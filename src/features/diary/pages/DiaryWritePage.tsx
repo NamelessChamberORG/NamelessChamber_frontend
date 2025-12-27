@@ -52,11 +52,16 @@ function DiaryWritePage() {
   const MIN_LENGTH = diaryType === "LONG" ? LONG_MIN_LENGTH : SHORT_MIN_LENGTH;
 
   //태그 숫자 제한 및 파싱
-  const parsedTags = tags
-    .split(",")
-    .map((t) => t.trim())
-    .filter(Boolean)
-    .slice(0, 10);
+  const MAX_TAGS = 10;
+
+  const parsedTags = Array.from(
+    new Set(
+      tags
+        .split(",")
+        .map((t) => t.trim())
+        .filter(Boolean)
+    )
+  ).slice(0, MAX_TAGS);
 
   const TITLE = isToday
     ? topicLoading
@@ -228,7 +233,7 @@ function DiaryWritePage() {
         />
         <Modal.Textarea
           name="tags"
-          placeholder="태그를 입력해주세요"
+          placeholder="쉼표(,)로 구분하여 태그를 입력해주세요."
           value={tags}
           onChange={(e: ChangeEvent<HTMLTextAreaElement>) =>
             setTags(e.target.value)
